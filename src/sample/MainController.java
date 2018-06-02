@@ -1,8 +1,9 @@
 package sample;
 
+import javafx.animation.*;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
-import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,15 +12,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.Shadow;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sample.Experiment;
+import javafx.util.Duration;
 import sample.resources.*;
-
-import java.io.IOException;
 
 import static java.lang.Thread.sleep;
 //import javafx.scene.text.Text;
@@ -65,7 +65,7 @@ public class MainController {
     public void start_buttonAction(ActionEvent event) {
         primaryStage.close();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("experiment.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("resources/fxml/experiment.fxml"));
             experStage=primaryStage;
             experStage.setScene(new Scene(root));
             experStage.setTitle("Создание кирпичей");
@@ -104,34 +104,70 @@ public class MainController {
         NewExperiment.DrawRectangle(gc, Color.GREY, 1,height*2, NewExperiment.getCement().getVolume(), "цемент");
         //RECTANGLE FOR CLAY
         NewExperiment.DrawRectangle(gc, Color.web("#b66a50"), 1,height*3, NewExperiment.getClay().getVolume(), "глина");
-
-
-        //gc.setStroke(Color.DARKGOLDENROD);
-        //Shadow shadow=new Shadow(1,Color.BLACK);
-        //gc.setEffect(shadow);
-        //gc.strokeRect( lineWidth , lineWidth+12 , height+lineWidth, height+lineWidth);
-        //gc.setFill(Color.DARKGOLDENROD);
-        //gc.fillText("песок", 1,10);
-        //gc.fillText(NewExperiment.sand.getVolume()+"",10,41);
-
-        //RECTANGLE FOR CEMENT
-        //gc.setStroke(Color.GREY);
-        //gc.setFill(Color.GREY);
-        //gc.fillText("цемент", 1,1+71);
-        //gc.strokeRect( lineWidth , lineWidth+height+12*2 , 40+lineWidth, 40+lineWidth);
-        //gc.setFill(Color.GREY);
-        //gc.fillText(NewExperiment.cement.getVolume()+"",10,98);
-
-        //RECTANGLE FOR CLAY
-        //gc.setStroke(Color.web("#b66a50"));
-        //gc.setFill(Color.web("#b66a50"));
-        //gc.fillText("глина", 1,1+131);
-        //gc.strokeRect( lineWidth , lineWidth+height*2+12*3 , 40+lineWidth, 40+lineWidth);
-        //gc.setFill(Color.GREY);
-        //gc.fillText(NewExperiment.clay.getVolume()+"",10,155);
-
-
         //RECTANGLE FOR RESULT AFTER 1 STAGE
+
+
+        double D = 3;  // diameter.
+
+        DoubleProperty x  = new SimpleDoubleProperty();
+        DoubleProperty y  = new SimpleDoubleProperty();
+
+
+        gc.setStroke(Color.DARKGOLDENROD);
+
+
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(x, 48),
+                        new KeyValue(y, height/2+35)
+                ),
+                new KeyFrame(Duration.seconds(3),
+                        new KeyValue(x, 85),
+                        new KeyValue(y, height*1.5+25)
+                )
+        );
+
+        Timeline timeline2 = new Timeline(
+                new KeyFrame(Duration.seconds(0),
+                        new KeyValue(x, 48),
+                        new KeyValue(y, height*1.5+25)
+                ),
+                new KeyFrame(Duration.seconds(3),
+                        new KeyValue(x, 85),
+                        new KeyValue(y, height*1.5+25)
+                )
+        );
+
+        timeline.setAutoReverse(true);
+        timeline.setCycleCount(2);
+
+        //timeline2.setAutoReverse(true);
+        //timeline2.setCycleCount(3);
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                //gc.setFill(Color.CORNSILK);
+                //gc.fillRect(0, 0, W, H);
+                gc.setStroke(Color.DARKGOLDENROD);
+                gc.strokeOval(
+                        x.doubleValue(),
+                        y.doubleValue(),
+                        D,
+                        D
+                );
+            }
+        };
+
+
+        ParallelTransition pt = new ParallelTransition();
+        pt.getChildren().add(timeline);
+        pt.getChildren().add(timeline2);
+
+        timer.start();
+        pt.play();
+        //timeline2.play();
 
 
         while (NewExperiment.produceRawMaterial()==0) {
@@ -153,7 +189,7 @@ public class MainController {
     public void onGoMainButton(ActionEvent event) {
         primaryStage.close();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("resources/fxml/sample.fxml"));
             //primaryStage=primaryStage;
             primaryStage.setScene(new Scene(root));
             primaryStage.setTitle("Главная");
