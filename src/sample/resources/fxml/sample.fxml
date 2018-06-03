@@ -21,7 +21,7 @@
    </rowConstraints>
    <children>
       <Text fx:id="testTextTemp" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="153.7294921875" />
-      <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#testButtonAction" prefHeight="26.0" prefWidth="154.0" text="Button" textAlignment="CENTER" GridPane.rowIndex="1" />
+      <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#testButtonAction" prefHeight="26.0" prefWidth="154.0" text="Тестовая кнопка" textAlignment="CENTER" GridPane.rowIndex="1" />
       <Button fx:id="start_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#start_buttonAction" prefHeight="26.0" prefWidth="156.0" text="Запуск" textAlignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

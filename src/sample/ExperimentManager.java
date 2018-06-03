@@ -36,7 +36,7 @@ public class ExperimentManager {
     @FXML
     private Canvas canvasExperiment;
     @FXML
-    private Text brickQualityID;
+    private Text rawQualityID;
     @FXML
     private Text firstStageText;
 
@@ -59,7 +59,7 @@ public class ExperimentManager {
         clayID = (TextField) root.lookup("#clayID");
         resultExperimentID = (Text) root.lookup("#resultExperimentID");
         canvasExperiment = (Canvas) root.lookup("#canvasExperiment");
-        brickQualityID = (Text) root.lookup("#brickQualityID");
+        rawQualityID = (Text) root.lookup("#rawQualityID");
         firstStageText = (Text) root.lookup("#firstStageText");
     }
 
@@ -76,7 +76,7 @@ public class ExperimentManager {
         NewExperiment=new Experiment(sand, cement,water, clay);
         System.out.println("SAND: "+NewExperiment.getSand().getVolume()+ ";  CEMENT: "+NewExperiment.getCement().getVolume());
         //NewExperiment.getBrickNumber();
-        resultExperimentID.setText("Можно произвести: "+NewExperiment.getBrickNumber()+" единиц кирпичей");
+        resultExperimentID.setText("Можно произвести: "+NewExperiment.getBrickNumber()+" единиц(ы) сырья");
         resultExperimentID.setVisible(true);
         //System.out.println("BRICKS: "+NewExperiment.brick);
 
@@ -90,13 +90,23 @@ public class ExperimentManager {
         gc.setLineWidth(lineWidth);
         //RECTANGLE FOR SAND
         NewExperiment.DrawRectangle(gc, Color.DARKGOLDENROD, 1,height, NewExperiment.getSand().getVolume(), "песок");
+        //gc.setLineWidth(5);
+        gc.setStroke(Color.DARKGOLDENROD);
+        gc.strokeLine(48, height/2+35, 89, height*1.5+35);
         //RECTANGLE FOR CEMENT
         NewExperiment.DrawRectangle(gc, Color.GREY, 1,height*2, NewExperiment.getCement().getVolume(), "цемент");
+        gc.setStroke(Color.GREY);
+        gc.strokeLine(48, height*1.5+35, 89, height*1.5+35);
+
         //RECTANGLE FOR CLAY
         NewExperiment.DrawRectangle(gc, Color.web("#b66a50"), 1,height*3, NewExperiment.getClay().getVolume(), "глина");
+        gc.setStroke(Color.web("#b66a50"));
+        gc.strokeLine(48, height*3+10, 89, height*1.5+35);
+
+
         //RECTANGLE FOR RESULT AFTER 1 STAGE
 
-
+/*
         double D = 3;  // diameter.
 
         DoubleProperty x  = new SimpleDoubleProperty();
@@ -104,7 +114,6 @@ public class ExperimentManager {
 
 
         gc.setStroke(Color.DARKGOLDENROD);
-
 
 
         Timeline timeline = new Timeline(
@@ -159,15 +168,15 @@ public class ExperimentManager {
         pt.play();
         //timeline2.play();
 
-
+*/
         while (NewExperiment.produceRawMaterial()==0) {
             //NewExperiment.produceBrick();
             gc.clearRect(90, height, height*3, height*3);
             //RECTANGLE FOR RAW MATERIAL AFTER 1 STAGE
             NewExperiment.DrawRectangle(gc, Color.SADDLEBROWN, 90, height*2, NewExperiment.getRaw().getVolume(), "сырье");
 
-            brickQualityID.setText("Качество изделий:"+NewExperiment.getRaw().getQuality()+"%");
-            brickQualityID.setVisible(true);
+            rawQualityID.setText("Качество сырья:"+NewExperiment.getRaw().getQuality()+"%");
+            rawQualityID.setVisible(true);
             firstStageText.setVisible(true);
 
         }
