@@ -4,9 +4,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Text?>
 
-<GridPane fx:id="MainWindow" alignment="center" hgap="10" prefHeight="193.0" prefWidth="367.0" vgap="10" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+<GridPane fx:id="MainWindow" alignment="center" hgap="10" prefHeight="193.0" prefWidth="367.0" vgap="10" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MainController">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
@@ -20,8 +19,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Text fx:id="testTextTemp" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false" wrappingWidth="153.7294921875" />
-      <Button fx:id="testButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#testButtonAction" prefHeight="26.0" prefWidth="154.0" text="Тестовая кнопка" textAlignment="CENTER" GridPane.rowIndex="1" />
-      <Button fx:id="start_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#start_buttonAction" prefHeight="26.0" prefWidth="156.0" text="Запуск" textAlignment="CENTER" GridPane.rowIndex="3" />
+      <Button fx:id="inputButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#inputButtonAction" prefHeight="26.0" prefWidth="188.0" text="Ввод исходных данных" textAlignment="CENTER" GridPane.rowIndex="1" />
+      <Button fx:id="start_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#start_buttonAction" prefHeight="26.0" prefWidth="188.0" text="Запуск" textAlignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

@@ -1,8 +1,5 @@
-package sample;
+package sample.managers;
 
-import javafx.animation.*;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
@@ -11,7 +8,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import sample.Experiment;
+import sample.controllers.MainController;
 import sample.resources.Cement;
 import sample.resources.Clay;
 import sample.resources.Sand;

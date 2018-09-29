@@ -1,4 +1,4 @@
-package sample;
+package sample.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.managers.ExperimentManager;
 
 import java.io.IOException;
 
@@ -17,8 +18,8 @@ public class ExperimentController {
 
     private static Stage primaryStage;
 
-    ExperimentController(Stage primaryStage) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("resources/fxml/experiment.fxml"));
+    public ExperimentController(Stage primaryStage) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("../resources/fxml/experiment.fxml"));
         ExperimentController.primaryStage=primaryStage;
         primaryStage.setTitle("Производство кирпичей");
         ExperimentController.experimentManager = new ExperimentManager(root);
