@@ -16,11 +16,11 @@ public class MainController {
     public static Stage primaryStage;
 
     public MainController(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/sample.fxml"));
         //MainController.primaryStage = primaryStage;
-        primaryStage.setTitle("Главное меню");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        this.primaryStage.setTitle("Главное меню");
+        this.primaryStage.setScene(new Scene(root));
+        this.primaryStage.show();
     }
 
     public MainController() {}
@@ -29,7 +29,7 @@ public class MainController {
     public void inputButtonAction(){
         primaryStage.close();
         try {
-            new InputController(new Stage());
+            new InputController(primaryStage);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class MainController {
     public void start_buttonAction(ActionEvent event) {
         primaryStage.close();
         try {
-            new ExperimentController(new Stage());
+            new ExperimentController(primaryStage);
         } catch(Exception e) {
             e.printStackTrace();
         }

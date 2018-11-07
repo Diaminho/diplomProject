@@ -19,7 +19,7 @@ public class ExperimentController {
     private static Stage primaryStage;
 
     public ExperimentController(Stage primaryStage) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("../resources/fxml/experiment.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/experiment.fxml"));
         ExperimentController.primaryStage=primaryStage;
         primaryStage.setTitle("Производство кирпичей");
         ExperimentController.experimentManager = new ExperimentManager(root);

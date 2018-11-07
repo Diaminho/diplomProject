@@ -19,7 +19,7 @@ public class InputController {
     private static Stage primaryStage;
 
     public InputController(Stage primaryStage) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("../resources/fxml/input.fxml"));
+        root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/input.fxml"));
         InputController.primaryStage=primaryStage;
         primaryStage.setTitle("Ввод начальных данных");
         InputController.inputManager = new InputManager(root);
