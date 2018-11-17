@@ -17,9 +17,11 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
       <Button fx:id="inputButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#inputButtonAction" prefHeight="26.0" prefWidth="188.0" text="Ввод исходных данных" textAlignment="CENTER" GridPane.rowIndex="1" />
       <Button fx:id="start_button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#start_buttonAction" prefHeight="26.0" prefWidth="188.0" text="Запуск" textAlignment="CENTER" GridPane.rowIndex="3" />
+      <Button mnemonicParsing="false" onAction="#onSamplingButton" text="Выборочный контроль" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
    </children>
 </GridPane>

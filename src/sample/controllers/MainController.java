@@ -46,4 +46,14 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void onSamplingButton(ActionEvent event) {
+        primaryStage.close();
+        try {
+            new SamplingController(primaryStage);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
