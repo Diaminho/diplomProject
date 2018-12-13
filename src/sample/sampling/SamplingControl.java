@@ -1,8 +1,8 @@
 package sample.sampling;
 
 public class SamplingControl {
-    float alpha;
-    float beta;
+    float alpha=0.05f;
+    float beta=0.05f;
     int c; // приемочное число
 
     public int getC() {
@@ -40,6 +40,7 @@ public class SamplingControl {
         for (float item:sample){
             count+=item<quality ?  1: 0;
         }
+        System.out.println("Число бракованных изделий: "+count);
         return count>c ? false : true;
     }
 

@@ -6,23 +6,25 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sample.Experiment;
 import sample.controllers.MainController;
+import sample.resources.Material;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class InputManager {
     //Stage primaryStage;
+    List<Material> materialsList;
+
 
     private static Parent root;
 
-    @FXML
-    private TextField textFieldPropValue;
+
     @FXML
     private TextField textFieldPropName;
     @FXML
     private TextField textFieldMaterialName;
-    @FXML
-    private TextField textFieldMaterialPropCount;
+
 
     @FXML
     Stage primaryStage;
@@ -37,10 +39,8 @@ public class InputManager {
 
 
     private void init() {
-        textFieldPropValue= (TextField) root.lookup("#textFieldPropValue");
         textFieldPropName = (TextField) root.lookup("#textFieldPropName");
         textFieldMaterialName = (TextField) root.lookup("#textFieldMaterialName");
-        textFieldMaterialPropCount=(TextField) root.lookup("#textFieldMaterialPropCount");
     }
 
 
@@ -50,6 +50,29 @@ public class InputManager {
     public void onSaveInputButton() throws IOException {
 
     }
+
+
+    @FXML
+    public void onAddMaterialButton() throws IOException {
+
+        materialsList.add(new Material(textFieldMaterialName.getText()));
+        //materialsList.get(material)
+    }
+
+
+    @FXML
+    public void onAddPropButton() throws IOException {
+
+    }
+
+
+    //////////
+    public int searchMaterial()
+
+
+
+
+
 
     @FXML
     public void onGoToMenuButton() {
