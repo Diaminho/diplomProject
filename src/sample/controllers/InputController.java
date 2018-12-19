@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.MyStage;
 import sample.managers.InputManager;
 
 import java.io.IOException;
@@ -39,4 +40,20 @@ public class InputController {
         primaryStage.close();
         inputManager.onGoToMenuButton();
     }
+
+    @FXML
+    public void onAddMaterialButton(ActionEvent event) throws IOException {
+        inputManager.onAddMaterialButton();
+    }
+
+    @FXML
+    public void onAddPropertyButton(ActionEvent event) throws IOException {
+        MyStage myStage=new MyStage();
+        String propName=myStage.showAndReturn(new InputPropController(myStage));
+        System.out.println(propName);
+        if(propName.compareTo("")!=0 && propName.charAt(0)!=' '){
+            inputManager.onAddPropertyButton(propName);
+        }
+    }
+
 }

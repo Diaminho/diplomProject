@@ -1,5 +1,6 @@
 package sample.resources;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Material {
@@ -11,6 +12,7 @@ public class Material {
 
     public Material(String name){
         this.name=name;
+        properties=new HashMap<>();
     }
 
     public String getName() {
@@ -29,6 +31,15 @@ public class Material {
         this.properties = properties;
     }
 
+    public void addProperty(String name, String value){
+        properties.put(name,value);
+    }
 
-
+    public void printMaterialAndProperties(){
+        System.out.println("Название материала: "+name);
+        System.out.println("Свойства");
+        for (String k:properties.keySet()){
+            System.out.println("Название: "+k+" , Значение: "+properties.get(k));
+        }
+    }
 }
