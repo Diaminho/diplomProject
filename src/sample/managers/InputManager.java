@@ -3,6 +3,8 @@ package sample.managers;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.Experiment;
 import sample.MyStage;
@@ -10,6 +12,7 @@ import sample.controllers.InputPropController;
 import sample.controllers.MainController;
 import sample.resources.Material;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,14 @@ public class InputManager {
         materialsList.add(new Material(textFieldMaterialName.getText()));
         //System.out.println(materialsList.get(materialsList.size()-1).getName());
         materialsList.get(materialsList.size()-1).printMaterialAndProperties();
-        //materialsList.get(material)
+
+        ///
+        String imagePath=getImageChooser();
+        if (imagePath.compareTo("-")!=0) {
+            System.out.println(imagePath);
+            materialsList.get(materialsList.size() - 1).setMaterialImage(new Image(imagePath, 32, 32, false, false));
+        }
+
     }
 
 
@@ -75,11 +85,6 @@ public class InputManager {
     //////////
     //public int searchMaterial()
 
-
-
-
-
-
     @FXML
     public void onGoToMenuButton() {
         try {
@@ -88,4 +93,25 @@ public class InputManager {
             e.printStackTrace();
         }
     }
+
+
+    private String getImageChooser(){
+        FileChooser fc=new FileChooser();
+        fc.setTitle("Open Image");
+
+        FileChooser.ExtensionFilter fileExtensions =
+                new FileChooser.ExtensionFilter(
+                        "Images", "*.jpg", "*.gif", "*.png","*.tiff","*.jpeg");
+
+        fc.getExtensionFilters().add(fileExtensions);
+
+        File file = fc.showOpenDialog(new Stage());
+        if (file!=null) {
+            return file.getAbsolutePath();
+        }
+        else  {
+            return "-";
+        }
+    }
+
 }

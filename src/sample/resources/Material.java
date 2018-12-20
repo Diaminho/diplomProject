@@ -1,11 +1,14 @@
 package sample.resources;
 
+import javafx.scene.image.Image;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Material {
     private String name;
     private Map<String, String> properties;
+    private Image materialImage;
 
 
     public Material(){}
@@ -13,6 +16,15 @@ public class Material {
     public Material(String name){
         this.name=name;
         properties=new HashMap<>();
+    }
+
+
+    public Image getMaterialImage() {
+        return materialImage;
+    }
+
+    public void setMaterialImage(Image materialImage) {
+        this.materialImage = materialImage;
     }
 
     public String getName() {
