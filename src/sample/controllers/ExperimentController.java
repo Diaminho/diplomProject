@@ -7,8 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.managers.ExperimentManager;
+import sample.stages.MaterialsStage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ExperimentController {
 
@@ -38,5 +40,16 @@ public class ExperimentController {
     public void onGoMainButton(ActionEvent event) {
         primaryStage.close();
         experimentManager.onGoMainButton();
+    }
+
+    @FXML
+    public void onChooseMaterialsButton() {
+        MaterialsStage matStage=new MaterialsStage();
+        try {
+            List chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
+            experimentManager.onChooseMaterialsButton(chosenMaterials);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

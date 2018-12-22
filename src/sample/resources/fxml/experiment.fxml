@@ -2,43 +2,32 @@
 
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ExperimentController">
+<GridPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ExperimentController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0" prefWidth="479.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="0.0" prefWidth="40.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="372.0" minWidth="10.0" prefWidth="131.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="123.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="340.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <GridPane layoutX="18.0" layoutY="22.0" prefHeight="500.0" prefWidth="650.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0" prefWidth="479.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="0.0" prefWidth="40.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="372.0" minWidth="10.0" prefWidth="131.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="123.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="340.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <TextField fx:id="sandID" prefHeight="26.0" prefWidth="135.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
-            <TextField fx:id="cementID" prefHeight="15.0" prefWidth="56.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Введите количество мешков песка" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Введите количество мешков цемента" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="startExperimentButton" mnemonicParsing="false" onAction="#onStartExperimentButton" text="Начать эксперимент" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Text fx:id="resultExperimentID" strokeType="OUTSIDE" strokeWidth="0.0" text="Можно произвести" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Button fx:id="goMainButton" mnemonicParsing="false" onAction="#onGoMainButton" text="на главную" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Canvas fx:id="canvasExperiment" height="312.0" width="480.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
-            <Text fx:id="rawQualityID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
-            <TextField fx:id="clayID" prefHeight="4.0" prefWidth="34.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Введите количество мешков глины" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Text fx:id="firstStageText" strokeType="OUTSIDE" strokeWidth="0.0" text="1 этап" visible="false" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-         </children>
-      </GridPane>
+      <Button fx:id="startExperimentButton" mnemonicParsing="false" onAction="#onStartExperimentButton" text="Начать эксперимент" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Text fx:id="resultExperimentID" strokeType="OUTSIDE" strokeWidth="0.0" text="Можно произвести" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <Button fx:id="goMainButton" mnemonicParsing="false" onAction="#onGoMainButton" text="на главную" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+      <Canvas fx:id="canvasExperiment" height="312.0" width="480.0" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+      <Text fx:id="rawQualityID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+      <Text fx:id="firstStageText" strokeType="OUTSIDE" strokeWidth="0.0" text="1 этап" visible="false" GridPane.rowIndex="4" GridPane.valignment="TOP" />
+      <Button mnemonicParsing="false" onAction="#onChooseMaterialsButton" text="Выбрать материалы" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
    </children>
-</AnchorPane>
+</GridPane>

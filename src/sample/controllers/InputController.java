@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.MyStage;
+import sample.stages.PropertyStage;
 import sample.managers.InputManager;
 
 import java.io.IOException;
@@ -48,8 +48,8 @@ public class InputController {
 
     @FXML
     public void onAddPropertyButton(ActionEvent event) throws IOException {
-        MyStage myStage=new MyStage();
-        String propName=myStage.showAndReturn(new InputPropController(myStage));
+        PropertyStage propertyStage =new PropertyStage();
+        String propName= propertyStage.showAndReturn(new InputPropController(propertyStage));
         System.out.println(propName);
         if(propName.compareTo("")!=0 && propName.charAt(0)!=' '){
             inputManager.onAddPropertyButton(propName);

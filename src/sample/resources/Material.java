@@ -43,6 +43,7 @@ public class Material {
         this.properties = properties;
     }
 
+
     public void addProperty(String name, String value){
         properties.put(name,value);
     }
