@@ -1,46 +1,59 @@
 package sample;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import sample.resources.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Experiment {
 
-    Sand sand;
-    Cement cement;
-    Raw raw;
-    Brick brick;
-    Water water;
-    Clay clay;
-    List<Material> materialsList;
+    private List<Material> materialsList;
 
-    double neededSand;
-    double neededCement;
-    double neededClay;
+    private List<Material> neededMaterials;
 
-    public void DrawRectangle(GraphicsContext gc, Color strokeColor, double x, double y, double volume, String  text) {
-        double lineWidth=2;
-        gc.setStroke(strokeColor);
-        //Shadow shadow=new Shadow(1,Color.BLACK);
-        //gc.setEffect(shadow);
-        gc.strokeRect( lineWidth+x , lineWidth+y-10 , 40+lineWidth, 40+lineWidth);
-        gc.setFill(strokeColor);
-        gc.fillText(text, 1+x,y-12);
-        gc.fillText(volume+"",   10+x,y+16);
+    private Material raw;
+
+
+    public Material getRaw() {
+        return raw;
     }
+
 
     public Experiment(List materialsList) {
-        this.materialsList=materialsList;
+        this.materialsList = materialsList;
+        raw =new Material("Сырец");
+        raw.setMaterialImage(new Image("/sample/images/raw.jpg"));
+        raw.setVolume(0);
+        fillNeededMaterials();
+
     }
 
-    public double getBrickNumber(){
-        return -1;
+    private void fillNeededMaterials(){
+        neededMaterials=new ArrayList<>();
+        for (Object o: materialsList){
+            neededMaterials.add(new Material(((Material)o).getName()));
+            neededMaterials.get(neededMaterials.size()-1).setVolume(5d);
+        }
+    }
+
+    public double getBrickNumber(int rawVolume){
+        return (double)rawVolume/3;
     }
 
     public int produceRawMaterial() {
-      return -1;
+        while (true) {
+            for (Object o : materialsList) {
+                if (((Material)o).getVolume() >= neededMaterials.get(materialsList.indexOf(o)).getVolume()) {
+                    ((Material)o).setVolume(((Material)o).getVolume() - neededMaterials.get(materialsList.indexOf(o)).getVolume());
+                } else {
+                    System.out.println("Нехватка материала: " + ((Material) o).getName());
+                    return -1;
+                }
+            }
+            raw.setVolume(raw.getVolume()+1);
+        }
+
     }
 
 

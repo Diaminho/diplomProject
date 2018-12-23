@@ -4,4 +4,9 @@
         <property name="Качество"></property>
         <property name="Влажность"></property>
     </material>
+
+    <material name="Песок" image="/sample/images/sand.jpg">
+        <property name="Качество"></property>
+        <property name="Влажность"></property>
+    </material>
 </materials>

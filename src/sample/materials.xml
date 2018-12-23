@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<materials>
-    <material name="Цемент" image="/sample/images/cement.jpg">
-        <property name="Качество"></property>
-        <property name="Влажность"></property>
-    </material>
-</materials>

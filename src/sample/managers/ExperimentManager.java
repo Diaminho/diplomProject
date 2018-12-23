@@ -41,7 +41,7 @@ public class ExperimentManager {
     @FXML
     Stage primaryStage;
 
-    private Experiment NewExperiment;
+    private Experiment newExperiment;
 
     private List<Material> materialsList;
 
@@ -77,7 +77,25 @@ public class ExperimentManager {
             //GRAPHICS
             GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
             gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
-            gc.drawImage(materialsList.get(0).getMaterialImage(), 10, 10, 100, 100);
+            int pos=0;
+            for (Material i:materialsList) {
+                gc.drawImage(i.getMaterialImage(), 10, 10+pos, 100, 100);
+                pos+=120;
+            }
+        }
+
+
+
+        newExperiment=new Experiment(materialsList);
+        newExperiment.produceRawMaterial();
+        double rawVolume=newExperiment.getRaw().getVolume();
+        System.out.println("RAW VOLUME: "+rawVolume);
+
+        if (newExperiment.getRaw()!=null){
+            //GRAPHICS
+            GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
+            //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
+            gc.drawImage(newExperiment.getRaw().getMaterialImage(), 200, 80, 100, 100);
         }
 
     }
@@ -98,6 +116,8 @@ public class ExperimentManager {
         for (Object o:materials){
             System.out.println(((Material)o).getName());
             materialsList.add((Material)o);
+            //TEMP
+            materialsList.get(materialsList.size()-1).setVolume(11);
         }
 
     }
