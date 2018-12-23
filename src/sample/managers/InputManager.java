@@ -7,13 +7,12 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sample.Experiment;
-import sample.MyStage;
-import sample.controllers.InputPropController;
 import sample.controllers.MainController;
 import sample.resources.Material;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +97,7 @@ public class InputManager {
     private String getImageChooser(){
         FileChooser fc=new FileChooser();
         fc.setTitle("Open Image");
+        getRelativePath("/home/diaminho/diplomProject/src/sample/images/cement.jpg");
 
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter(
@@ -107,11 +107,28 @@ public class InputManager {
 
         File file = fc.showOpenDialog(new Stage());
         if (file!=null) {
-            return file.getAbsolutePath();
+            String res=getRelativePath(file.getAbsolutePath());
+            return res;
         }
         else  {
             return "-";
         }
+    }
+
+    private String getRelativePath(String path){
+        String currPath=Paths.get("").toAbsolutePath().toString();
+        int index=path.indexOf(currPath);
+        if (index==0) {
+            System.out.println();
+            currPath=path.substring(currPath.length());
+            if (currPath.indexOf("/src")!=0) {
+                return currPath;
+            }
+            else {
+                return currPath.substring(4);
+            }
+        }
+        else return "-";
     }
 
 }

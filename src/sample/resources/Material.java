@@ -9,7 +9,15 @@ public class Material {
     private String name;
     private Map<String, String> properties;
     private Image materialImage;
+    private double volume;
 
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
 
     public Material(){}
 
@@ -42,6 +50,7 @@ public class Material {
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
+
 
     public void addProperty(String name, String value){
         properties.put(name,value);
