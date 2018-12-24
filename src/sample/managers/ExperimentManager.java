@@ -79,8 +79,9 @@ public class ExperimentManager {
             gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             int pos=0;
             for (Material i:materialsList) {
-                gc.drawImage(i.getMaterialImage(), 10, 10+pos, 100, 100);
-                pos+=120;
+                gc.drawImage(i.getMaterialImage(), 10, 10+pos, 80, 80);
+                gc.strokeText(Double.toString(i.getVolume()),30,110+pos);
+                pos+=140;
             }
         }
 
@@ -96,6 +97,7 @@ public class ExperimentManager {
             GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             gc.drawImage(newExperiment.getRaw().getMaterialImage(), 200, 80, 100, 100);
+            gc.strokeText(Double.toString(newExperiment.getRaw().getVolume()),250,200);
         }
 
     }
@@ -117,7 +119,7 @@ public class ExperimentManager {
             System.out.println(((Material)o).getName());
             materialsList.add((Material)o);
             //TEMP
-            materialsList.get(materialsList.size()-1).setVolume(11);
+            //materialsList.get(materialsList.size()-1).setVolume(11);
         }
 
     }
