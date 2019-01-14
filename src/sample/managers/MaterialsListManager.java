@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,7 +25,9 @@ import sample.resources.Material;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MaterialsListManager {
 
@@ -55,7 +58,9 @@ public class MaterialsListManager {
         */
 
         try {
+
             materialsList= FXCollections.observableArrayList(XmlParser.readXMLFile("./materials.xml"));
+
 
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -144,6 +149,7 @@ public class MaterialsListManager {
                 (TableColumn.CellEditEvent<Material, Double> event) -> {
         final Double volume = event.getNewValue() != null ?
                 event.getNewValue() : event.getOldValue();
+
         ((Material) event.getTableView().getItems()
                 .get(event.getTablePosition().getRow())).setVolume(volume);
         materialsTableID.refresh();
@@ -152,8 +158,8 @@ public class MaterialsListManager {
 
 
     private void fillOnList(){
-        while (on.size()<materialsList.size()){
-            on.add(new SimpleBooleanProperty(false));
+        for (Material mat: materialsList){
+            on.add((new SimpleBooleanProperty(false)));
         }
     }
 

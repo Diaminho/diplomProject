@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<materials>
-    <material name="Цемент" image="/sample/images/cement.jpg">
-        <property name="Качество"></property>
-        <property name="Влажность"></property>
-    </material>
-
-    <material name="Песок" image="/sample/images/sand.jpg">
-        <property name="Качество"></property>
-        <property name="Влажность"></property>
-    </material>
-</materials>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><materials><material image="file:/home/diaminho/diplomProject/out/production/diplomProject/sample/images/cement.jpg" name="Цемент"><Влажность>0.95</Влажность><Качество>0.9</Качество></material><material image="file:/home/diaminho/diplomProject/out/production/diplomProject/sample/images/sand.jpg" name="Песок"><Влажность>0.95</Влажность><Качество>0.9</Качество></material><material image="" name="Жижа"><Вязкость/></material></materials>

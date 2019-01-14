@@ -1,15 +1,19 @@
 package sample.managers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jdk.internal.org.xml.sax.SAXException;
 import sample.Experiment;
 import sample.controllers.MainController;
+import sample.parsers.XmlParser;
 import sample.resources.Material;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -21,8 +25,8 @@ public class InputManager {
     //Stage primaryStage;
     List<Material> materialsList;
 
-
     private static Parent root;
+    private static String fileName="./materials.xml";
 
 
     @FXML
@@ -40,6 +44,13 @@ public class InputManager {
         InputManager.root = root;
         materialsList=new ArrayList<>();
         init();
+        try {
+            materialsList= FXCollections.observableArrayList(XmlParser.readXMLFile(fileName));
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -54,7 +65,7 @@ public class InputManager {
 
     @FXML
     public void onSaveInputButton() throws IOException {
-
+        XmlParser.writeXMLFile(fileName,materialsList);
     }
 
 

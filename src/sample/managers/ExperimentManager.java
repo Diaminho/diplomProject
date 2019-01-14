@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import sample.Experiment;
 import sample.controllers.MainController;
 import sample.resources.*;
+import sample.sampling.SamplingControl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -122,6 +123,19 @@ public class ExperimentManager {
             //materialsList.get(materialsList.size()-1).setVolume(11);
         }
 
+    }
+
+    @FXML
+    public void onSamplingControlButton(){
+        SamplingControl sc=new SamplingControl();
+        //getting properties
+        List<Double> qualityList=new ArrayList<>();
+        for (Material mat:materialsList){
+            mat.setAvgQuality();
+            qualityList.add(mat.getAvgQuality());
+            System.out.println("Качество материала: "+mat.getName()+" "+mat.getAvgQuality());
+        }
+        sc.check1StepSamplingControl(qualityList,0.8f);
     }
 
 

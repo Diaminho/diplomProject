@@ -52,4 +52,9 @@ public class ExperimentController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void onSamplingControlButton(){
+        experimentManager.onSamplingControlButton();
+    }
 }

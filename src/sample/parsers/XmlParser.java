@@ -2,10 +2,7 @@ package sample.parsers;
 
 import javafx.scene.image.Image;
 import jdk.internal.org.xml.sax.SAXException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import sample.resources.Material;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -25,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class XmlParser{
+        private static Document doc;
 
         public XmlParser() throws ParserConfigurationException, IOException, SAXException {
 
@@ -54,10 +52,12 @@ public class XmlParser{
                     if(((Element) nodeList.item(i)).hasAttribute("name") && ((Element) nodeList.item(i)).getTagName()=="material") {
                         System.out.println(((Element) nodeList.item(i)).getAttribute("material"));
                         res.add(new Material(((Element) nodeList.item(i)).getAttribute("name")));
-                        res.get(res.size()-1).setMaterialImage(new Image(((Element) nodeList.item(i)).getAttribute("image")));
+                        if (((Element)nodeList.item(i)).hasAttribute("image") && !((Element) nodeList.item(i)).getAttribute("image").equals("")) {
+                            res.get(res.size() - 1).setMaterialImage(new Image(((Element) nodeList.item(i)).getAttribute("image")));
+                        }
                     }
                     else {
-                        if (((Element) nodeList.item(i)).getTagName()=="property") {
+                        if (((Element) nodeList.item(i)).getTagName().equals("property")) {
                             //res.add(nodeList.item(i).getTextContent());
                             key=((Element) nodeList.item(i)).getAttribute("name");
                             value=((Element) nodeList.item(i)).getTextContent();
@@ -73,38 +73,42 @@ public class XmlParser{
 
         }
 
-        /*
-        public void writeXMLFile(String fileName, List materialsList){
+
+        public static void writeXMLFile(String fileName, List materialsList){
 
             try {
                 // Строим объектную модель исходного XML файла
-                final File xmlFile = new File(fileName);
+                //final File xmlFile = new File(fileName);
                 DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                Document doc = db.parse(xmlFile);
+                doc = db.newDocument();
                 doc.normalize();
 
+                //CREATING ROOT ELEMENT
+                Element root = doc.createElement("materials");
+                doc.appendChild(root);
+                //
+
+
                 // Получаем корневой элемент
-                Node settings = doc.getFirstChild();
-
-                // файла. Однако, лучше использовать более надежный метод
-                // getElementsByTagName().
-                Node setting=doc.getElementsByTagName("material").item(0);
-
-                // Для этого - пробежимся по всем дочерним элементам.
-                NodeList nodeList=setting.getChildNodes();
+                Node materials = doc.getFirstChild();
 
 
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    Node nextNode = nodeList.item(i);
+                for (Object mat:materialsList) {
+                    Element materialElem=doc.createElement("material");
+                    materials.appendChild(materialElem);
+                    // set Material Name
+                    setAttributeName(materialElem,(Material)mat);
+                    //
+                    // set Image
+                    setAttributeImage(materialElem,(Material)mat);
+                    //
 
-                    if (nextNode.getNodeName().equals("port")) {
-                        nextNode.setTextContent(values[1]);
-                    } else if (nextNode.getNodeName().equals("server")) {
-                        nextNode.setTextContent(values[0]);
-                    } else if (nextNode.getNodeName().equals("log")) {
-                        nextNode.setTextContent(values[2]);
+                    //set properties for current material
+                    for (Object name:((Material)mat).getProperties().keySet()) {
+                        setProperty(materialElem, (String)name, ((Material)mat).getProperties().get(name));
                     }
                 }
+
                 // Записываем изменения в XML файл
                 Transformer transformer = TransformerFactory.newInstance().newTransformer();
                 DOMSource source = new DOMSource(doc);
@@ -112,16 +116,37 @@ public class XmlParser{
                 transformer.transform(source, result);
                 System.out.println("Изменения сохранены");
 
-            } catch (IOException | ParserConfigurationException
+            } catch (ParserConfigurationException
                     | TransformerConfigurationException ex) {
                 Logger.getLogger(XmlParser.class.getName())
                         .log(Level.SEVERE, null, ex);
             } catch (TransformerException ex) {
                 Logger.getLogger(XmlParser.class.getName())
                         .log(Level.SEVERE, null, ex);
-            } catch (org.xml.sax.SAXException e) {
-                e.printStackTrace();
             }
         }
-        */
+
+
+        private static void setAttributeName(Element elem, Material mat){
+            Attr attr = doc.createAttribute("name");
+            attr.setValue(mat.getName());
+            elem.setAttributeNode(attr);
+        }
+
+        private static void setAttributeImage(Element elem, Material mat){
+
+            Attr attr = doc.createAttribute("image");
+            if (mat.getMaterialImage()!=null) {
+                attr.setValue(mat.getMaterialImage().impl_getUrl());
+            }
+            elem.setAttributeNode(attr);
+}
+
+        private static void setProperty(Element elem, String name, String value){
+            // firstname element
+            Element property = doc.createElement(name);
+            property.appendChild(doc.createTextNode(value));
+            elem.appendChild(property);
+        }
+
 }

@@ -10,6 +10,7 @@ public class Material {
     private Map<String, String> properties;
     private Image materialImage;
     private double volume;
+    private double avgQuality;
 
     public double getVolume() {
         return volume;
@@ -19,11 +20,24 @@ public class Material {
         this.volume = volume;
     }
 
+    public double getAvgQuality() {
+        return avgQuality;
+    }
+
+    public void setAvgQuality(){
+        avgQuality=0;
+        for (Object propValue:properties.keySet()){
+            avgQuality+=Double.parseDouble(properties.get(propValue));
+        }
+        avgQuality/=properties.size();
+    }
+
     public Material(){}
 
     public Material(String name){
         this.name=name;
         properties=new HashMap<>();
+        //materialImage=new Image("/test");
     }
 
 
