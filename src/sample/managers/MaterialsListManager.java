@@ -1,9 +1,6 @@
 package sample.managers;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -34,12 +31,12 @@ public class MaterialsListManager {
     private TableView<Material> materialsTableID;
     private TableColumn materialNameColumn;
     private TableColumn chooseColumn;
-    private TableColumn <Material, Double> volumeColumn;
+    private TableColumn volumeColumn;
 
     private ObservableList<Material> materialsList= FXCollections.observableArrayList();
     private static Parent root;
     private final List<BooleanProperty> on = new ArrayList<>();
-    private final List<String> value = new ArrayList<>();
+    private final List<String> volume = new ArrayList<>();
 
 
 
@@ -69,8 +66,8 @@ public class MaterialsListManager {
         }
 
         fillListView();
-
         fillOnList();
+        fillVolumeList();
     }
 
 
@@ -81,10 +78,10 @@ public class MaterialsListManager {
         materialNameColumn.setEditable(false);
         chooseColumn =materialsTableID.getColumns().get(1);
         setCheckBox();
-        volumeColumn =new TableColumn<Material,Double>("Количество");
-        volumeColumn.setEditable(true);
+        volumeColumn = materialsTableID.getColumns().get(2);
+        //System.out.println("VOLUME EDIT"+volumeColumn.editableProperty());
+        //materialsTableID.getColumns().set(2,volumeColumn);
         setMaterialVolume();
-        materialsTableID.getColumns().set(2,volumeColumn);
 
     }
 
@@ -101,29 +98,16 @@ public class MaterialsListManager {
     private void setCheckBox(){
         //chooseColumn=new TableColumn("CheckBox");
         //chooseColumn.setMinWidth(50);
-        chooseColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Material, CheckBox>, ObservableValue<CheckBox>>() {
+        chooseColumn.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Material, CheckBox>, ObservableValue<CheckBox>>) arg0 -> {
 
-            @Override
-            public ObservableValue<CheckBox> call(
-                    TableColumn.CellDataFeatures<Material, CheckBox> arg0) {
+            Material mater = arg0.getValue();
+            CheckBox checkBox = new CheckBox();
+            //checkBox.setSelected(false);
 
-                Material mater = arg0.getValue();
-                CheckBox checkBox = new CheckBox();
-                //checkBox.setSelected(false);
+            checkBox.selectedProperty().addListener((ov, old_val, new_val) -> checkBox.setSelected(new_val));
 
-                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                    public void changed(ObservableValue<? extends Boolean> ov,
-                                        Boolean old_val, Boolean new_val) {
-
-                        checkBox.setSelected(new_val);
-
-                    }
-                });
-
-                on.set(materialsList.indexOf(mater),checkBox.selectedProperty());
-                return new SimpleObjectProperty<CheckBox>(checkBox);
-
-            }
+            on.set(materialsList.indexOf(mater),checkBox.selectedProperty());
+            return new SimpleObjectProperty<>(checkBox);
 
         });
     }
@@ -135,25 +119,20 @@ public class MaterialsListManager {
     }
 
     private void setMaterialVolume(){
-        volumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
-        volumeColumn.setCellFactory(TextFieldTableCell.<Material, Double>forTableColumn(new DoubleStringConverter()));
-        //ON VOLUME EDIT
-        /*volumeColumn.setOnEditCommit(
-                t -> ((Material) t.getItems().get(
-                        t.getTablePosition().getRow())
-                ).setVolume(Double.parseDouble(t.getNewValue())));
-        */
+        //volumeColumn.setEditable(true);
+        volumeColumn.setCellValueFactory((Callback<TableColumn.CellDataFeatures<Material, TextField>, ObservableValue<TextField>>)arg0 -> {
 
+            Material mater = arg0.getValue();
+            TextField volumeTextField =new TextField();
+            //volumeString.setSelected(false);
 
-        volumeColumn.setOnEditCommit(
-                (TableColumn.CellEditEvent<Material, Double> event) -> {
-        final Double volume = event.getNewValue() != null ?
-                event.getNewValue() : event.getOldValue();
+            volumeTextField.textProperty().addListener((ov, old_val, new_val) -> volume.set(materialsList.indexOf(mater),new_val));
 
-        ((Material) event.getTableView().getItems()
-                .get(event.getTablePosition().getRow())).setVolume(volume);
-        materialsTableID.refresh();
+            System.out.println("VOLUME: "+volume.get(materialsList.indexOf(mater)));
+            return new SimpleObjectProperty<>(volumeTextField);
+
         });
+
     }
 
 
@@ -163,8 +142,11 @@ public class MaterialsListManager {
         }
     }
 
-
-
+    private void fillVolumeList(){
+        for (Material mat: materialsList){
+            volume.add("0");
+        }
+    }
 
 
     public List getSelectedMaterials(){
@@ -188,9 +170,9 @@ public class MaterialsListManager {
         return -1;
     }
 
-
-    @FXML
     public void onCloseButton(){
-
+        /*for (Object o: volume){
+            System.out.println(o);
+        }*/
     }
 }
