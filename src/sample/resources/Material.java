@@ -1,6 +1,7 @@
 package sample.resources;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +12,16 @@ public class Material {
     private Image materialImage;
     private double volume;
     private double avgQuality;
+    private Color color;
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
 
     public double getVolume() {
         return volume;
