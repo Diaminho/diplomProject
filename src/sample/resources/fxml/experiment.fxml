@@ -7,14 +7,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ExperimentController">
+<GridPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ExperimentController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="530.0" minWidth="10.0" prefWidth="479.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="0.0" prefWidth="40.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="372.0" minWidth="10.0" prefWidth="131.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="55.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="123.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="170.0" minHeight="0.0" prefHeight="27.0" vgrow="SOMETIMES" />
@@ -22,13 +21,14 @@
       <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Button fx:id="startExperimentButton" mnemonicParsing="false" onAction="#onStartExperimentButton" text="Начать эксперимент" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <Text fx:id="resultExperimentID" strokeType="OUTSIDE" strokeWidth="0.0" text="Можно произвести" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <Button fx:id="goMainButton" mnemonicParsing="false" onAction="#onGoMainButton" text="на главную" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-      <Text fx:id="rawQualityID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
-      <Text fx:id="firstStageText" strokeType="OUTSIDE" strokeWidth="0.0" text="1 этап" visible="false" GridPane.rowIndex="4" GridPane.valignment="TOP" />
-      <Button mnemonicParsing="false" onAction="#onChooseMaterialsButton" text="Выбрать материалы" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button mnemonicParsing="false" onAction="#onSamplingControlButton" text="Выборочный контроль" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-      <AnchorPane fx:id="experimentPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+      <Button fx:id="startExperimentButton" mnemonicParsing="false" onAction="#onStartExperimentButton" text="Начать эксперимент" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <Text fx:id="resultExperimentID" strokeType="OUTSIDE" strokeWidth="0.0" text="Можно произвести" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <Button fx:id="goMainButton" mnemonicParsing="false" onAction="#onGoMainButton" text="на главную" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+      <Text fx:id="rawQualityID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+      <Text fx:id="firstStageText" strokeType="OUTSIDE" strokeWidth="0.0" text="1 этап" visible="false" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+      <Button mnemonicParsing="false" onAction="#onChooseMaterialsButton" text="Выбрать материалы" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
+      <Button mnemonicParsing="false" onAction="#onSamplingControlButton" text="Выборочный контроль" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <AnchorPane fx:id="experimentPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="3" />
+      <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPauseButton" text="Пауза" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
    </children>
 </GridPane>

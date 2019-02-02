@@ -1,13 +1,8 @@
 package sample.managers;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +10,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import sample.Experiment;
 import sample.animation.AnimationFunctions;
 import sample.controllers.MainController;
@@ -46,9 +40,13 @@ public class ExperimentManager {
     private Text rawQualityID;
     @FXML
     private Text firstStageText;
+    @FXML
+    private Button pauseButton;
 
     @FXML
     Stage primaryStage;
+
+    Thread animationThread;
 
     private Experiment newExperiment;
 
@@ -56,6 +54,7 @@ public class ExperimentManager {
 
     public ExperimentManager(Parent root) {
         ExperimentManager.root = root;
+        animationThread=new Thread();
         init();
     }
 
@@ -70,7 +69,7 @@ public class ExperimentManager {
         experimentPane = (AnchorPane) root.lookup("#experimentPane");
         rawQualityID = (Text) root.lookup("#rawQualityID");
         firstStageText = (Text) root.lookup("#firstStageText");
-
+        pauseButton = (Button) root.lookup("#pauseButton");
     }
 
 
@@ -99,13 +98,11 @@ public class ExperimentManager {
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             int pos=0;
             for (Material i:materialsList) {
-                AnimationFunctions.doAnimation(experimentPane,80,40+pos,150,80);
+                AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
                 ImageView iv=setImageViewProperties(i.getMaterialImage(),experimentPane.getWidth()/5,experimentPane.getHeight()/5,0,pos);
                 experimentPane.getChildren().add(iv);
                 //gc.strokeText(Double.toString(i.getVolume()),30,110+pos);
                 pos+=120;
-
-
             }
         }
 
@@ -116,16 +113,28 @@ public class ExperimentManager {
         double rawVolume=newExperiment.getRaw().getVolume();
         System.out.println("RAW VOLUME: "+rawVolume);
 
+
+        //BLENDING
         if (newExperiment.getRaw()!=null){
             //GRAPHICS
-            AnimationFunctions.doSecondStageAnimation(experimentPane,200,80,100,100);
-            ImageView iv=setImageViewProperties(newExperiment.getRaw().getMaterialImage(),experimentPane.getWidth()/4,experimentPane.getHeight()/3,experimentPane.getWidth()/3,experimentPane.getHeight()/5);
+            AnimationFunctions.doBlendingStageAnimation(animationThread,experimentPane,200,80,100,100);
+            ImageView iv=setImageViewProperties(newExperiment.getStages().get(0),150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
             experimentPane.getChildren().add(iv);
             //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             //gc.drawImage(newExperiment.getRaw().getMaterialImage(), 200, 80, 100, 100);
             //gc.strokeText(Double.toString(newExperiment.getRaw().getVolume()),250,200);
         }
+
+
+        //RAW TO CUT
+        AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
+
+
+        //CUTTING
+        ImageView iv=setImageViewProperties(newExperiment.getStages().get(1),60,60,experimentPane.getWidth()/2,0);
+        //experimentPane.getChildren().add(iv);
+        AnimationFunctions.doCuttingStageAnimation(experimentPane,iv,200);
 
     }
 
@@ -165,5 +174,8 @@ public class ExperimentManager {
     }
 
 
-
+    @FXML
+    synchronized public void onPauseButton(){
+        AnimationFunctions.doPause(pauseButton, animationThread);
+    }
 }

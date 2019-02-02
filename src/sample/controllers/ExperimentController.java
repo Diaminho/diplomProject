@@ -57,4 +57,9 @@ public class ExperimentController {
     public void onSamplingControlButton(){
         experimentManager.onSamplingControlButton();
     }
+
+    @FXML
+    public void onPauseButton(){
+        experimentManager.onPauseButton();
+    }
 }
