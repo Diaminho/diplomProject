@@ -8,7 +8,6 @@ import java.util.List;
 
 public class MaterialsStage extends Stage {
     public List<Material> showAndReturn(MaterialsListController controller) {
-        controller.getMaterialsListManager().setCheckBox();
         super.showAndWait();
         return controller.getMaterialsListManager().getSelectedMaterials();
     }

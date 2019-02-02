@@ -1,11 +1,13 @@
 package sample.sampling;
 
+import java.util.List;
+
 public class SamplingControl {
     float alpha=0.05f;
     float beta=0.05f;
-    int c; // приемочное число
+    double c=0.04d; // приемочное число
 
-    public int getC() {
+    public double getC() {
         return c;
     }
 
@@ -34,14 +36,16 @@ public class SamplingControl {
         this.beta = beta;
     }
 
+    public SamplingControl() { }
 
-    public boolean check1StepSamplingControl(float[] sample, float quality){
+
+    public boolean check1StepSamplingControl(List<Double> sample, double quality){
         int count=0;
-        for (float item:sample){
+        for (double item:sample){
             count+=item<quality ?  1: 0;
         }
         System.out.println("Число бракованных изделий: "+count);
-        return count>c ? false : true;
+        return (count/sample.size())>=(1-c) ? false : true;
     }
 
 }

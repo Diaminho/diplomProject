@@ -16,7 +16,7 @@ public class MainController {
     public static Stage primaryStage;
 
     public MainController(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/menu.fxml"));
         //MainController.primaryStage = primaryStage;
         this.primaryStage.setTitle("Главное меню");
         this.primaryStage.setScene(new Scene(root));

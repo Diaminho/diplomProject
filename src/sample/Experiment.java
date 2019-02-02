@@ -14,6 +14,11 @@ public class Experiment {
 
     private Material raw;
 
+    private List<Image> stages;
+
+    public List<Image> getStages() {
+        return stages;
+    }
 
     public Material getRaw() {
         return raw;
@@ -23,7 +28,9 @@ public class Experiment {
     public Experiment(List materialsList) {
         this.materialsList = materialsList;
         raw =new Material("Сырец");
-        raw.setMaterialImage(new Image("/sample/images/raw.jpg"));
+        stages=new ArrayList<>();
+        stages.add(new Image("/sample/images/stages/blending.png"));
+        stages.add(new Image("/sample/images/stages/cutting.png"));
         raw.setVolume(0);
         fillNeededMaterials();
 

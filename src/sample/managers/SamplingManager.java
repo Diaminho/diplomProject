@@ -28,7 +28,7 @@ public class SamplingManager {
 
     @FXML
     public void onGenerateButton(){
-        float[] res=SampleGenerator.generateSample(Integer.parseInt(sizeID.getText()),Float.parseFloat(dispID.getText()),Float.parseFloat(medID.getText()));
+        /*float[] res=SampleGenerator.generateSample(Integer.parseInt(sizeID.getText()),Float.parseFloat(dispID.getText()),Float.parseFloat(medID.getText()));
         System.out.println("Сгенерирована следующая выборка");
         for (float item:res){
             System.out.print(item+" ");
@@ -38,5 +38,6 @@ public class SamplingManager {
         SamplingControl sc=new SamplingControl(0.05f, 0.051f);
         sc.setC(4);
         System.out.println(sc.check1StepSamplingControl(res,Float.parseFloat(qualID.getText())));
+        */
     }
 }
