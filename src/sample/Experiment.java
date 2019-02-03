@@ -31,6 +31,7 @@ public class Experiment {
         stages=new ArrayList<>();
         stages.add(new Image("/sample/images/stages/blending.png"));
         stages.add(new Image("/sample/images/stages/cutting.png"));
+        stages.add(new Image("/sample/images/stages/drying.png"));
         raw.setVolume(0);
         fillNeededMaterials();
 

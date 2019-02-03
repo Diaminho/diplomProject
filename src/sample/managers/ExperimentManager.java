@@ -99,7 +99,7 @@ public class ExperimentManager {
             int pos=0;
             for (Material i:materialsList) {
                 AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
-                ImageView iv=setImageViewProperties(i.getMaterialImage(),experimentPane.getWidth()/5,experimentPane.getHeight()/5,0,pos);
+                ImageView iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
                 experimentPane.getChildren().add(iv);
                 //gc.strokeText(Double.toString(i.getVolume()),30,110+pos);
                 pos+=120;
@@ -117,7 +117,7 @@ public class ExperimentManager {
         //BLENDING
         if (newExperiment.getRaw()!=null){
             //GRAPHICS
-            AnimationFunctions.doBlendingStageAnimation(animationThread,experimentPane,200,80,100,100);
+            AnimationFunctions.doBlendingStageProgress(animationThread,experimentPane,220,250);
             ImageView iv=setImageViewProperties(newExperiment.getStages().get(0),150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
             experimentPane.getChildren().add(iv);
             //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
@@ -136,6 +136,9 @@ public class ExperimentManager {
         //experimentPane.getChildren().add(iv);
         AnimationFunctions.doCuttingStageAnimation(experimentPane,iv,200);
 
+        //DRYING
+        //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
+        AnimationFunctions.doDryingAnimation(experimentPane,500,100);
     }
 
     @FXML
