@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Material {
     private String name;
@@ -87,5 +88,24 @@ public class Material {
         for (String k:properties.keySet()){
             System.out.println("Название: "+k+" , Значение: "+properties.get(k));
         }
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Material material = (Material) o;
+        return Double.compare(material.volume, volume) == 0 &&
+                Double.compare(material.avgQuality, avgQuality) == 0 &&
+                Objects.equals(name, material.name) &&
+                Objects.equals(properties, material.properties) &&
+                Objects.equals(materialImage, material.materialImage) &&
+                Objects.equals(color, material.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, properties, materialImage, volume, avgQuality, color);
     }
 }

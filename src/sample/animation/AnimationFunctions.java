@@ -75,7 +75,6 @@ public class AnimationFunctions {
         timeline.getKeyFrames().add(kf);
         timeline.setDelay(Duration.millis(10000));
         timeline.play();
-
     }
 
     public static void doEndlessBrick(AnchorPane ap, double x1, double y1, Color color){

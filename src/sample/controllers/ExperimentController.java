@@ -11,6 +11,7 @@ import sample.stages.MaterialsStage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ExperimentController {
 
@@ -46,7 +47,7 @@ public class ExperimentController {
     public void onChooseMaterialsButton() {
         MaterialsStage matStage=new MaterialsStage();
         try {
-            List chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
+            Map chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
             experimentManager.onChooseMaterialsButton(chosenMaterials);
         } catch (IOException e) {
             e.printStackTrace();

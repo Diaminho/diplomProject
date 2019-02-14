@@ -1,0 +1,10 @@
+.chart {
+    -fx-padding: 5px;
+}
+.chart-title {
+    -fx-font: 24px Verdana;
+}
+.chart-series-line {
+    -fx-stroke: darkslateblue;
+    -fx-stroke-width: 2px;
+}

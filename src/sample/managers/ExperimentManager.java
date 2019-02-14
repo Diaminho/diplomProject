@@ -18,7 +18,9 @@ import sample.sampling.SamplingControl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExperimentManager {
@@ -50,7 +52,7 @@ public class ExperimentManager {
 
     private Experiment newExperiment;
 
-    private List<Material> materialsList;
+    private Map<Material, Integer> materialIntegerMap;
 
     public ExperimentManager(Parent root) {
         ExperimentManager.root = root;
@@ -93,11 +95,11 @@ public class ExperimentManager {
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
 
 
-        if (materialsList!=null){
+        if (materialIntegerMap !=null){
             //GRAPHICS
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             int pos=0;
-            for (Material i:materialsList) {
+            for (Material i: materialIntegerMap.keySet()) {
                 AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
                 ImageView iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
                 experimentPane.getChildren().add(iv);
@@ -108,7 +110,7 @@ public class ExperimentManager {
 
 
 
-        newExperiment=new Experiment(materialsList);
+        newExperiment=new Experiment(materialIntegerMap);
         newExperiment.produceRawMaterial();
         double rawVolume=newExperiment.getRaw().getVolume();
         System.out.println("RAW VOLUME: "+rawVolume);
@@ -151,14 +153,14 @@ public class ExperimentManager {
     }
 
     @FXML
-    public void onChooseMaterialsButton(List materials) {
-        materialsList=new ArrayList<>();
+    public void onChooseMaterialsButton(Map materials) {
+        materialIntegerMap =new HashMap<>();
+        materialIntegerMap.putAll(materials);
         System.out.println("Были выбраны следующие материалы для эксперимента:");
-        for (Object o:materials){
-            System.out.println(((Material)o).getName());
-            materialsList.add((Material)o);
+        for (Object o:materialIntegerMap.keySet()){
+            System.out.println(materialIntegerMap.get(o));
             //TEMP
-            //materialsList.get(materialsList.size()-1).setVolume(11);
+            //materialIntegerMap.get(materialIntegerMap.size()-1).setVolume(11);
         }
 
     }
@@ -168,7 +170,7 @@ public class ExperimentManager {
         SamplingControl sc=new SamplingControl();
         //getting properties
         List<Double> qualityList=new ArrayList<>();
-        for (Material mat:materialsList){
+        for (Material mat: materialIntegerMap.keySet()){
             mat.setAvgQuality();
             qualityList.add(mat.getAvgQuality());
             System.out.println("Качество материала: "+mat.getName()+" "+mat.getAvgQuality());

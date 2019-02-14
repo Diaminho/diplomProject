@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.operateChars.SamplingControl;
 
 import java.io.IOException;
 
@@ -21,6 +22,9 @@ public class MainController {
         this.primaryStage.setTitle("Главное меню");
         this.primaryStage.setScene(new Scene(root));
         this.primaryStage.show();
+
+
+
     }
 
     public MainController() {}
@@ -51,7 +55,7 @@ public class MainController {
     public void onSamplingButton(ActionEvent event) {
         primaryStage.close();
         try {
-            new SamplingController(primaryStage);
+            new SamplingChartController(primaryStage);
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -16,15 +16,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
+import sample.IndexedLinkedHashMap;
 import sample.parsers.XmlParser;
 import sample.resources.Material;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MaterialsListManager {
 
@@ -33,16 +31,17 @@ public class MaterialsListManager {
     private TableColumn chooseColumn;
     private TableColumn volumeColumn;
 
-    private ObservableList<Material> materialsList= FXCollections.observableArrayList();
+    //private ObservableList<Material> materialsList= FXCollections.observableArrayList();
     private static Parent root;
     private final List<BooleanProperty> on = new ArrayList<>();
     private final List<String> volume = new ArrayList<>();
 
+    ///
+    private IndexedLinkedHashMap<Material,Integer> materialIntegerMap=new IndexedLinkedHashMap<>();
 
 
-    public List getMaterialsList() {
-        return materialsList;
-    }
+
+    //public List getMaterialsList() {return materialsList;}
 
     public MaterialsListManager(Parent root) {
         MaterialsListManager.root = root;
@@ -56,7 +55,9 @@ public class MaterialsListManager {
 
         try {
 
-            materialsList= FXCollections.observableArrayList(XmlParser.readXMLFile("./materials.xml"));
+            for (Material mat:FXCollections.observableArrayList(XmlParser.readXMLFile("./materials.xml"))){
+                materialIntegerMap.putNew(mat,0);
+            }
 
 
         } catch (ParserConfigurationException e) {
@@ -87,9 +88,12 @@ public class MaterialsListManager {
 
     private void fillListView(){
 
-        materialsTableID.getItems().addAll(materialsList);
+        //materialsTableID.getItems().addAll(materialsList);
+
+        materialsTableID.getItems().addAll(materialIntegerMap.keySet());
+
         //materialNameColumn.setText();
-        System.out.println(""+materialsList.get(0));
+        //System.out.println(""+materialsList.get(0));
         //ma
         //materialNameColumn.setitems()
 
@@ -106,7 +110,10 @@ public class MaterialsListManager {
 
             checkBox.selectedProperty().addListener((ov, old_val, new_val) -> checkBox.setSelected(new_val));
 
-            on.set(materialsList.indexOf(mater),checkBox.selectedProperty());
+            //on.set(materialsList.indexOf(mater),checkBox.selectedProperty());
+            System.out.println(materialIntegerMap.containsKey(mater));
+            on.set(materialIntegerMap.getIndex(mater),checkBox.selectedProperty());
+
             return new SimpleObjectProperty<>(checkBox);
 
         });
@@ -126,9 +133,10 @@ public class MaterialsListManager {
             TextField volumeTextField =new TextField();
             //volumeString.setSelected(false);
 
-            volumeTextField.textProperty().addListener((ov, old_val, new_val) -> volume.set(materialsList.indexOf(mater),new_val));
+            //volumeTextField.textProperty().addListener((ov, old_val, new_val) -> volume.set(materialsList.indexOf(mater),new_val));
+            volumeTextField.textProperty().addListener((ov, old_val, new_val) -> materialIntegerMap.replace(mater,Integer.parseInt(new_val)));
 
-            System.out.println("VOLUME: "+volume.get(materialsList.indexOf(mater)));
+            //System.out.println("VOLUME: "+volume.get(materialsList.indexOf(mater)));
             return new SimpleObjectProperty<>(volumeTextField);
 
         });
@@ -137,38 +145,31 @@ public class MaterialsListManager {
 
 
     private void fillOnList(){
-        for (Material mat: materialsList){
+        //for (Material mat: materialsList){
+        for (Object mat:materialIntegerMap.keySet()){
             on.add((new SimpleBooleanProperty(false)));
         }
     }
 
     private void fillVolumeList(){
-        for (Material mat: materialsList){
+        //for (Material mat: materialsList){
+        for (Object mat:materialIntegerMap.keySet()){
             volume.add("0");
         }
     }
 
 
-    public List getSelectedMaterials(){
-        List selectedItems=new ArrayList();
-        for (int i = 0; i< materialsList.size(); i++){
+    public Map getSelectedMaterials(){
+        Map<Material, Integer> selectedItems=new HashMap();
+        for (int i = 0; i< materialIntegerMap.size(); i++){
             if (on.get(i).getValue()){
-                selectedItems.add(materialsList.get(i));
+                System.out.println("i "+materialIntegerMap.getValue(i));
+                selectedItems.put(materialIntegerMap.getValue(i),(Integer)materialIntegerMap.get(materialIntegerMap.getValue(i)));
             }
         }
         return selectedItems;
     }
 
-    public int getIndexFromList(String value){
-        int i=0;
-        for (Object s: materialsTableID.getItems()){
-            if(((String) s).compareTo(value)==0){
-                return i;
-            }
-            i++;
-        }
-        return -1;
-    }
 
     public void onCloseButton(){
         /*for (Object o: volume){
