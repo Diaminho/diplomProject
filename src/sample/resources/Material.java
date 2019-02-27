@@ -52,6 +52,14 @@ public class Material {
         //materialImage=new Image("/test");
     }
 
+    public Material(Material other) {
+        this.name = new String(other.getName());
+        this.properties = new HashMap<>(other.getProperties());
+        this.materialImage = new Image(other.getMaterialImage().impl_getUrl());
+        this.volume = other.getVolume();
+        this.avgQuality = other.avgQuality;
+        this.color = other.getColor();
+    }
 
     public Image getMaterialImage() {
         return materialImage;

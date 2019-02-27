@@ -55,8 +55,8 @@ public class ExperimentController {
     }
 
     @FXML
-    public void onSamplingControlButton(){
-        experimentManager.onSamplingControlButton();
+    public void onGenerateButton(){
+        experimentManager.onGenerateButton();
     }
 
     @FXML

@@ -14,6 +14,7 @@ import sample.Experiment;
 import sample.animation.AnimationFunctions;
 import sample.controllers.MainController;
 import sample.resources.*;
+import sample.sampling.SampleGenerator;
 import sample.sampling.SamplingControl;
 
 import java.io.IOException;
@@ -53,6 +54,8 @@ public class ExperimentManager {
     private Experiment newExperiment;
 
     private Map<Material, Integer> materialIntegerMap;
+
+    private List<List<Material>> listOfMaterialsList;
 
     public ExperimentManager(Parent root) {
         ExperimentManager.root = root;
@@ -156,26 +159,39 @@ public class ExperimentManager {
     public void onChooseMaterialsButton(Map materials) {
         materialIntegerMap =new HashMap<>();
         materialIntegerMap.putAll(materials);
-        System.out.println("Были выбраны следующие материалы для эксперимента:");
+        //
+        listOfMaterialsList =new ArrayList<>();
         for (Object o:materialIntegerMap.keySet()){
-            System.out.println(materialIntegerMap.get(o));
-            //TEMP
-            //materialIntegerMap.get(materialIntegerMap.size()-1).setVolume(11);
+            //set material properties
+            //((Material)o).addProperty("","0.9");
+            //
+            List materialsList=new ArrayList();
+            for (int i=0; i<(double)materialIntegerMap.get(o);i++){
+                materialsList.add(new Material((Material)o));
+            }
+            listOfMaterialsList.add(materialsList);
         }
+        System.out.println();
+        //
+        //SampleGenerator.generateSample();
+        //
+
 
     }
 
     @FXML
-    public void onSamplingControlButton(){
-        SamplingControl sc=new SamplingControl();
-        //getting properties
-        List<Double> qualityList=new ArrayList<>();
-        for (Material mat: materialIntegerMap.keySet()){
-            mat.setAvgQuality();
-            qualityList.add(mat.getAvgQuality());
-            System.out.println("Качество материала: "+mat.getName()+" "+mat.getAvgQuality());
+    public void onGenerateButton(){
+        List genSample;
+        for (List i:listOfMaterialsList){
+            genSample=SampleGenerator.generateSample(i.size(),0.05f,0.88f);
+            for (int k=0;k<i.size();k++){
+                Map prop=((Material)i.get(k)).getProperties();
+                for (Object oo:prop.keySet()){
+                    prop.replace(oo,genSample.get(k).toString());
+                }
+            }
         }
-        sc.check1StepSamplingControl(qualityList,0.8f);
+        System.out.println();
     }
 
 
@@ -183,4 +199,7 @@ public class ExperimentManager {
     synchronized public void onPauseButton(){
         AnimationFunctions.doPause(pauseButton, animationThread);
     }
+
+    //
+
 }

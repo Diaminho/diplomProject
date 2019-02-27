@@ -163,7 +163,6 @@ public class MaterialsListManager {
         Map<Material, Integer> selectedItems=new HashMap();
         for (int i = 0; i< materialIntegerMap.size(); i++){
             if (on.get(i).getValue()){
-                System.out.println("i "+materialIntegerMap.getValue(i));
                 selectedItems.put(materialIntegerMap.getValue(i),(Integer)materialIntegerMap.get(materialIntegerMap.getValue(i)));
             }
         }
