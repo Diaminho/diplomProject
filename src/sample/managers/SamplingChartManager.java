@@ -6,6 +6,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import sample.Main;
 import sample.operateChars.SamplingControl;
 import sample.resources.Material;
@@ -20,6 +21,19 @@ public class SamplingChartManager {
 
     @FXML
     private LineChart<String, Double> chartId;
+
+    @FXML
+    private Text outputTextId;
+
+    private List<List<Material>> listOfmaterialsList;
+
+    public Text getOutputTextId() {
+        return outputTextId;
+    }
+
+    public void setOutputTextId(Text outputTextId) {
+        this.outputTextId = outputTextId;
+    }
 
     public List<Material> getMaterialsList() {
         return materialsList;
@@ -45,18 +59,19 @@ public class SamplingChartManager {
         this.chartId = chartId;
     }
 
-    public SamplingChartManager(Parent root) {
+    public SamplingChartManager(Parent root, List listOfmaterialsList) {
         this.root = root;
+        this.listOfmaterialsList=new ArrayList<>(listOfmaterialsList);
         init();
     }
 
     private void init() {
         chartId= (LineChart<String, Double>) root.lookup("#chartId");
+        outputTextId= (Text) root.lookup("#outputTextId");
         buildChart();
     }
 
     public void buildChart(){
-
         NumberAxis x = new NumberAxis();
         NumberAxis y = new NumberAxis();
 
@@ -68,17 +83,14 @@ public class SamplingChartManager {
         XYChart.Series<String, Double> series  = new XYChart.Series<String, Double>();
         ///////TEST OPERATE CHARACTERISTICS
         SamplingControl samplingControl=new SamplingControl();
-        samplingControl.setAc(10);
-        samplingControl.setQ(0.05);
-        samplingControl.setAlpha(0.05);
-        int n=samplingControl.getN(500);
+        samplingControl.setAc(3);
+        int n=listOfmaterialsList.get(0).size();
         System.out.println();
-        System.out.println(samplingControl.getF());
-        System.out.println(samplingControl.getCombination(5,2));
 
-        for (int i=0;i<100;i++){
+        for (int i=0;i<101;i++){
             samplingControl.setQ((double)i/100);
-            series.getData().add(new XYChart.Data<String, Double>(""+(double)i/100, samplingControl.getF()));
+            series.getData().add(new XYChart.Data<String, Double>(""+(double)i, samplingControl.getL(n,100)));
+            System.out.println("N: "+n+" q: "+i+" p: "+samplingControl.getL(n,100));
         }
         //////////
         chartId.getData().add(series);
@@ -90,7 +102,7 @@ public class SamplingChartManager {
     }
 
     public void onBackButton(){
-
+        listOfmaterialsList.clear();
     }
 
 }

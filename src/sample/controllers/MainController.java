@@ -55,7 +55,7 @@ public class MainController {
     public void onSamplingButton(ActionEvent event) {
         primaryStage.close();
         try {
-            new SamplingChartController(primaryStage);
+            new SamplingChartController(primaryStage, null);
         } catch(Exception e) {
             e.printStackTrace();
         }

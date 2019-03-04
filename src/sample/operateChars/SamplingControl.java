@@ -49,48 +49,14 @@ public class SamplingControl {
         this.q = q;
     }
 
-    /*
-    public double getP(double N, double n){
-        BigDecimal res=BigDecimal.ZERO;
-        BigDecimal tmp=BigDecimal.ZERO;
-        //for (int i=0;i<ac;i++) {
-            tmp= getCombination(N, ac).multiply(getCombination((N - N * q), n - ac));
-            tmp=tmp.divide(getCombination(N,n), RoundingMode.HALF_EVEN);
-            res = res.add(tmp);
-        //}
-        return res.doubleValue();
-    }
-    */
-
-
-    /*
-    public double getN(double N, double n, double k){
-        BigDecimal res=BigDecimal.ZERO;
-        BigDecimal tmp=BigDecimal.ZERO;
-        //for (int i=0;i<ac;i++) {
-        tmp= getCombination(n, k).multiply(BigDecimal.valueOf(Math.pow(q,k))).multiply(BigDecimal.valueOf(Math.pow((1-q),n-k)));
-        res = res.add(tmp);
-        //}
-        return res.doubleValue();
-    }*/
 
     double getFact(int a){
         if (a == 0) return 1;
         return a * getFact(a-1);
     }
 
-    public int getN(double N){
-        n=(int)N/10;
-        double f=0;
-        while (f<=1-alpha || f>=1 || f<0.0001) {
-            f=getF();
-            System.out.println("n: "+n);
-            n-=1;
-        }
 
-        return n;
-    }
-
+    //Puasson
     public double getF(){
         double f=0;
         for (int i = 0; i < ac+1; i++) {
@@ -103,8 +69,16 @@ public class SamplingControl {
         BigDecimal ret = BigDecimal.ONE;
         for (int i = 0; i < k; i++) {
             ret = ret.multiply((BigDecimal.valueOf(n-i))
-                    .divide(BigDecimal.valueOf(i+1),RoundingMode.HALF_EVEN));
+                    .divide(BigDecimal.valueOf(i+1),5, RoundingMode.HALF_EVEN));
         }
         return ret;
+    }
+
+    public double getL(double N, double n){
+        BigDecimal res=BigDecimal.ONE;
+        res=res.multiply(getCombination(N,ac));
+        res=res.multiply(getCombination(N-q*N,n-ac));
+        res=res.divide(getCombination(N,n),5,RoundingMode.HALF_EVEN);
+        return  (res.compareTo(BigDecimal.ONE)>0)? 1d: res.doubleValue();
     }
 }

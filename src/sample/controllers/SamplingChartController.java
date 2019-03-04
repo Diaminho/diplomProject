@@ -8,17 +8,18 @@ import javafx.stage.Stage;
 import sample.managers.SamplingChartManager;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SamplingChartController {
     public static Stage primaryStage;
     public static SamplingChartManager samplingChartManager;
 
-    public SamplingChartController(Stage primaryStage) throws IOException {
+    public SamplingChartController(Stage primaryStage, List listOfmaterialsList) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/samplingChart.fxml"));
         //MainController.primaryStage = primaryStage;
         SamplingChartController.primaryStage=primaryStage;
         primaryStage.setTitle("Выборочный контроль");
-        SamplingChartController.samplingChartManager = new SamplingChartManager(root);
+        SamplingChartController.samplingChartManager = new SamplingChartManager(root, listOfmaterialsList);
         SamplingChartController.primaryStage.setScene(new Scene(root));
         SamplingChartController.primaryStage.show();
     }
@@ -30,10 +31,10 @@ public class SamplingChartController {
     @FXML
     public void onBackButton() {
         primaryStage.close();
-        try {
+        /*try {
             new MainController(primaryStage);
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

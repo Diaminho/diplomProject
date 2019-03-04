@@ -63,7 +63,13 @@ public class ExperimentManager {
         init();
     }
 
+    public List<List<Material>> getListOfMaterialsList() {
+        return listOfMaterialsList;
+    }
 
+    public void setListOfMaterialsList(List<List<Material>> listOfMaterialsList) {
+        this.listOfMaterialsList = listOfMaterialsList;
+    }
 
     private void init() {
 
@@ -97,7 +103,6 @@ public class ExperimentManager {
         //material.setMaterialImage(new Image("/sample/images/cement.jpg"));
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
 
-
         if (materialIntegerMap !=null){
             //GRAPHICS
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
@@ -111,13 +116,10 @@ public class ExperimentManager {
             }
         }
 
-
-
         newExperiment=new Experiment(materialIntegerMap);
         newExperiment.produceRawMaterial();
         double rawVolume=newExperiment.getRaw().getVolume();
         System.out.println("RAW VOLUME: "+rawVolume);
-
 
         //BLENDING
         if (newExperiment.getRaw()!=null){
@@ -131,10 +133,8 @@ public class ExperimentManager {
             //gc.strokeText(Double.toString(newExperiment.getRaw().getVolume()),250,200);
         }
 
-
         //RAW TO CUT
         AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
-
 
         //CUTTING
         ImageView iv=setImageViewProperties(newExperiment.getStages().get(1),60,60,experimentPane.getWidth()/2,0);
@@ -148,6 +148,8 @@ public class ExperimentManager {
 
     @FXML
     public void onGoMainButton() {
+        listOfMaterialsList.clear();
+        materialIntegerMap.clear();
         try {
             new MainController(new Stage());
         } catch(Exception e) {
@@ -180,7 +182,7 @@ public class ExperimentManager {
     }
 
     @FXML
-    public void onGenerateButton(){
+    public void onOperateButton(){
         List genSample;
         for (List i:listOfMaterialsList){
             genSample=SampleGenerator.generateSample(i.size(),0.05f,0.88f);
@@ -191,6 +193,7 @@ public class ExperimentManager {
                 }
             }
         }
+        ///
         System.out.println();
     }
 

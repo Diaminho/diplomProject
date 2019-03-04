@@ -16,6 +16,8 @@ public class Experiment {
 
     private Material raw;
 
+    private Material dryRaw;
+
     private List<Image> stages;
 
     public List<Image> getStages() {
@@ -50,6 +52,7 @@ public class Experiment {
         return (double)rawVolume/3;
     }
 
+    //2 stage blending
     public int produceRawMaterial() {
         while (true) {
             for (Object o : materialMap.keySet()) {
@@ -66,6 +69,13 @@ public class Experiment {
             }
             raw.setVolume(raw.getVolume()+1);
         }
+    }
+
+    //3 stage
+    public void doDrying(double dryingQuality){
+        dryRaw=new Material();
+        dryRaw.addProperty("Качество", ""+dryingQuality);
+        dryRaw.setVolume(raw.getVolume());
     }
 
 

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.managers.ExperimentManager;
+import sample.stages.ChosenMaterialsStage;
 import sample.stages.MaterialsStage;
 
 import java.io.IOException;
@@ -20,6 +21,10 @@ public class ExperimentController {
     private static ExperimentManager experimentManager;
 
     private static Stage primaryStage;
+
+    public ExperimentManager getExperimentManager() {
+        return experimentManager;
+    }
 
     public ExperimentController(Stage primaryStage) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/experiment.fxml"));
@@ -45,7 +50,7 @@ public class ExperimentController {
 
     @FXML
     public void onChooseMaterialsButton() {
-        MaterialsStage matStage=new MaterialsStage();
+        ChosenMaterialsStage matStage=new ChosenMaterialsStage();
         try {
             Map chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
             experimentManager.onChooseMaterialsButton(chosenMaterials);
@@ -55,8 +60,21 @@ public class ExperimentController {
     }
 
     @FXML
-    public void onGenerateButton(){
-        experimentManager.onGenerateButton();
+    public void onOperateButton(){
+        /*experimentManager.onOperateButton();
+        try {
+            SamplingChartController samplingChartController=new SamplingChartController(new Stage(), experimentManager.getListOfMaterialsList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+        primaryStage.close();
+        try {
+            new InputSampleParamsController(primaryStage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
