@@ -143,8 +143,9 @@ public class XmlParser{
 }
 
         private static void setProperty(Element elem, String name, String value){
-            // firstname element
-            Element property = doc.createElement(name);
+            // property element
+            Element property=doc.createElement("proprerty");
+            property.setAttribute("name",name);
             property.appendChild(doc.createTextNode(value));
             elem.appendChild(property);
         }

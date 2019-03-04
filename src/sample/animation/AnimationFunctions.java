@@ -37,10 +37,10 @@ public class AnimationFunctions {
 
     }
 
-    public static void doBlendingStageAnimation(Thread thread,AnchorPane ap, double x1, double y1, double x2, double y2){
+    public static void doBlendingStageProgress(Thread thread, AnchorPane ap, double x1, double y1){
         Task task = new Task<Void>() {
             @Override public Void call() {
-                final int max = 900000000;
+                final int max = 100;
                 for (int i = 1; i <= max; i++) {
                     updateProgress(i, max);
                 }
@@ -49,6 +49,8 @@ public class AnimationFunctions {
         };
 
         ProgressBar bar = new ProgressBar();
+        bar.setTranslateX(x1);
+        bar.setTranslateY(y1);
         bar.progressProperty().bind(task.progressProperty());
         ap.getChildren().add(bar);
         thread.start();
@@ -73,7 +75,6 @@ public class AnimationFunctions {
         timeline.getKeyFrames().add(kf);
         timeline.setDelay(Duration.millis(10000));
         timeline.play();
-
     }
 
     public static void doEndlessBrick(AnchorPane ap, double x1, double y1, Color color){
@@ -94,5 +95,28 @@ public class AnimationFunctions {
         //ap.getChildren().add(rect);
     }
 
+    public static void doDryingAnimation(AnchorPane ap, double x1, double y1){
+        ImageView dryingImageView=new ImageView();
+        dryingImageView.setX(x1);
+        dryingImageView.setY(y1);
+        List<Image> dryingImagesList=new ArrayList<>();
+
+        //IMAGES FOR ANIMATION
+        dryingImagesList.add(new Image("/sample/images/stages/drying0.png", 100,100,true,true));
+        dryingImagesList.add(new Image("/sample/images/stages/drying1.png",100,100,true,true));
+        dryingImagesList.add(new Image("/sample/images/stages/drying.png",100,100,true,true));
+        //
+        final Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        //timeline.setAutoReverse(true);
+        for (int i=0;i<dryingImagesList.size();i++){
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(i), new KeyValue(dryingImageView.imageProperty(), dryingImagesList.get(i))));
+        }
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(dryingImagesList.size()), new KeyValue(dryingImageView.imageProperty(), null)));
+        timeline.setDelay(Duration.millis(15000));
+        timeline.play();
+        //dryingImageView.setImage(dryingImagesList.get(0));
+        ap.getChildren().add(dryingImageView);
+    }
 
 }

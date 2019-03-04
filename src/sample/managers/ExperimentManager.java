@@ -14,11 +14,14 @@ import sample.Experiment;
 import sample.animation.AnimationFunctions;
 import sample.controllers.MainController;
 import sample.resources.*;
+import sample.sampling.SampleGenerator;
 import sample.sampling.SamplingControl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExperimentManager {
@@ -50,7 +53,9 @@ public class ExperimentManager {
 
     private Experiment newExperiment;
 
-    private List<Material> materialsList;
+    private Map<Material, Integer> materialIntegerMap;
+
+    private List<List<Material>> listOfMaterialsList;
 
     public ExperimentManager(Parent root) {
         ExperimentManager.root = root;
@@ -58,7 +63,13 @@ public class ExperimentManager {
         init();
     }
 
+    public List<List<Material>> getListOfMaterialsList() {
+        return listOfMaterialsList;
+    }
 
+    public void setListOfMaterialsList(List<List<Material>> listOfMaterialsList) {
+        this.listOfMaterialsList = listOfMaterialsList;
+    }
 
     private void init() {
 
@@ -92,32 +103,28 @@ public class ExperimentManager {
         //material.setMaterialImage(new Image("/sample/images/cement.jpg"));
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
 
-
-        if (materialsList!=null){
+        if (materialIntegerMap !=null){
             //GRAPHICS
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             int pos=0;
-            for (Material i:materialsList) {
+            for (Material i: materialIntegerMap.keySet()) {
                 AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
-                ImageView iv=setImageViewProperties(i.getMaterialImage(),experimentPane.getWidth()/5,experimentPane.getHeight()/5,0,pos);
+                ImageView iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
                 experimentPane.getChildren().add(iv);
                 //gc.strokeText(Double.toString(i.getVolume()),30,110+pos);
                 pos+=120;
             }
         }
 
-
-
-        newExperiment=new Experiment(materialsList);
+        newExperiment=new Experiment(materialIntegerMap);
         newExperiment.produceRawMaterial();
         double rawVolume=newExperiment.getRaw().getVolume();
         System.out.println("RAW VOLUME: "+rawVolume);
 
-
         //BLENDING
         if (newExperiment.getRaw()!=null){
             //GRAPHICS
-            AnimationFunctions.doBlendingStageAnimation(animationThread,experimentPane,200,80,100,100);
+            AnimationFunctions.doBlendingStageProgress(animationThread,experimentPane,220,250);
             ImageView iv=setImageViewProperties(newExperiment.getStages().get(0),150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
             experimentPane.getChildren().add(iv);
             //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
@@ -126,20 +133,23 @@ public class ExperimentManager {
             //gc.strokeText(Double.toString(newExperiment.getRaw().getVolume()),250,200);
         }
 
-
         //RAW TO CUT
         AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
-
 
         //CUTTING
         ImageView iv=setImageViewProperties(newExperiment.getStages().get(1),60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
         AnimationFunctions.doCuttingStageAnimation(experimentPane,iv,200);
 
+        //DRYING
+        //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
+        AnimationFunctions.doDryingAnimation(experimentPane,500,100);
     }
 
     @FXML
     public void onGoMainButton() {
+        listOfMaterialsList.clear();
+        materialIntegerMap.clear();
         try {
             new MainController(new Stage());
         } catch(Exception e) {
@@ -148,29 +158,43 @@ public class ExperimentManager {
     }
 
     @FXML
-    public void onChooseMaterialsButton(List materials) {
-        materialsList=new ArrayList<>();
-        System.out.println("Были выбраны следующие материалы для эксперимента:");
-        for (Object o:materials){
-            System.out.println(((Material)o).getName());
-            materialsList.add((Material)o);
-            //TEMP
-            //materialsList.get(materialsList.size()-1).setVolume(11);
+    public void onChooseMaterialsButton(Map materials) {
+        materialIntegerMap =new HashMap<>();
+        materialIntegerMap.putAll(materials);
+        //
+        listOfMaterialsList =new ArrayList<>();
+        for (Object o:materialIntegerMap.keySet()){
+            //set material properties
+            //((Material)o).addProperty("","0.9");
+            //
+            List materialsList=new ArrayList();
+            for (int i=0; i<(double)materialIntegerMap.get(o);i++){
+                materialsList.add(new Material((Material)o));
+            }
+            listOfMaterialsList.add(materialsList);
         }
+        System.out.println();
+        //
+        //SampleGenerator.generateSample();
+        //
+
 
     }
 
     @FXML
-    public void onSamplingControlButton(){
-        SamplingControl sc=new SamplingControl();
-        //getting properties
-        List<Double> qualityList=new ArrayList<>();
-        for (Material mat:materialsList){
-            mat.setAvgQuality();
-            qualityList.add(mat.getAvgQuality());
-            System.out.println("Качество материала: "+mat.getName()+" "+mat.getAvgQuality());
+    public void onOperateButton(){
+        List genSample;
+        for (List i:listOfMaterialsList){
+            genSample=SampleGenerator.generateSample(i.size(),0.05f,0.88f);
+            for (int k=0;k<i.size();k++){
+                Map prop=((Material)i.get(k)).getProperties();
+                for (Object oo:prop.keySet()){
+                    prop.replace(oo,genSample.get(k).toString());
+                }
+            }
         }
-        sc.check1StepSamplingControl(qualityList,0.8f);
+        ///
+        System.out.println();
     }
 
 
@@ -178,4 +202,7 @@ public class ExperimentManager {
     synchronized public void onPauseButton(){
         AnimationFunctions.doPause(pauseButton, animationThread);
     }
+
+    //
+
 }

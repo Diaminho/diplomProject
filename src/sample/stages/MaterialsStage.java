@@ -1,14 +1,14 @@
 package sample.stages;
 
 import javafx.stage.Stage;
-import sample.controllers.MaterialsListController;
+import sample.controllers.ExperimentController;
 import sample.resources.Material;
 
 import java.util.List;
 
 public class MaterialsStage extends Stage {
-    public List<Material> showAndReturn(MaterialsListController controller) {
+    public List<List<Material>> showAndReturn(ExperimentController controller) {
         super.showAndWait();
-        return controller.getMaterialsListManager().getSelectedMaterials();
+        return controller.getExperimentManager().getListOfMaterialsList();
     }
 }
