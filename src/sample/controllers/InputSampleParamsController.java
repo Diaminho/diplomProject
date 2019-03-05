@@ -9,6 +9,7 @@ import sample.managers.ExperimentManager;
 import sample.managers.InputSampleParamsManager;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class InputSampleParamsController {
 
@@ -22,26 +23,28 @@ public class InputSampleParamsController {
         return inputSampleParamsManager;
     }
 
-    public InputSampleParamsController(Stage primaryStage) throws IOException {
+    public InputSampleParamsController(Stage primaryStage, Map materials) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resources/fxml/inputSampleParams.fxml"));
         InputSampleParamsController.primaryStage=primaryStage;
         primaryStage.setTitle("Окно ввода параметров для генерации выборки");
-        InputSampleParamsController.inputSampleParamsManager = new InputSampleParamsManager(root);
+        inputSampleParamsManager = new InputSampleParamsManager(root, materials);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
     public InputSampleParamsController() {}
 
+
+
     @FXML
     public void onBackButton(){
         inputSampleParamsManager.onBackButton();
         primaryStage.close();
-        try {
+        /*try {
             new ExperimentController(primaryStage);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @FXML

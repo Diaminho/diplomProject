@@ -7,10 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.managers.ExperimentManager;
+import sample.resources.Material;
 import sample.stages.ChosenMaterialsStage;
 import sample.stages.MaterialsStage;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,9 +71,14 @@ public class ExperimentController {
         }
         */
 
-        primaryStage.close();
+        //primaryStage.close();
         try {
-            new InputSampleParamsController(primaryStage);
+            List materialsList=getExperimentManager().getListOfMaterialsList();
+            Map<Material, Integer> materialsMap=new HashMap<>();
+            for (Object l:materialsList){
+                materialsMap.put((Material)((List) l).get(0),((List) l).size());
+            }
+            new InputSampleParamsController(new Stage(), materialsMap);
         } catch (IOException e) {
             e.printStackTrace();
         }
