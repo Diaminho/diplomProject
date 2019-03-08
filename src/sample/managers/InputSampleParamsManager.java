@@ -50,8 +50,9 @@ public class InputSampleParamsManager {
         Integer count=tryToParseString(sampleCountId.getText());
         Integer ac=tryToParseString(acId.getText());
         if (size!=null && count!=null && ac!=null){
-            System.out.println("!!!!");
-            List sample=SampleFunctions.generateSample(size,10,0.8);
+            //System.out.println("!!!!");
+            //List sample=SampleFunctions.generateSample(size,10,0.8);
+            List<Double> sample=SampleFunctions.getAvgPossibilities(size*10,0.8,ac, count);
             for (Object o:sample){
                 System.out.println(o);
             }
