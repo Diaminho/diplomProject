@@ -48,12 +48,16 @@ public class InputSampleParamsController {
 
     @FXML
     public void onGenerateButton(){
-        inputSampleParamsManager.onGenerateButton();
-        primaryStage.close();
-        try{
-            new SamplingChartController(primaryStage,inputSampleParamsManager.getSample(),inputSampleParamsManager.getMaterials());
-        } catch (IOException e){
-            e.printStackTrace();
+        if (inputSampleParamsManager.onGenerateButton()==0) {
+            primaryStage.close();
+            try {
+                new SamplingChartController(primaryStage,
+                        inputSampleParamsManager.getSample(),
+                        inputSampleParamsManager.getMaterials(),
+                        inputSampleParamsManager.getSamplingControl());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

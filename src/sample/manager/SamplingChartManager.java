@@ -7,7 +7,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.text.Text;
 import sample.Main;
-import sample.operateChar.SamplingControl;
+import sample.sampling.SamplingControl;
 import sample.resource.Material;
 
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ public class SamplingChartManager {
     private Parent root;
     private List<Double> sampleList;
     private Map<Material,List<Double>> materialQualityMap;
+    private SamplingControl samplingControl;
 
     @FXML
     private LineChart<String, Double> chartId;
@@ -59,10 +60,14 @@ public class SamplingChartManager {
         this.chartId = chartId;
     }
 
-    public SamplingChartManager(Parent root, List<Double> sampleList, Map<Material, List<Double>> materialMap) {
+    public SamplingChartManager(Parent root,
+                                List<Double> sampleList,
+                                Map<Material, List<Double>> materialMap,
+                                SamplingControl samplingControl) {
         this.root = root;
         this.sampleList=new ArrayList<>(sampleList);
         this.materialQualityMap=new HashMap<>(materialMap);
+        this.samplingControl=samplingControl;
         init();
     }
 
@@ -84,16 +89,12 @@ public class SamplingChartManager {
         XYChart.Series<String, Double> series  = new XYChart.Series<String, java.lang.Double>();
         XYChart.Series<String, Double> sampleSeries  = new XYChart.Series<>();
         ///////TEST OPERATE CHARACTERISTICS
-        SamplingControl samplingControl=new SamplingControl();
-        samplingControl.setAc(3);
-        int n=materialQualityMap.get(materialQualityMap.keySet().iterator().next()).size();
-        System.out.println();
-
+        int N=materialQualityMap.get(materialQualityMap.keySet().iterator().next()).size();
         for (int i=0;i<100;i++){
             samplingControl.setQ((double)i/100);
-            series.getData().add(new XYChart.Data<>(""+(double)i, samplingControl.getL(n,100)));
+            series.getData().add(new XYChart.Data<>(""+(double)i, samplingControl.getL(N)));
             sampleSeries.getData().add(new XYChart.Data<>(""+(double)i,sampleList.get(i)));
-            System.out.println("N: "+n+" q: "+i+" p: "+samplingControl.getL(n,100));
+            System.out.println("N: "+samplingControl.getN()+" q: "+i+" p: "+samplingControl.getL(N));
         }
         //////////
         chartId.getData().add(series);
