@@ -2,11 +2,13 @@ package sample.manager;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import sample.sampling.SamplingControl;
 import sample.resource.Material;
 import sample.sampling.SampleFunctions;
+import sample.validator.InputSampleParamsManagerValidator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -88,7 +90,10 @@ public class InputSampleParamsManager {
             }
         }
         //
-        if (size!=null && count!=null && ac!=null && size<maxSize){
+        String error=InputSampleParamsManagerValidator.validateSize(size, maxSize);
+        error=(error.compareTo("Ok")==0) ? InputSampleParamsManagerValidator.validateAc(ac, size): error;
+        error=(error.compareTo("Ok")==0) ? InputSampleParamsManagerValidator.validateCount(count): error;
+        if (error.compareTo("Ok")==0){
             //System.out.println("!!!!");
             //List sample=SampleFunctions.generateSample(size,10,0.8);
             samplingControl=new SamplingControl();
@@ -99,7 +104,7 @@ public class InputSampleParamsManager {
         }
         else {
             //HERE IS ALERT
-
+            showAlertDialog(error);
             return 1;
             //
         }
@@ -117,6 +122,19 @@ public class InputSampleParamsManager {
         }
         return res;
     }
+
+    private void showAlertDialog(String errorString){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText("Ошибка ввода данных");
+        alert.setContentText(errorString);
+        alert.showAndWait();
+    }
+
+    ///validators
+
+
+    ///
 }
 
 

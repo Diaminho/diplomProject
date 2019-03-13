@@ -97,11 +97,14 @@ public class SamplingChartManager {
             System.out.println("N: "+samplingControl.getN()+" q: "+i+" p: "+samplingControl.getL(N));
         }
         //////////
+        series.setName("Расчетные данные");
+        sampleSeries.setName("Сгенерированные данные");
         chartId.getData().add(series);
         chartId.getData().add(sampleSeries);
         chartId.getXAxis().setLabel("Количество дефектной продукции в %");
         chartId.getYAxis().setLabel("Вероятность приема выборки");
         chartId.setCreateSymbols(false);
+        chartId.setLegendVisible(true);
         chartId.setVisible(true);
 
     }
