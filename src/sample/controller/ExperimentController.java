@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.manager.ExperimentManager;
+import sample.resource.Material;
 import sample.stage.ChosenMaterialsStage;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class ExperimentController {
     public void onChooseMaterialsButton() {
         ChosenMaterialsStage matStage=new ChosenMaterialsStage();
         try {
-            Map chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
+            Map<Material, Integer> chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
             experimentManager.onChooseMaterialsButton(chosenMaterials);
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,20 +60,13 @@ public class ExperimentController {
 
     @FXML
     public void onOperateButton(){
-        /*experimentManager.onOperateButton();
-        try {
-            SamplingChartController samplingChartController=new SamplingChartController(new Stage(), experimentManager.getMaterialQualityMap());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-        //primaryStage.close();
-        try {
-            Map materialsMap=getExperimentManager().getMaterialQualityMap();
-            new InputSampleParamsController(new Stage(), materialsMap);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (experimentManager.onOperateButton()==0) {
+            try {
+                Map materialsMap = getExperimentManager().getMaterialQualityMap();
+                new InputSampleParamsController(new Stage(), materialsMap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

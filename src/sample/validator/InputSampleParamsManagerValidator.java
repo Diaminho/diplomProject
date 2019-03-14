@@ -18,10 +18,7 @@ public class InputSampleParamsManagerValidator {
     }
 
     public static String validateAc(Integer ac, Integer maxAc){
-        if (ac==0){
-            return "Неверно введено выборочное число";
-        }
-        else if (ac<=0){
+        if (ac<0){
             return "Выборочное число не может быть меньше 0";
         }
         else if(ac>=maxAc){

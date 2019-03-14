@@ -94,7 +94,9 @@ public class SamplingChartManager {
             samplingControl.setQ((double)i/100);
             series.getData().add(new XYChart.Data<>(""+(double)i, samplingControl.getL(N)));
             sampleSeries.getData().add(new XYChart.Data<>(""+(double)i,sampleList.get(i)));
+
             System.out.println("N: "+samplingControl.getN()+" q: "+i+" p: "+samplingControl.getL(N));
+
         }
         //////////
         series.setName("Расчетные данные");

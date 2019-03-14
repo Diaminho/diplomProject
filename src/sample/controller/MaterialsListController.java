@@ -21,19 +21,19 @@ public class MaterialsListController {
     public MaterialsListController(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/materialsList.fxml"));
         //MainController.primaryStage = primaryStage;
-        this.primaryStage=primaryStage;
+        MaterialsListController.primaryStage=primaryStage;
         primaryStage.setTitle("Список материалов");
         this.materialsListManager = new MaterialsListManager(root);
-        this.primaryStage.setScene(new Scene(root));
-        //this.primaryStage.show();
+        primaryStage.setScene(new Scene(root));
     }
 
     public MaterialsListController() {}
 
     @FXML
     public void onCloseButton(){
-        primaryStage.close();
-        //materialsListManager.onCloseButton();
+        //if (materialsListManager.onCloseButton()!=0) {
+            primaryStage.close();
+        //}
     }
 
 

@@ -25,7 +25,7 @@ public class InputManager {
     List<Material> materialsList;
 
     private static Parent root;
-    private static String fileName="./material.xml";
+    private static String fileName="materials.xml";
 
 
     @FXML

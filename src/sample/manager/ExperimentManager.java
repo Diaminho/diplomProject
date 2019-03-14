@@ -2,6 +2,7 @@ package sample.manager;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -97,7 +98,7 @@ public class ExperimentManager {
 
 
     @FXML
-    public void onStartExperimentButton() throws IOException {
+    public Integer onStartExperimentButton() throws IOException {
         //Material material=new Material("Цемент");
         //material.setMaterialImage(new Image("/sample/image/cement.jpg"));
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
@@ -113,6 +114,10 @@ public class ExperimentManager {
                 //gc.strokeText(Material.toString(i.getVolume()),30,110+pos);
                 pos+=120;
             }
+        }
+        else {
+            showAlertDialog();
+            return -1;
         }
 
         newExperiment=new Experiment(materialIntegerMap);
@@ -143,12 +148,12 @@ public class ExperimentManager {
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
         AnimationFunctions.doDryingAnimation(experimentPane,500,100);
+
+        return 0;
     }
 
     @FXML
     public void onGoMainButton() {
-        materialQualityMap.clear();
-        materialIntegerMap.clear();
         try {
             new MainController(new Stage());
         } catch(Exception e) {
@@ -158,19 +163,20 @@ public class ExperimentManager {
 
     @FXML
     public void onChooseMaterialsButton(Map<Material, Integer> materials) {
-        materialIntegerMap =new HashMap<>(materials);
-        //
-        Double quality;
-        List<Double> qualityList=new ArrayList<>();
-        materialQualityMap =new HashMap<>();
-        for (Object o:materialIntegerMap.keySet()){
-            //set material properties
-            //((Material)o).addProperty("","0.9");
+        if (materials!=null) {
+            materialIntegerMap = new HashMap<>(materials);
             //
-            qualityList=SampleGenerator.generateSample(materialIntegerMap.get(o),0.05f,0.88f);
-            materialQualityMap.put((Material) o,qualityList);
+            Double quality;
+            List<Double> qualityList = new ArrayList<>();
+            materialQualityMap = new HashMap<>();
+            for (Object o : materialIntegerMap.keySet()) {
+                //set material properties
+                //((Material)o).addProperty("","0.9");
+                //
+                qualityList = SampleGenerator.generateSample(materialIntegerMap.get(o), 0.05f, 0.88f);
+                materialQualityMap.put((Material) o, qualityList);
+            }
         }
-        System.out.println();
         //
         //SampleGenerator.generateSample();
         //
@@ -178,8 +184,14 @@ public class ExperimentManager {
     }
 
     @FXML
-    public void onOperateButton(){
-
+    public Integer onOperateButton(){
+        if (materialIntegerMap==null) {
+            showAlertDialog();
+            return -1;
+        }
+        else {
+            return 0;
+        }
     }
 
 
@@ -188,6 +200,13 @@ public class ExperimentManager {
         AnimationFunctions.doPause(pauseButton, animationThread);
     }
 
-    //
+
+    private void showAlertDialog(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText("Не были выбраны материалы");
+        alert.showAndWait();
+    }
+
 
 }
