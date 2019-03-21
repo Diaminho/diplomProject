@@ -25,6 +25,12 @@ public class InputSampleParamsManager {
     private TextField acId;
 
     @FXML
+    private TextField alphaId;
+
+    @FXML
+    private TextField betaId;
+
+    @FXML
     private ChoiceBox<String> choiceMaterialBoxId;
 
     @FXML
@@ -57,6 +63,8 @@ public class InputSampleParamsManager {
         acId =(TextField) root.lookup("#acId");
         sampleCountId = (TextField) root.lookup("#sampleCountId");
         choiceMaterialBoxId = (ChoiceBox<String>) root.lookup("#choiceMaterialBoxId");
+        alphaId = (TextField) root.lookup("#alphaId");
+        betaId = (TextField) root.lookup("#betaId");
         //System.out.println("MAP: "+material);
     }
 
@@ -83,6 +91,10 @@ public class InputSampleParamsManager {
         //
         Integer maxSize=0;
         String chosenMaterial=choiceMaterialBoxId.getSelectionModel().getSelectedItem();
+        if(chosenMaterial==null){
+            showAlertDialog("Не выбран материал");
+            return 1;
+        }
         for (Material m:materials.keySet()){
             if (m.getName().compareTo(chosenMaterial)==0){
                 maxSize=materials.get(m).size();
@@ -99,6 +111,8 @@ public class InputSampleParamsManager {
             samplingControl=new SamplingControl();
             samplingControl.setAc(ac);
             samplingControl.setN(size);
+            samplingControl.setAlpha(Double.parseDouble(alphaId.getText()));
+            samplingControl.setBeta(Double.parseDouble(betaId.getText()));
             sample=SampleFunctions.getAvgPossibilities(maxSize,0.8,ac, count);
             return 0;
         }

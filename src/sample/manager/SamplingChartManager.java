@@ -5,6 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import sample.Main;
 import sample.sampling.SamplingControl;
@@ -90,14 +92,34 @@ public class SamplingChartManager {
         XYChart.Series<String, Double> sampleSeries  = new XYChart.Series<>();
         ///////TEST OPERATE CHARACTERISTICS
         int N=materialQualityMap.get(materialQualityMap.keySet().iterator().next()).size();
+        Double f=0d;
+        int aFlag=0, bFlag=0;
         for (int i=0;i<100;i++){
             samplingControl.setQ((double)i/100);
-            series.getData().add(new XYChart.Data<>(""+(double)i, samplingControl.getL(N)));
+            f=samplingControl.getF((double)i/100);
+            if (f<=1-samplingControl.getAlpha() && aFlag==0){
+                String alphaS=("при alpha="+(samplingControl.getAlpha())+" q="+String.format("%.2f",(samplingControl.getQ()-0.01)));
+                Label alpha=new Label(alphaS);
+                alpha.setTranslateX(300);
+                ((GridPane)root).getChildren().addAll(alpha);
+                aFlag=1;
+            }
+            if (f<=samplingControl.getBeta() && bFlag==0){
+                String betaS=("при beta="+samplingControl.getAlpha()+" q="+String.format("%.2f",(samplingControl.getQ()-0.01)));
+                Label beta=new Label(betaS);
+                beta.setTranslateX(300);
+                beta.setTranslateY(30);
+                ((GridPane)root).getChildren().addAll(beta);
+                bFlag=1;
+            }
+            series.getData().add(new XYChart.Data<>(""+(double)i, f));
             sampleSeries.getData().add(new XYChart.Data<>(""+(double)i,sampleList.get(i)));
-
-            System.out.println("N: "+samplingControl.getN()+" q: "+i+" p: "+samplingControl.getL(N));
+            System.out.println("q: "+(double)i/100+" p: "+f);
 
         }
+        //
+
+        //
         //////////
         series.setName("Расчетные данные");
         sampleSeries.setName("Сгенерированные данные");

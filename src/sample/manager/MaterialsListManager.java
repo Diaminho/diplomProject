@@ -141,7 +141,7 @@ public class MaterialsListManager {
     private void showAlertDialog(String errorString){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Ошибка");
-        alert.setHeaderText("Ошибка ввода данных");
+        alert.setHeaderText("Ошибка при выборе материалов");
         alert.setContentText(errorString);
         alert.showAndWait();
     }

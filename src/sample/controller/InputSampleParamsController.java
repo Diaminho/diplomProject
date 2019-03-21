@@ -25,7 +25,7 @@ public class InputSampleParamsController {
     public InputSampleParamsController(Stage primaryStage, Map materials) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/inputSampleParams.fxml"));
         InputSampleParamsController.primaryStage=primaryStage;
-        primaryStage.setTitle("Окно ввода параметров для генерации выборки");
+        primaryStage.setTitle("Генерация плана");
         inputSampleParamsManager = new InputSampleParamsManager(root, materials);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

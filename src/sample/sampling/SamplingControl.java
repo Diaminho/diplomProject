@@ -61,7 +61,7 @@ public class SamplingControl {
 
 
     //Puasson
-    public double getF(){
+    public double getF(double q){
         double f=0;
         for (int i = 0; i < ac+1; i++) {
             f += Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
