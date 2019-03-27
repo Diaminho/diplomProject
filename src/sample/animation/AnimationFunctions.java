@@ -1,15 +1,11 @@
 package sample.animation;
 
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -102,9 +98,9 @@ public class AnimationFunctions {
         List<Image> dryingImagesList=new ArrayList<>();
 
         //IMAGES FOR ANIMATION
-        dryingImagesList.add(new Image("/sample/images/stages/drying0.png", 100,100,true,true));
-        dryingImagesList.add(new Image("/sample/images/stages/drying1.png",100,100,true,true));
-        dryingImagesList.add(new Image("/sample/images/stages/drying.png",100,100,true,true));
+        dryingImagesList.add(new Image("/sample/image/stage/drying0.png", 100,100,true,true));
+        dryingImagesList.add(new Image("/sample/image/stage/drying1.png",100,100,true,true));
+        dryingImagesList.add(new Image("/sample/image/stage/drying.png",100,100,true,true));
         //
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);

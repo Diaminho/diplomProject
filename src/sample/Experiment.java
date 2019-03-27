@@ -1,7 +1,7 @@
 package sample;
 
 import javafx.scene.image.Image;
-import sample.resources.*;
+import sample.resource.Material;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +33,9 @@ public class Experiment {
         this.materialMap = new HashMap<>(materialMap);
         raw =new Material("Сырец");
         stages=new ArrayList<>();
-        stages.add(new Image("/sample/images/stages/blending.png"));
-        stages.add(new Image("/sample/images/stages/cutting.png"));
-        stages.add(new Image("/sample/images/stages/drying.png"));
+        stages.add(new Image("/sample/image/stage/blending.png"));
+        stages.add(new Image("/sample/image/stage/cutting.png"));
+        stages.add(new Image("/sample/image/stage/drying.png"));
         raw.setVolume(0);
         fillNeededMaterials();
 
