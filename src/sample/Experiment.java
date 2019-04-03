@@ -18,6 +18,8 @@ public class Experiment {
 
     private Material dryRaw;
 
+    private Material blendedRaw;
+
     private List<Image> stages;
 
     public List<Image> getStages() {
@@ -53,28 +55,49 @@ public class Experiment {
     }
 
     //2 stage blending
-    public int produceRawMaterial() {
-        while (true) {
+    public Material produceRawMaterial() {
+        //while (true) {
+        int count=0;
+        double avgQuality=0d;
             for (Object o : materialMap.keySet()) {
                 for (Object o1 : neededMaterials.keySet()) {
                     if (((Material) o).getName().equals(((Material) o1).getName())) {
                         if (materialMap.get(o) >= neededMaterials.get(o1)) {
                             materialMap.replace((Material) o, materialMap.get(o) - neededMaterials.get(o1));
+                            //Material raw=new Material();
+                            //need to create new raw
+                            //
+                            avgQuality+=((Material)o).getAvgQuality();
+                            count++;
+
                         } else {
                             System.out.println("Нехватка материала: " + ((Material) o).getName());
-                            return 0;
+                            return null;
                         }
                     }
                 }
-            }
-            raw.setVolume(raw.getVolume()+1);
+            //}
+
         }
+        avgQuality/=count;
+        raw.addProperty("Качество",""+avgQuality);
+        raw.setAvgQuality();
+        raw.setVolume(raw.getVolume()+1);
+        System.out.println(raw.getVolume());
+        return raw;
+    }
+
+    //2 stage Blendig
+    public void doBlending(double materialQuality){
+        blendedRaw=new Material();
+        blendedRaw.addProperty("Качество", ""+materialQuality);
+        blendedRaw.setVolume(raw.getVolume());
     }
 
     //3 stage
-    public void doDrying(double dryingQuality){
+    public void doDrying(double blendedQuality){
         dryRaw=new Material();
-        dryRaw.addProperty("Качество", ""+dryingQuality);
+        dryRaw.addProperty("Качество", ""+blendedQuality);
         dryRaw.setVolume(raw.getVolume());
     }
 

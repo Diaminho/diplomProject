@@ -1,6 +1,8 @@
 package sample.animation;
 
 import javafx.animation.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -17,7 +19,7 @@ import java.util.List;
 public class AnimationFunctions {
 
 
-    public static void doAnimation(AnchorPane ap, double x1, double y1, double x2, Color color){
+    public static Timeline doAnimation(AnchorPane ap, double x1, double y1, double x2, Color color){
 
         Rectangle rectBasicTimeline = new Rectangle(x1, y1, 25, 25);
         rectBasicTimeline.setFill(color);
@@ -29,27 +31,29 @@ public class AnimationFunctions {
         final KeyFrame kf = new KeyFrame(Duration.millis(5000), kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
+        return timeline;
         //ap.getChildren().add(timeline);
 
     }
 
-    public static void doBlendingStageProgress(Thread thread, AnchorPane ap, double x1, double y1){
-        Task task = new Task<Void>() {
-            @Override public Void call() {
-                final int max = 100;
-                for (int i = 1; i <= max; i++) {
-                    updateProgress(i, max);
-                }
-                return null;
-            }
-        };
-
+    public static Timeline doBlendingStageProgress(AnchorPane ap, double x1, double y1, int delay){
         ProgressBar bar = new ProgressBar();
+        ap.getChildren().add(bar);
         bar.setTranslateX(x1);
         bar.setTranslateY(y1);
-        bar.progressProperty().bind(task.progressProperty());
-        ap.getChildren().add(bar);
-        thread.start();
+        IntegerProperty seconds = new SimpleIntegerProperty();
+        bar.progressProperty().bind(seconds.divide(20.0));
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
+                new KeyFrame(Duration.seconds(20), e-> {
+                    // do anything you need here on completion...
+                    System.out.println("Смешивание завершено");
+                }, new KeyValue(seconds, 20))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.setDelay(Duration.millis(delay));
+        timeline.play();
+        return timeline;
     }
 
     public static void doPause(Button button, Thread thread){
@@ -61,7 +65,7 @@ public class AnimationFunctions {
     }
 
 
-    public static void doCuttingStageAnimation(AnchorPane ap, ImageView imageView, double y2){
+    public static Timeline doCuttingStageAnimation(AnchorPane ap, ImageView imageView, double y2){
         ap.getChildren().add(imageView);
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -71,9 +75,10 @@ public class AnimationFunctions {
         timeline.getKeyFrames().add(kf);
         timeline.setDelay(Duration.millis(10000));
         timeline.play();
+        return timeline;
     }
 
-    public static void doEndlessBrick(AnchorPane ap, double x1, double y1, Color color){
+    public static Timeline doEndlessBrick(AnchorPane ap, double x1, double y1, Color color){
 
         Rectangle rect = new Rectangle(x1+135, y1-20, 10, 25);
         rect.setFill(color);
@@ -88,10 +93,11 @@ public class AnimationFunctions {
         timeline.getKeyFrames().add(kf);
         timeline.setDelay(Duration.millis(1000));
         timeline.play();
+        return timeline;
         //ap.getChildren().add(rect);
     }
 
-    public static void doDryingAnimation(AnchorPane ap, double x1, double y1){
+    public static Timeline doDryingAnimation(AnchorPane ap, double x1, double y1){
         ImageView dryingImageView=new ImageView();
         dryingImageView.setX(x1);
         dryingImageView.setY(y1);
@@ -113,6 +119,7 @@ public class AnimationFunctions {
         timeline.play();
         //dryingImageView.setImage(dryingImagesList.get(0));
         ap.getChildren().add(dryingImageView);
+        return timeline;
     }
 
 }
