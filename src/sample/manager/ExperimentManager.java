@@ -137,7 +137,7 @@ public class ExperimentManager {
         //NEED TO MOVE TO ANOTHER THREAD
         newExperiment=new Experiment(materialIntegerMap);
         ExperimentTask experimentTask=new ExperimentTask();
-        Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel));
+        Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel,1));
         thread.start();
 
         //System.out.println(thread.getName());
@@ -153,18 +153,22 @@ public class ExperimentManager {
         //rawVolumeLabel.setLabelFor(iv);
         rawVolumeLabel.setText("0");
         rawVolumeLabel.setVisible(true);
+        rawVolumeLabel.setTranslateX(260);
+        rawVolumeLabel.setTranslateY(270);
         experimentPane.getChildren().add(rawVolumeLabel);
         ///
 
 
-
+        Image image;
         //BLENDING
-        if (newExperiment.getRaw()!=null){
+        if (newExperiment.getRawList().size()>0){
             //GRAPHICS
             timeline=AnimationFunctions.doBlendingStageProgress(experimentPane,220,250, 100);
             timelineList.add(timeline);
 
-            iv=setImageViewProperties(newExperiment.getStages().get(0),150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
+            image=newExperiment.findImageByMaterialName("Blending");
+
+            iv=setImageViewProperties(image,150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
             experimentPane.getChildren().add(iv);
             //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
@@ -177,15 +181,24 @@ public class ExperimentManager {
         timeline=AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
         timelineList.add(timeline);
         //CUTTING
-        iv=setImageViewProperties(newExperiment.getStages().get(1),60,60,experimentPane.getWidth()/2,0);
+        image=newExperiment.findImageByMaterialName("Cutting");
+        iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
         timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane,iv,200);
         timelineList.add(timeline);
+        //
+        newExperiment.doCutting(0.9);
+        //
+
+
 
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
         timeline=AnimationFunctions.doDryingAnimation(experimentPane,500,100);
         timelineList.add(timeline);
+        //
+
+
 
         return 0;
     }

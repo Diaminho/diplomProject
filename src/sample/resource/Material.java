@@ -8,12 +8,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Material {
-    private String name;
-    private Map<String, String> properties;
-    private Image materialImage;
-    private double volume;
-    private double avgQuality;
-    private Color color;
+    String name;
+    Image materialImage;
+    boolean avgQuality;
+    Color color;
 
     public Color getColor() {
         return color;
@@ -23,40 +21,25 @@ public class Material {
         this.color = color;
     }
 
-
-    public double getVolume() {
-        return volume;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    public double getAvgQuality() {
+    public boolean getAvgQuality() {
         return avgQuality;
     }
 
-    public void setAvgQuality(){
-        avgQuality=0;
-        for (Object propValue:properties.keySet()){
-            avgQuality+= java.lang.Double.parseDouble(properties.get(propValue));
-        }
-        avgQuality/=properties.size();
+    public void setAvgQuality(boolean avgQuality){
+        this.avgQuality=avgQuality;
     }
 
-    public Material(){}
+    public Material(){ avgQuality=true;}
 
     public Material(String name){
         this.name=name;
-        properties=new HashMap<>();
+        avgQuality=true;
         //materialImage=new Image("/test");
     }
 
     public Material(Material other) {
         this.name = new String(other.getName());
-        this.properties = new HashMap<>(other.getProperties());
         this.materialImage = new Image(other.getMaterialImage().impl_getUrl());
-        this.volume = other.getVolume();
         this.avgQuality = other.avgQuality;
         this.color = other.getColor();
     }
@@ -77,43 +60,19 @@ public class Material {
         this.name = name;
     }
 
-    public Map<String, String> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
-    }
-
-
-    public void addProperty(String name, String value){
-        properties.put(name,value);
-    }
-
-    public void printMaterialAndProperties(){
-        System.out.println("Название материала: "+name);
-        System.out.println("Свойства");
-        for (String k:properties.keySet()){
-            System.out.println("Название: "+k+" , Значение: "+properties.get(k));
-        }
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Material material = (Material) o;
-        return java.lang.Double.compare(material.volume, volume) == 0 &&
-                java.lang.Double.compare(material.avgQuality, avgQuality) == 0 &&
+        return  material.avgQuality==avgQuality &&
                 Objects.equals(name, material.name) &&
-                Objects.equals(properties, material.properties) &&
                 Objects.equals(materialImage, material.materialImage) &&
                 Objects.equals(color, material.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, properties, materialImage, volume, avgQuality, color);
+        return Objects.hash(name, materialImage, avgQuality, color);
     }
 }

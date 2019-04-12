@@ -42,13 +42,13 @@ public class AnimationFunctions {
         bar.setTranslateX(x1);
         bar.setTranslateY(y1);
         IntegerProperty seconds = new SimpleIntegerProperty();
-        bar.progressProperty().bind(seconds.divide(20.0));
+        bar.progressProperty().bind(seconds.divide(10.0));
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)),
-                new KeyFrame(Duration.seconds(20), e-> {
+                new KeyFrame(Duration.seconds(10), e-> {
                     // do anything you need here on completion...
-                    System.out.println("Смешивание завершено");
-                }, new KeyValue(seconds, 20))
+                    //System.out.println("Смешивание завершено");
+                }, new KeyValue(seconds, 10))
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.setDelay(Duration.millis(delay));

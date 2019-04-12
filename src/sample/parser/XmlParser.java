@@ -37,15 +37,16 @@ public class XmlParser{
             } catch (org.xml.sax.SAXException e) {
                 e.printStackTrace();
             }
-            Element element = document.getDocumentElement();
+            Element element = document != null ? document.getDocumentElement() : null;
 
             List<Material> res=new ArrayList<>();
-            printElement(element.getChildNodes(), res);
+            if (element!=null) {
+                printElement(element.getChildNodes(), res);
+            }
             return res;
         }
 
         public static void printElement(NodeList nodeList, List<Material> res) {
-            String key,value;
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (nodeList.item(i) instanceof Element) {
                     //System.out.println((Element) nodeList.item(i));
@@ -54,15 +55,6 @@ public class XmlParser{
                         res.add(new Material(((Element) nodeList.item(i)).getAttribute("name")));
                         if (((Element)nodeList.item(i)).hasAttribute("image") && !((Element) nodeList.item(i)).getAttribute("image").equals("")) {
                             res.get(res.size() - 1).setMaterialImage(new Image(((Element) nodeList.item(i)).getAttribute("image")));
-                        }
-                    }
-                    else {
-                        if (((Element) nodeList.item(i)).getTagName().equals("property")) {
-                            //res.add(nodeList.item(i).getTextContent());
-                            key=((Element) nodeList.item(i)).getAttribute("name");
-                            value=((Element) nodeList.item(i)).getTextContent();
-                            System.out.println(((Element) nodeList.item(i)).getTagName() + ": " + key+"  value: "+value);
-                            res.get(res.size()-1).addProperty(key,value);
                         }
                     }
                     if (nodeList.item(i).hasChildNodes()) {
@@ -103,10 +95,6 @@ public class XmlParser{
                     setAttributeImage(materialElem,(Material)mat);
                     //
 
-                    //set properties for current material
-                    for (Object name:((Material)mat).getProperties().keySet()) {
-                        setProperty(materialElem, (String)name, ((Material)mat).getProperties().get(name));
-                    }
                 }
 
                 // Записываем изменения в XML файл
@@ -126,7 +114,6 @@ public class XmlParser{
             }
         }
 
-
         private static void setAttributeName(Element elem, Material mat){
             Attr attr = doc.createAttribute("name");
             attr.setValue(mat.getName());
@@ -141,13 +128,5 @@ public class XmlParser{
             }
             elem.setAttributeNode(attr);
 }
-
-        private static void setProperty(Element elem, String name, String value){
-            // property element
-            Element property=doc.createElement("proprerty");
-            property.setAttribute("name",name);
-            property.appendChild(doc.createTextNode(value));
-            elem.appendChild(property);
-        }
 
 }

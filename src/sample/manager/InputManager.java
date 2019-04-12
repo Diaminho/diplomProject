@@ -27,9 +27,6 @@ public class InputManager {
     private static Parent root;
     private static String fileName="materials.xml";
 
-
-    @FXML
-    private TextField textFieldPropName;
     @FXML
     private TextField textFieldMaterialName;
 
@@ -55,7 +52,6 @@ public class InputManager {
 
 
     private void init() {
-        textFieldPropName = (TextField) root.lookup("#textFieldPropName");
         textFieldMaterialName = (TextField) root.lookup("#textFieldMaterialName");
     }
 
@@ -72,7 +68,7 @@ public class InputManager {
     public void onAddMaterialButton() throws IOException {
         materialsList.add(new Material(textFieldMaterialName.getText()));
         //System.out.println(materialsList.get(materialsList.size()-1).getName());
-        materialsList.get(materialsList.size()-1).printMaterialAndProperties();
+        //materialsList.get(materialsList.size()-1).printMaterialAndProperties();
 
         ///
         String imagePath=getImageChooser();
@@ -84,11 +80,12 @@ public class InputManager {
     }
 
 
+    /*
     @FXML
     public void onAddPropertyButton(String prop) throws IOException {
         materialsList.get(materialsList.size()-1).addProperty(prop,"");
         materialsList.get(materialsList.size()-1).printMaterialAndProperties();
-    }
+    }*/
 
 
     //////////
@@ -107,7 +104,6 @@ public class InputManager {
     private String getImageChooser(){
         FileChooser fc=new FileChooser();
         fc.setTitle("Open Image");
-        getRelativePath("/home/diaminho/diplomProject/src/sample/image/cement.jpg");
 
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter(
