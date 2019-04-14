@@ -56,13 +56,13 @@ public class Experiment {
         //raw =new ArrayList<>();
         stages=new HashMap<>();
         stages.put(new Image("/sample/image/stage/blending.png"),1d);
-        stages.put(new Image("/sample/image/stage/cutting.png"), 1d);
+        stages.put(new Image("/sample/image/stage/cutting/cutting.png"), 1d);
         stages.put(new Image("/sample/image/stage/drying.png"), 1d);
 
         //
         stagesNames=new HashMap<>();
         stagesNames.put("Blending", new Image("/sample/image/stage/blending.png"));
-        stagesNames.put("Cutting",new Image("/sample/image/stage/cutting.png"));
+        stagesNames.put("Cutting",new Image("/sample/image/stage/cutting/cutting.png"));
         stagesNames.put("Drying", new Image("/sample/image/stage/drying.png"));
         //raw.setVolume(0);
         fillNeededMaterials();

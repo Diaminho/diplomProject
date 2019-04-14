@@ -137,7 +137,7 @@ public class ExperimentManager {
         //NEED TO MOVE TO ANOTHER THREAD
         newExperiment=new Experiment(materialIntegerMap);
         ExperimentTask experimentTask=new ExperimentTask();
-        Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel,1));
+        Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel,0));
         thread.start();
 
         //System.out.println(thread.getName());
@@ -161,7 +161,7 @@ public class ExperimentManager {
 
         Image image;
         //BLENDING
-        if (newExperiment.getRawList().size()>0){
+        if (newExperiment.getRawList()!=null){
             //GRAPHICS
             timeline=AnimationFunctions.doBlendingStageProgress(experimentPane,220,250, 100);
             timelineList.add(timeline);
@@ -182,9 +182,9 @@ public class ExperimentManager {
         timelineList.add(timeline);
         //CUTTING
         image=newExperiment.findImageByMaterialName("Cutting");
-        iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
+        //iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
-        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane,iv,200);
+        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 400,150);
         timelineList.add(timeline);
         //
         newExperiment.doCutting(0.9);
@@ -267,7 +267,6 @@ public class ExperimentManager {
         alert.setHeaderText("Не были выбраны материалы");
         alert.showAndWait();
     }
-
 
     //////////TEST THREADS
 

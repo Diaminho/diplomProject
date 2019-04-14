@@ -22,7 +22,7 @@ public class ExperimentTask {
                     //
                     Thread.sleep(10000);
                     //oldCount+=1;
-                    Platform.runLater(() -> label.setText("1"));
+                    Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 }
                 return null;
             }

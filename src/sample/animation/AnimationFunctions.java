@@ -65,16 +65,32 @@ public class AnimationFunctions {
     }
 
 
-    public static Timeline doCuttingStageAnimation(AnchorPane ap, ImageView imageView, double y2){
-        ap.getChildren().add(imageView);
+    public static Timeline doCuttingStageAnimation(AnchorPane ap, double x1, double y1){
+
+        /////
+
+
+        ImageView cuttingImageView=new ImageView();
+        cuttingImageView.setX(x1);
+        cuttingImageView.setY(y1);
+        List<Image> cuttingImagesList=new ArrayList<>();
+
+        //IMAGES FOR ANIMATION
+        cuttingImagesList.add(new Image("/sample/image/stage/cutting/cutting.png", 150,150,true,true));
+        cuttingImagesList.add(new Image("/sample/image/stage/cutting/cutting1.png", 150,150,true,true));
+        cuttingImagesList.add(new Image("/sample/image/stage/cutting/cutting2.png",150,150,true,true));
+        cuttingImagesList.add(new Image("/sample/image/stage/cutting/cutting3.png",150,150,true,true));
+        //
         final Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         //timeline.setAutoReverse(true);
-        final KeyValue kv = new KeyValue(imageView.yProperty(), y2*0.7);
-        final KeyFrame kf = new KeyFrame(Duration.millis(2000), kv);
-        timeline.getKeyFrames().add(kf);
-        timeline.setDelay(Duration.millis(10000));
+        for (int i=0;i<cuttingImagesList.size();i++){
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(i*2), new KeyValue(cuttingImageView.imageProperty(), cuttingImagesList.get(i))));
+        }
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(cuttingImagesList.size()*2), new KeyValue(cuttingImageView.imageProperty(), null)));
         timeline.play();
+        //dryingImageView.setImage(dryingImagesList.get(0));
+        ap.getChildren().add(cuttingImageView);
         return timeline;
     }
 
