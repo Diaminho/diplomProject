@@ -2,21 +2,17 @@ package sample.manager;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.TargetInfo;
 import sample.Experiment;
 import sample.animation.AnimationFunctions;
 import sample.controller.MainController;
@@ -33,12 +29,6 @@ public class ExperimentManager {
 
     private static Parent root;
 
-    @FXML
-    private TextField cementID;
-    @FXML
-    private TextField sandID;
-    @FXML
-    private TextField clayID;
     @FXML
     private Text resultExperimentID;
     @FXML
@@ -65,6 +55,14 @@ public class ExperimentManager {
 
     private List<Timeline> timelineList;
 
+    public Experiment getNewExperiment() {
+        return newExperiment;
+    }
+
+    public void setNewExperiment(Experiment newExperiment) {
+        this.newExperiment = newExperiment;
+    }
+
     public ExperimentManager(Parent root) {
         ExperimentManager.root = root;
         init();
@@ -81,9 +79,6 @@ public class ExperimentManager {
 
     private void init() {
 
-        sandID = (TextField) root.lookup("#sandID");
-        cementID = (TextField) root.lookup("#cementID");
-        clayID = (TextField) root.lookup("#clayID");
         resultExperimentID = (Text) root.lookup("#resultExperimentID");
         experimentPane = (AnchorPane) root.lookup("#experimentPane");
         rawQualityID = (Text) root.lookup("#rawQualityID");
@@ -135,7 +130,13 @@ public class ExperimentManager {
 
 
         //NEED TO MOVE TO ANOTHER THREAD
-        newExperiment=new Experiment(materialIntegerMap);
+        if (newExperiment!=null) {
+            newExperiment.setMaterialMap(materialIntegerMap);
+            newExperiment.fillNeededMaterials();
+        }
+        else{
+            newExperiment = new Experiment(materialIntegerMap);
+        }
         ExperimentTask experimentTask=new ExperimentTask();
         Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel,0));
         thread.start();

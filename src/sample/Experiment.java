@@ -23,6 +23,30 @@ public class Experiment {
     private Map<Image, Double> stages;
     private Map<String, Image> stagesNames;
 
+    public List<Double> getStageQuality() {
+        return stageQuality;
+    }
+
+    public Map<Material, Integer> getMaterialMap() {
+        return materialMap;
+    }
+
+    public void setMaterialMap(Map<Material, Integer> materialMap) {
+        this.materialMap = materialMap;
+    }
+
+    public void setStageQuality(List<Double> stageQuality) {
+        this.stageQuality = stageQuality;
+    }
+
+    public List<Double> getBrigades() {
+        return brigades;
+    }
+
+    public void setBrigades(List<Double> brigades) {
+        this.brigades = brigades;
+    }
+
     public Map<Image, Double> getStages() {
         return stages;
     }
@@ -51,9 +75,19 @@ public class Experiment {
         this.cuttedRawList = cuttedRawList;
     }
 
+    public Experiment() {
+        init();
+    }
+
     public Experiment(Map materialMap) {
         this.materialMap = new HashMap<>(materialMap);
         //raw =new ArrayList<>();
+        init();
+        fillNeededMaterials();
+        //
+    }
+
+    private void init(){
         stages=new HashMap<>();
         stages.put(new Image("/sample/image/stage/blending.png"),1d);
         stages.put(new Image("/sample/image/stage/cutting/cutting.png"), 1d);
@@ -65,7 +99,6 @@ public class Experiment {
         stagesNames.put("Cutting",new Image("/sample/image/stage/cutting/cutting.png"));
         stagesNames.put("Drying", new Image("/sample/image/stage/drying.png"));
         //raw.setVolume(0);
-        fillNeededMaterials();
 
         //fill default stageQuality
         stageQuality=new ArrayList<>();
@@ -82,10 +115,9 @@ public class Experiment {
 
         //fill default defects for bricks
         defects=new HashMap<>();
-        //
     }
 
-    private void fillNeededMaterials(){
+    public void fillNeededMaterials(){
         neededMaterials=new HashMap<>();
         for (Object o: materialMap.keySet()){
             neededMaterials.put(new Material(((Material)o).getName()),5);

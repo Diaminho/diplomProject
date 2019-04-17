@@ -6,9 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Experiment;
 import sample.manager.ExperimentManager;
 import sample.resource.Material;
 import sample.stage.ChosenMaterialsStage;
+import sample.stage.ScenarioStage;
 
 import java.io.IOException;
 import java.util.Map;
@@ -73,5 +75,23 @@ public class ExperimentController {
     @FXML
     public void onPauseButton(){
         experimentManager.onPauseButton();
+    }
+
+    @FXML
+    public void onScenarioButton(){
+        ScenarioStage sStage=new ScenarioStage();
+        try {
+            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage));
+            experimentManager.setNewExperiment(experiment);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            new ScenarioController(new Stage());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
