@@ -1,12 +1,10 @@
 package sample;
 
 import javafx.scene.image.Image;
+import sample.resource.Brick;
 import sample.resource.Material;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Experiment {
 
@@ -15,6 +13,8 @@ public class Experiment {
     private List<Material> rawList=new ArrayList<>();
     private List<Material> dryRawList=new ArrayList<>();
     private List<Material> cuttedRawList=new ArrayList<>();
+    private List<Material> burnedRawList=new ArrayList<>();
+    private List<Brick> brickList=new ArrayList<>();
 
     private Map<String, Double> defects;
     private List<Double> brigades;
@@ -22,6 +22,8 @@ public class Experiment {
 
     private Map<Image, Double> stages;
     private Map<String, Image> stagesNames;
+
+    private List<Double> defaultMaterialsQuality=new ArrayList<>();
 
     public List<Double> getStageQuality() {
         return stageQuality;
@@ -81,6 +83,9 @@ public class Experiment {
 
     public Experiment(Map materialMap) {
         this.materialMap = new HashMap<>(materialMap);
+        materialMap.keySet().forEach(material -> {
+            defaultMaterialsQuality.add(0.9);
+        });
         //raw =new ArrayList<>();
         init();
         fillNeededMaterials();
@@ -133,66 +138,95 @@ public class Experiment {
     }
 
     //2 stage blending
-    public Material produceRawMaterial() {
-        int count=0;
-        Material raw=new Material("Сырец");
-        double avgQuality=0d;
+    public boolean produceRawMaterial() {
         for (Object o : materialMap.keySet()) {
             for (Object o1 : neededMaterials.keySet()) {
                 if (((Material) o).getName().equals(((Material) o1).getName())) {
                     if (materialMap.get(o) >= neededMaterials.get(o1)) {
                         materialMap.replace((Material) o, materialMap.get(o) - neededMaterials.get(o1));
-                        if(!((Material)o).getAvgQuality()) {
-                            raw.setAvgQuality(false);
-                            return raw;
-                        }
-                        count++;
                     } else {
                         System.out.println("Нехватка материала: " + ((Material) o).getName());
-                        return null;
+                        return false;
                     }
                 }
             }
         }
-        avgQuality/=count;
         //need to create new Raw Material every time
         //
         //need to redo
+        //
+        //
         Double rawQuality=stageQuality.get(0);
-        //generate
-        if(new java.util.Random().nextDouble()>=(1-rawQuality)) {
-            raw.setAvgQuality(true);
+        Double matQuality=defaultMaterialsQuality.stream().mapToDouble(Double::doubleValue).sum();
+        List<Double> avgMaterialQuality=new ArrayList<>();
+        for (int i=0;i<100;i++){
+            avgMaterialQuality.add(matQuality);
         }
-        else {
-            raw.setAvgQuality(false);
-        }
-        System.out.println("afs: "+raw.getAvgQuality());
-        //raw.setVolume(raw.getVolume()+1);
-        //System.out.println();
-        rawList.add(raw);
-        return raw;
+        ////
+        generateQualityForMaterial(rawList,"Сырец", rawQuality, avgMaterialQuality);
+        return true;
     }
 
-    //2 stage Blendig
-    public Material doCutting(double materialQuality){
-        Material cuttedRaw =new Material("Нарезанный сырец");
+    //2 stage Cutting
+    public boolean doCutting(){
+        //Material cuttedRaw =new Material("Нарезанный сырец");
+        List<Double> materialQuality=new ArrayList<>();
+
+        rawList.subList(0,100).forEach(material -> {
+            Random random=new Random();
+            Double avg=stageQuality.get(0);
+            Double quality=(material.getAvgQuality()) ? random.nextDouble()*avg: random.nextDouble()*(1-avg);
+            materialQuality.add(quality);
+        });
+
         Double avgQuality=(stageQuality.get(1)+brigades.get(0))/2;
-        if(new java.util.Random().nextDouble()>=(1-avgQuality)) {
-            cuttedRaw.setAvgQuality(true);
+        if (materialQuality.size()<100) {
+            return false;
+        } else {
+            generateQualityForMaterial(cuttedRawList, "Нарезанный сырец", avgQuality, materialQuality);
+            return true;
         }
-        else {
-            cuttedRaw.setAvgQuality(false);
-        }
-        cuttedRawList.add(cuttedRaw);
-        return cuttedRaw;
+        //return cuttedRaw;
     }
 
     //3 stage
-    public void doDrying(double blendedQuality){
-        Material dryRaw=new Material();
-        dryRaw.setAvgQuality(true);
+    public void doDrying(){
+        Double avgQuality=stageQuality.get(2);
+        List<Double> blendedQuality=new ArrayList<>();
 
-        dryRawList.add(dryRaw);
+        rawList.subList(0,100).forEach(material -> {
+            Random random=new Random();
+            Double avg=stageQuality.get(1);
+            Double quality=(material.getAvgQuality()) ? random.nextDouble()*avg: random.nextDouble()*(1-avg);
+            blendedQuality.add(quality);
+        });
+
+        generateQualityForMaterial(dryRawList,"Высушенный сырец",avgQuality,blendedQuality);
+    }
+
+    //4 stage
+    public void doBurining(){
+        //
+        //
+        Double avgQuality=stageQuality.get(3);
+        //GENERATE BRICKS
+        Brick brick=new Brick();
+        //
+    }
+
+
+    ///
+    private void generateQualityForMaterial(List<Material>  rawList, String rawName, double avgQuality, List<Double> qualityList){
+        Material raw =new Material(rawName);
+        Random rnd=new Random();
+        for (int i=0;i<100;i++) {
+            if (rnd.nextDouble() >= (1 - (avgQuality+qualityList.get(i))/2)) {
+                raw.setAvgQuality(true);
+            } else {
+                raw.setAvgQuality(false);
+            }
+            rawList.add(raw);
+        }
     }
 
 };

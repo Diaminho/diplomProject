@@ -8,21 +8,44 @@ import sample.resource.Material;
 
 public class ExperimentTask {
 
-    public Task FirstStageTask(Experiment experiment, Label label, int oldCount) {
+    public Task BlendingTask(Experiment experiment, Label label) {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 //need to fix
                 //int count=oldCount;
-                Material raw=new Material();
-                while(raw!=null) {
-                    raw = experiment.produceRawMaterial();
-                    System.out.println(raw.getAvgQuality());
+                boolean flag=true;
+                while(flag) {
+                    Thread.sleep(10000);
+                    flag = experiment.produceRawMaterial();
+                    System.out.println("1");
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
-                    Thread.sleep(10000);
                     //oldCount+=1;
                     Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                }
+                return null;
+            }
+        };
+        return task;
+    }
+
+    public Task CuttingTask(Experiment experiment){
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                //need to fix
+                //int count=oldCount;
+                boolean flag=true;
+                while(flag) {
+                    Thread.sleep(10000);
+                    flag = experiment.doCutting();
+                    //System.out.println(raw.getAvgQuality());
+                    //final String rawVolume = String.valueOf(raw.getVolume());
+                    //
+                    System.out.println("2");
+                    //oldCount+=1;
+                    //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 }
                 return null;
             }

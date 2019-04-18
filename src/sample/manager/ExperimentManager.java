@@ -2,6 +2,7 @@ package sample.manager;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -53,7 +54,12 @@ public class ExperimentManager {
 
     Label rawVolumeLabel;
 
+
+    ExperimentTask experimentTask;
+
     private List<Timeline> timelineList;
+
+    private List<Task> taskList=new ArrayList<>();
 
     public Experiment getNewExperiment() {
         return newExperiment;
@@ -137,9 +143,12 @@ public class ExperimentManager {
         else{
             newExperiment = new Experiment(materialIntegerMap);
         }
-        ExperimentTask experimentTask=new ExperimentTask();
-        Thread thread=new Thread(experimentTask.FirstStageTask(newExperiment, rawVolumeLabel,0));
+        experimentTask=new ExperimentTask();
+        Task t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
+        taskList.add(t);
+        Thread thread=new Thread(t);
         thread.start();
+
 
         //System.out.println(thread.getName());
         //newExperiment.produceRawMaterial();
@@ -188,7 +197,12 @@ public class ExperimentManager {
         timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 400,150);
         timelineList.add(timeline);
         //
-        newExperiment.doCutting(0.9);
+        //newExperiment.doCutting();
+
+        Task t2=experimentTask.CuttingTask(newExperiment);
+        taskList.add(t2);
+        Thread thread1=new Thread(t2);
+        thread1.start();
         //
 
 
@@ -253,10 +267,21 @@ public class ExperimentManager {
             for (Timeline timeline:timelineList) {
                 timeline.pause();
             }
+            //pause();
+            for (Task t: taskList){
+                t.cancel();
+            }
         }
         else {
             for (Timeline timeline:timelineList) {
                 timeline.play();
+            }
+            //experimentTask.resume();
+            for (Task t: taskList){
+                //t.cancel(false);
+                t.run();
+                //Thread th=new Thread(t);
+                //th.run();
             }
         }
     }
@@ -268,36 +293,4 @@ public class ExperimentManager {
         alert.setHeaderText("Не были выбраны материалы");
         alert.showAndWait();
     }
-
-    //////////TEST THREADS
-
-
-
-    public void startMyPlayer() {
-        System.out.println("PLAYING NOW...");
-        animationThread.start();
-    }
-
-    public void pauseMyPlayer() {
-        System.out.println("PAUSED NOW...");
-        synchronized (animationThread) {
-            try {
-                animationThread.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void resumeMyPlayer() {
-        System.out.println("RESUMING NOW...");
-        synchronized (animationThread) {
-            animationThread.notify();
-        }
-    }
-
-    public void setRawVolumeLabel(String text){
-
-    }
-
 }
