@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.Experiment;
@@ -119,11 +119,13 @@ public class ExperimentManager {
         if (materialIntegerMap !=null){
             //GRAPHICS
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
-            int pos=0;
+            int pos=70;
             for (Material i: materialIntegerMap.keySet()) {
-                timeline=AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
-                timelineList.add(timeline);
+                //timeline=AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
+                //timelineList.add(timeline);
                 iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
+                experimentPane.getChildren().add(iv);
+                iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),130,60,60, pos);
                 experimentPane.getChildren().add(iv);
                 //gc.strokeText(Material.toString(i.getVolume()),30,110+pos);
                 pos+=120;
@@ -150,6 +152,22 @@ public class ExperimentManager {
         thread.start();
 
 
+
+
+        //BRIGADES
+        iv=setImageViewProperties(new Image("/sample/image/brigade.png"),70,70,0,300);
+        Label brigadeLabel=new Label();
+        brigadeLabel.setTranslateX(80);
+        brigadeLabel.setTranslateY(330);
+        brigadeLabel.setVisible(true);
+        brigadeLabel.setText(""+newExperiment.getBrigades().size());
+        brigadeLabel.setFont(Font.font("Cambria", 32));
+        experimentPane.getChildren().add(iv);
+        experimentPane.getChildren().add(brigadeLabel);
+        //
+
+
+
         //System.out.println(thread.getName());
         //newExperiment.produceRawMaterial();
         //NEED TO SLEEP THREAD AFTER PRODUCING TO MODEL REAL PRODUCING
@@ -163,7 +181,7 @@ public class ExperimentManager {
         //rawVolumeLabel.setLabelFor(iv);
         rawVolumeLabel.setText("0");
         rawVolumeLabel.setVisible(true);
-        rawVolumeLabel.setTranslateX(260);
+        rawVolumeLabel.setTranslateX(240);
         rawVolumeLabel.setTranslateY(270);
         experimentPane.getChildren().add(rawVolumeLabel);
         ///
@@ -173,12 +191,12 @@ public class ExperimentManager {
         //BLENDING
         if (newExperiment.getRawList()!=null){
             //GRAPHICS
-            timeline=AnimationFunctions.doBlendingStageProgress(experimentPane,220,250, 100);
+            timeline=AnimationFunctions.doBlendingStageProgress(experimentPane,200,250, 100);
             timelineList.add(timeline);
 
             image=newExperiment.findImageByMaterialName("Blending");
 
-            iv=setImageViewProperties(image,150,200,experimentPane.getWidth()/4,experimentPane.getHeight()/7);
+            iv=setImageViewProperties(image,150,200,180,experimentPane.getHeight()/7);
             experimentPane.getChildren().add(iv);
             //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
@@ -188,13 +206,17 @@ public class ExperimentManager {
 
 
         //RAW TO CUT
-        timeline=AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
-        timelineList.add(timeline);
+        //timeline=AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
+        //timelineList.add(timeline);
+
+        iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),110,60,310, 160);
+        experimentPane.getChildren().add(iv);
+
         //CUTTING
         image=newExperiment.findImageByMaterialName("Cutting");
         //iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
-        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 400,150);
+        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 430,150);
         timelineList.add(timeline);
         //
         //newExperiment.doCutting();
@@ -212,7 +234,21 @@ public class ExperimentManager {
         timeline=AnimationFunctions.doDryingAnimation(experimentPane,500,100);
         timelineList.add(timeline);
         //
+        Task t3=experimentTask.DryingTask(newExperiment);
+        taskList.add(t3);
+        Thread thread2=new Thread(t3);
+        thread2.start();
 
+
+        //BURNING
+        //SOME ANIMATION
+        //
+
+        //TASK
+        Task t4=experimentTask.BurningTask(newExperiment);
+        taskList.add(t4);
+        Thread thread3=new Thread(t4);
+        thread3.start();
 
 
         return 0;

@@ -113,6 +113,7 @@ public class AnimationFunctions {
         //ap.getChildren().add(rect);
     }
 
+
     public static Timeline doDryingAnimation(AnchorPane ap, double x1, double y1){
         ImageView dryingImageView=new ImageView();
         dryingImageView.setX(x1);
