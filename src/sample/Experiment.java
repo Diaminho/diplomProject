@@ -14,6 +14,7 @@ public class Experiment {
     private List<Material> dryRawList=new ArrayList<>();
     private List<Material> cuttedRawList=new ArrayList<>();
     private List<Brick> brickList=new ArrayList<>();
+    private Integer counter=0;
 
     private Map<String, Double> defects;
     private List<Double> brigades;
@@ -21,6 +22,7 @@ public class Experiment {
 
     private Map<Image, Double> stages;
     private Map<String, Image> stagesNames;
+    private List<Integer> countList=new ArrayList<>();
 
     private List<Double> defaultMaterialsQuality=new ArrayList<>();
 
@@ -109,6 +111,12 @@ public class Experiment {
         stagesNames.put("Burning",new Image("/sample/image/stage/burning.png"));
         //raw.setVolume(0);
 
+        int ii=0;
+        while (ii<stagesNames.size()){
+            countList.add(0);
+            ii++;
+        }
+
         //fill default stageQuality
         stageQuality=new ArrayList<>();
         for (int i=0;i<stagesNames.size();i++) {
@@ -150,6 +158,7 @@ public class Experiment {
                         materialMap.replace((Material) o, materialMap.get(o) - neededMaterials.get(o1));
                     } else {
                         System.out.println("Нехватка материала: " + ((Material) o).getName());
+                        countList.set(0, countList.get(0)+1);
                         return false;
                     }
                 }
@@ -175,8 +184,9 @@ public class Experiment {
     public boolean doCutting(){
         //Material cuttedRaw =new Material("Нарезанный сырец");
         List<Double> rawQuality=new ArrayList<>();
+        int countCutting=countList.get(1);
 
-        rawList.subList(0,100).forEach(material -> {
+        rawList.subList(100*countCutting,100*(countCutting+1)).forEach(material -> {
             Random random=new Random();
             Double avg=stageQuality.get(0);
             Double quality=(material.getAvgQuality()) ? random.nextDouble()*avg: random.nextDouble()*(1-avg);
@@ -188,6 +198,7 @@ public class Experiment {
             return false;
         } else {
             generateQualityForMaterial(cuttedRawList, "Нарезанный сырец", avgQuality, rawQuality);
+            countList.set(1,++countCutting);
             return true;
         }
         //return cuttedRaw;
@@ -197,8 +208,9 @@ public class Experiment {
     public boolean doDrying(){
         Double avgQuality=stageQuality.get(2);
         List<Double> cuttedQuality=new ArrayList<>();
+        int counterDrying=countList.get(2);
         if (cuttedRawList.size()>=100) {
-            cuttedRawList.subList(0, 100).forEach(material -> {
+            cuttedRawList.subList(100*counterDrying, 100*(counterDrying+1)).forEach(material -> {
                 Random random = new Random();
                 Double avg = stageQuality.get(1);
                 Double quality = (material.getAvgQuality()) ? random.nextDouble() * avg : random.nextDouble() * (1 - avg);
@@ -206,6 +218,7 @@ public class Experiment {
             });
 
             generateQualityForMaterial(dryRawList, "Высушенный сырец", avgQuality, cuttedQuality);
+            countList.set(2,++counterDrying);
             return true;
         }
         else {
@@ -218,7 +231,8 @@ public class Experiment {
         Double avgQuality=stageQuality.get(3);
         Random random=new Random();
         Boolean quality;
-        for (int i=0;i<100;i++){
+        int counterBrick=countList.get(3);
+        for (int i=100*(counterBrick);i<100*(counterBrick+1);i++){
             Brick brick=new Brick();
             //fill defects for every brick
             brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
@@ -230,6 +244,7 @@ public class Experiment {
             //
             brickList.add(brick);
         }
+        countList.set(3,++counterBrick);
         return true;
     }
 

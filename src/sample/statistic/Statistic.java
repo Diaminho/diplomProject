@@ -16,7 +16,7 @@ public class Statistic {
             defectsCountMap.put(s,0d);
         }
 
-        for (Brick brick:brickList){
+        for (Brick brick:brickList.subList(brickList.size()-100,brickList.size())){
             for (String property:brick.getProperties().keySet()){
                 if (!brick.getProperties().get(property)) {
                     defectsCountMap.replace(property, defectsCountMap.get(property) + 1);
@@ -24,7 +24,7 @@ public class Statistic {
             }
         }
 
-        defectsCountMap.replaceAll((k, v) -> v=v/brickList.size());
+        defectsCountMap.replaceAll((k, v) -> v=v/100);
 
 
         printResult(defectsCountMap);
