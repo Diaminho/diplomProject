@@ -8,20 +8,22 @@ import sample.statistic.Statistic;
 
 public class ExperimentTask {
 
-    public Task BlendingTask(Experiment experiment, Label label) {
-        Task<Void> task = new Task<Void>() {
+    public SuspendableTask BlendingTask(Experiment experiment, Label label) {
+        SuspendableTask task = new SuspendableTask(){
+            boolean flag=true;
             @Override
             protected Void call() throws Exception {
                 //need to fix
                 //int count=oldCount;
-                boolean flag=true;
                 while(flag) {
+                    synchronized (lock) {
+                        while (suspendFlag) {
+                            lock.wait();
+                        }
+                    }
                     Thread.sleep(10000);
                     flag = experiment.produceRawMaterial();
                     System.out.println("Blending");
-                    //final String rawVolume = String.valueOf(raw.getVolume());
-                    //
-                    //oldCount+=1;
                     Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 }
                 return null;
@@ -30,15 +32,20 @@ public class ExperimentTask {
         return task;
     }
 
-    public Task CuttingTask(Experiment experiment){
-        Task<Void> task = new Task<Void>() {
+    public SuspendableTask CuttingTask(Experiment experiment){
+        SuspendableTask task = new SuspendableTask() {
+            boolean flag=true;
             @Override
             protected Void call() throws Exception {
                 //need to fix
                 //int count=oldCount;
-                boolean flag=true;
                 Thread.sleep(1000);
                 while(flag) {
+                    synchronized (lock) {
+                        while (suspendFlag) {
+                            lock.wait();
+                        }
+                    }
                     Thread.sleep(10000);
                     flag = experiment.doCutting();
                     //System.out.println(raw.getAvgQuality());
@@ -54,15 +61,20 @@ public class ExperimentTask {
         return task;
     }
 
-    public Task DryingTask(Experiment experiment){
-        Task<Void> task = new Task<Void>() {
+    public SuspendableTask DryingTask(Experiment experiment){
+        SuspendableTask task = new SuspendableTask() {
+            boolean flag=true;
             @Override
             protected Void call() throws Exception {
                 //need to fix
                 //int count=oldCount;
-                boolean flag=true;
                 Thread.sleep(2000);
                 while(flag) {
+                    synchronized (lock) {
+                        while (suspendFlag) {
+                            lock.wait();
+                        }
+                    }
                     Thread.sleep(10000);
                     flag = experiment.doDrying();
                     //System.out.println(raw.getAvgQuality());
@@ -78,15 +90,20 @@ public class ExperimentTask {
         return task;
     }
 
-    public Task BurningTask(Experiment experiment){
-        Task<Void> task = new Task<Void>() {
+    public SuspendableTask BurningTask(Experiment experiment){
+        SuspendableTask task = new SuspendableTask() {
+            boolean flag=true;
             @Override
             protected Void call() throws Exception {
                 //need to fix
                 //int count=oldCount;
-                boolean flag=true;
                 Thread.sleep(4000);
                 while(flag) {
+                    synchronized (lock) {
+                        while (suspendFlag) {
+                            lock.wait();
+                        }
+                    }
                     Thread.sleep(10000);
                     flag = experiment.doBurning();
                     //System.out.println(raw.getAvgQuality());
