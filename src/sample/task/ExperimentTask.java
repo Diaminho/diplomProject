@@ -17,7 +17,7 @@ public class ExperimentTask {
                 //int count=oldCount;
                 while(flag) {
                     while (suspendFlag) {
-                        wait();
+                            wait();
                     }
                     Thread.sleep(10000);
                     flag = experiment.produceRawMaterial();
@@ -42,7 +42,7 @@ public class ExperimentTask {
                     while (suspendFlag) {
                         wait();
                     }
-                    Thread.sleep(10000);
+                    Thread.sleep(11000);
                     flag = experiment.doCutting();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
@@ -69,7 +69,7 @@ public class ExperimentTask {
                     while (suspendFlag) {
                         wait();
                     }
-                    Thread.sleep(10000);
+                    Thread.sleep(12000);
                     flag = experiment.doDrying();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
@@ -96,7 +96,7 @@ public class ExperimentTask {
                     while (suspendFlag) {
                         wait();
                     }
-                    Thread.sleep(10000);
+                    Thread.sleep(13000);
                     flag = experiment.doBurning();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());

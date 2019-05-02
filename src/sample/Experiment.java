@@ -126,8 +126,8 @@ public class Experiment {
 
         //fill default brigadeQuality
         brigades=new ArrayList<>();
-        brigades.add(0.5);
-        brigades.add(0.5);
+        brigades.add(0.85);
+        brigades.add(0.9);
 
 
         //fill default defects for bricks
@@ -193,8 +193,8 @@ public class Experiment {
             rawQuality.add(quality);
         });
 
-        Double avgQuality=(stageQuality.get(1)+brigades.get(0))/2;
-        if (rawQuality.size()<100) {
+        double avgQuality=(stageQuality.get(1)+brigades.get(0))/2;
+        if (rawQuality.size()<100 *(countCutting+1)) {
             return false;
         } else {
             generateQualityForMaterial(cuttedRawList, "Нарезанный сырец", avgQuality, rawQuality);

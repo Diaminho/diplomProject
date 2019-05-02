@@ -13,6 +13,8 @@ import sample.stage.ChosenMaterialsStage;
 import sample.stage.ScenarioStage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ExperimentController {
@@ -86,11 +88,25 @@ public class ExperimentController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         try {
             new ScenarioController(new Stage());
         } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void onControlChartButton() {
+        List<Boolean> qualityList = new ArrayList<>();
+        synchronized (experimentManager.getNewExperiment()) {
+            for (Material m : experimentManager.getNewExperiment().getRawList()) {
+                qualityList.add(m.getAvgQuality());
+            }
+        }
+        try {
+            new ControlChartController(primaryStage, qualityList);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

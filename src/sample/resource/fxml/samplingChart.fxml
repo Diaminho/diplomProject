@@ -20,7 +20,7 @@
       <RowConstraints maxHeight="250.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <LineChart fx:id="chartId" GridPane.columnSpan="2">
+      <LineChart fx:id="controlChartId" GridPane.columnSpan="2">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>

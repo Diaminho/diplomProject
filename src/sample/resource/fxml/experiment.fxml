@@ -35,5 +35,6 @@
       <AnchorPane fx:id="experimentPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="3" />
       <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPauseButton" text="Пауза" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" onAction="#onScenarioButton" text="Задать сценарий" />
+      <Button mnemonicParsing="false" onAction="#onControlChartButton" text="Контрольная карта" GridPane.rowIndex="1" />
    </children>
 </GridPane>
