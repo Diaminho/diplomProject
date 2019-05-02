@@ -21,7 +21,6 @@ import sample.resource.Material;
 import sample.sampling.SampleGenerator;
 import sample.task.ExperimentTask;
 import sample.task.SuspendableTask;
-import sample.thread.MyThread;
 
 import java.io.IOException;
 import java.util.*;
@@ -54,7 +53,6 @@ public class ExperimentManager {
     private List<Timeline> timelineList;
     private List<SuspendableTask> taskList=new ArrayList<>();
 
-    MyThread myThread;
 
 
     public Experiment getNewExperiment() {
