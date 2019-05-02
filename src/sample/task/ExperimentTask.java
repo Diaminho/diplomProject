@@ -16,10 +16,8 @@ public class ExperimentTask {
                 //need to fix
                 //int count=oldCount;
                 while(flag) {
-                    synchronized (lock) {
-                        while (suspendFlag) {
-                            lock.wait();
-                        }
+                    while (suspendFlag) {
+                        wait();
                     }
                     Thread.sleep(10000);
                     flag = experiment.produceRawMaterial();
@@ -41,10 +39,8 @@ public class ExperimentTask {
                 //int count=oldCount;
                 Thread.sleep(1000);
                 while(flag) {
-                    synchronized (lock) {
-                        while (suspendFlag) {
-                            lock.wait();
-                        }
+                    while (suspendFlag) {
+                        wait();
                     }
                     Thread.sleep(10000);
                     flag = experiment.doCutting();
@@ -70,10 +66,8 @@ public class ExperimentTask {
                 //int count=oldCount;
                 Thread.sleep(2000);
                 while(flag) {
-                    synchronized (lock) {
-                        while (suspendFlag) {
-                            lock.wait();
-                        }
+                    while (suspendFlag) {
+                        wait();
                     }
                     Thread.sleep(10000);
                     flag = experiment.doDrying();
@@ -99,10 +93,8 @@ public class ExperimentTask {
                 //int count=oldCount;
                 Thread.sleep(4000);
                 while(flag) {
-                    synchronized (lock) {
-                        while (suspendFlag) {
-                            lock.wait();
-                        }
+                    while (suspendFlag) {
+                        wait();
                     }
                     Thread.sleep(10000);
                     flag = experiment.doBurning();

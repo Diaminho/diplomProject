@@ -5,8 +5,7 @@ import javafx.concurrent.Task;
 
 public class SuspendableTask extends Task {
     boolean suspendFlag = false;
-
-    final Object lock = new Object();
+    Thread t;
     @Override
     protected Void call() throws Exception {
         return null;
@@ -36,14 +35,19 @@ public class SuspendableTask extends Task {
         this.suspendFlag = suspendFlag;
     }
 
-    public synchronized void suspend() {
+    public void suspend() {
         suspendFlag = true;
     }
 
     public synchronized void resume() {
         suspendFlag = false;
-        synchronized (lock) {
-            lock.notifyAll();
+        notify();
+    }
+
+    public void start () {
+        if (t == null) {
+            t = new Thread (this);
+            t.start ();
         }
     }
 }

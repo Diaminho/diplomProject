@@ -150,8 +150,7 @@ public class ExperimentManager {
         experimentTask=new ExperimentTask();
         SuspendableTask t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
         taskList.add(t);
-        Thread thread=new Thread(t);
-        thread.start();
+        t.start();
 
 
 
@@ -225,11 +224,7 @@ public class ExperimentManager {
 
         SuspendableTask t2=experimentTask.CuttingTask(newExperiment);
         taskList.add(t2);
-        Thread thread1=new Thread(t2);
-        thread1.start();
-        //
-
-
+        t2.start();
 
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
@@ -238,9 +233,7 @@ public class ExperimentManager {
         //
         SuspendableTask t3=experimentTask.DryingTask(newExperiment);
         taskList.add(t3);
-        Thread thread2=new Thread(t3);
-        thread2.start();
-
+        t3.start();
 
         //BURNING
         //SOME ANIMATION
@@ -249,8 +242,7 @@ public class ExperimentManager {
         //TASK
         SuspendableTask t4=experimentTask.BurningTask(newExperiment);
         taskList.add(t4);
-        Thread thread3=new Thread(t4);
-        thread3.start();
+        t4.start();
 
 
         return 0;
