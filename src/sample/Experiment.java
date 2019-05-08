@@ -195,6 +195,7 @@ public class Experiment {
 
         Double avgQuality=(stageQuality.get(1)+brigades.get(0))/2;
         if (rawQuality.size()<100) {
+            System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
             return false;
         } else {
             generateQualityForMaterial(cuttedRawList, "Нарезанный сырец", avgQuality, rawQuality);
@@ -222,6 +223,7 @@ public class Experiment {
             return true;
         }
         else {
+            System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
             return false;
         }
     }
