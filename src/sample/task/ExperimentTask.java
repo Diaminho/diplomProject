@@ -1,115 +1,133 @@
 package sample.task;
 
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import sample.Experiment;
 import sample.statistic.Statistic;
 
+import java.util.concurrent.*;
+
 public class ExperimentTask {
 
-    public SuspendableTask BlendingTask(Experiment experiment, Label label) {
-        SuspendableTask task = new SuspendableTask(){
-            boolean flag=true;
-            @Override
-            protected Void call() throws Exception {
-                //need to fix
-                //int count=oldCount;
-                while(flag) {
-                    while (suspendFlag) {
-                            wait();
-                    }
-                    Thread.sleep(10000);
-                    flag = experiment.produceRawMaterial();
-                    System.out.println("Blending");
-                    Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
-                }
-                return null;
-            }
-        };
-        return task;
+    private PausableScheduledThreadPoolExecutor executor = new PausableScheduledThreadPoolExecutor(4);
+
+    public PausableScheduledThreadPoolExecutor getExecutor() {
+        return executor;
     }
 
-    public SuspendableTask CuttingTask(Experiment experiment){
-        SuspendableTask task = new SuspendableTask() {
-            boolean flag=true;
+    public void addSuspendableTask(Runnable task, int delay, int period) {
+        executor.scheduleWithFixedDelay(task, delay, period, TimeUnit.SECONDS);
+    }
+
+    public Runnable BlendingTask(Experiment experiment, Label label) {
+         return new Runnable() {
+            private int counter = 0;
+            private boolean flag = true;
+
             @Override
-            protected Void call() throws Exception {
+            public void run() {
                 //need to fix
                 //int count=oldCount;
-                Thread.sleep(1000);
-                while(flag) {
-                    while (suspendFlag) {
-                        wait();
-                    }
-                    Thread.sleep(11000);
+                //while(flag) {
+                    //while (suspendFlag) {
+                    //    wait();
+                    //}
+                    //Thread.sleep(10000);
+
+                if (flag) {
+                    flag = experiment.produceRawMaterial();
+                    System.out.println("Blending count: " + counter++ + " Thread: " + Thread.currentThread().getName());
+                    Platform.runLater(() -> label.setText("" + experiment.getRawList().size()));
+                    //}
+                }
+            }
+        };
+    }
+
+    public Runnable CuttingTask(Experiment experiment){
+        return new Runnable() {
+            private int counter = 0;
+            private boolean flag = true;
+
+            @Override
+            public void run() {
+                //need to fix
+                //int count=oldCount;
+                //Thread.sleep(1000);
+                //while(flag) {
+                    //while (suspendFlag) {
+                    //    wait();
+                    //}
+                    //Thread.sleep(10000);
+                if (flag) {
                     flag = experiment.doCutting();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
-                    System.out.println("Cutting");
+                    System.out.println("Cutting " + counter++ + " Thread: " + Thread.currentThread().getName());
                     //oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 }
-                return null;
             }
         };
-        return task;
     }
 
-    public SuspendableTask DryingTask(Experiment experiment){
-        SuspendableTask task = new SuspendableTask() {
-            boolean flag=true;
+    public Runnable DryingTask(Experiment experiment){
+        return new Runnable() {
+            private int counter = 0;
+            private boolean flag = true;
+
             @Override
-            protected Void call() throws Exception {
+            public void run() {
                 //need to fix
                 //int count=oldCount;
-                Thread.sleep(2000);
-                while(flag) {
-                    while (suspendFlag) {
-                        wait();
-                    }
-                    Thread.sleep(12000);
+                //Thread.sleep(1000);
+                //while(flag) {
+                //while (suspendFlag) {
+                //    wait();
+                //}
+                //Thread.sleep(10000);
+                if (flag) {
                     flag = experiment.doDrying();
-                    //System.out.println(raw.getAvgQuality());
-                    //final String rawVolume = String.valueOf(raw.getVolume());
-                    //
-                    System.out.println("Drying");
-                    //oldCount+=1;
-                    //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                //System.out.println(raw.getAvgQuality());
+                //final String rawVolume = String.valueOf(raw.getVolume());
+                //
+                    System.out.println("Drying " + counter++ + " Thread: " + Thread.currentThread().getName());
+                //oldCount+=1;
+                //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                //}
                 }
-                return null;
             }
         };
-        return task;
     }
 
-    public SuspendableTask BurningTask(Experiment experiment){
-        SuspendableTask task = new SuspendableTask() {
-            boolean flag=true;
+    public Runnable BurningTask(Experiment experiment){
+        return new Runnable() {
+            private int counter = 0;
+            private boolean flag = true;
+
             @Override
-            protected Void call() throws Exception {
+            public void run() {
                 //need to fix
                 //int count=oldCount;
-                Thread.sleep(4000);
-                while(flag) {
-                    while (suspendFlag) {
-                        wait();
-                    }
-                    Thread.sleep(13000);
+                //Thread.sleep(1000);
+                //while(flag) {
+                //while (suspendFlag) {
+                //    wait();
+                //}
+                //Thread.sleep(10000);
+                if (flag) {
                     flag = experiment.doBurning();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
-                    System.out.println("Burning");
+                    System.out.println("Burning " + counter++ + " Thread: " + Thread.currentThread().getName());
                     Statistic.printBrickStat(experiment.getBrickList());
-                    //System.out.println(experiment.ge);
                     //oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                    //}
                 }
-                return null;
             }
         };
-        return task;
     }
 }
