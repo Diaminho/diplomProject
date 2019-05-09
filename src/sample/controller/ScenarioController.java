@@ -44,6 +44,21 @@ public class ScenarioController {
         primaryStage.close();
     }
 
+    @FXML
+    public void onSetMaterialButton() {
+        scenarioManager.onSetMaterialButton();
+    }
+
+    @FXML
+    public void onSetBrigadeButton() {
+        scenarioManager.onSetBrigadeButton();
+    }
+
+    @FXML
+    public void onSetBrigadeCountButton() {
+        scenarioManager.onSetBrigadeCountButton();
+    }
+
     public static ScenarioManager getScenarioManager() {
         return scenarioManager;
     }

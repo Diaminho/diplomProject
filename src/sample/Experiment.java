@@ -26,6 +26,14 @@ public class Experiment {
 
     private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
 
+    public Map<Material, Double> getDefaultMaterialsQuality() {
+        return defaultMaterialsQuality;
+    }
+
+    public void setDefaultMaterialsQuality(Map<Material, Double> defaultMaterialsQuality) {
+        this.defaultMaterialsQuality = defaultMaterialsQuality;
+    }
+
     public List<Double> getStageQuality() {
         return stageQuality;
     }
@@ -132,6 +140,10 @@ public class Experiment {
 
         //fill default defects for bricks
         defects=new HashMap<>();
+
+        /*for (Material m: materialMap.keySet()) {
+            defaultMaterialsQuality.put(m, 0.9);
+        }*/
     }
 
     public void fillNeededMaterials(){
@@ -266,7 +278,6 @@ public class Experiment {
             rawList.add(raw);
         }
     }
-
 };
 
 

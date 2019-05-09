@@ -49,14 +49,14 @@
                                     </Text>
                                     <TextField fx:id="materialsQualityId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
                                     <Button mnemonicParsing="false" onAction="#onSaveButton" text="Сохранить" GridPane.rowIndex="4" />
-                                    <ChoiceBox fx:id="materialsChoiceBoxId" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <ChoiceBox fx:id="materialsChoiceBoxId" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                     <Label alignment="TOP_CENTER" text="Материалы" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Качество" wrappingWidth="64.7841796875" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                         <GridPane.margin>
                                             <Insets left="15.0" />
                                         </GridPane.margin>
                                     </Text>
-                                    <Button mnemonicParsing="false" text="Задать" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                    <Button mnemonicParsing="false" onAction="#onSetMaterialButton" text="Задать" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                 </children>
                             </GridPane>
                         <GridPane>
@@ -73,9 +73,9 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <ChoiceBox fx:id="brigadesChoiceBoxId" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                              <TextField fx:id="brigadesCountId" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" text="Задать" GridPane.rowIndex="4">
+                              <ChoiceBox fx:id="brigadesChoiceBoxId" maxHeight="-Infinity" maxWidth="-Infinity" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <TextField fx:id="brigadesCountId" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="50.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" onAction="#onSetBrigadeButton" text="Задать" GridPane.rowIndex="4">
                                  <GridPane.margin>
                                     <Insets left="15.0" />
                                  </GridPane.margin>
@@ -87,7 +87,7 @@
                                  </GridPane.margin>
                               </Text>
                               <Label alignment="TOP_CENTER" text="Бригады" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
-                              <Button mnemonicParsing="false" onAction="#onCancelButton" text="Отмена" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Button mnemonicParsing="false" onAction="#onCancelButton" text="Закрыть" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Выбор бригады" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets left="15.0" />
@@ -98,6 +98,7 @@
                                     <Insets left="15.0" />
                                  </GridPane.margin>
                               </Text>
+                              <Button mnemonicParsing="false" onAction="#onSetBrigadeCountButton" text="Создать" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                     </items>
