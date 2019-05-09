@@ -4,23 +4,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import sample.Experiment;
 import sample.manager.ScenarioManager;
+import sample.resource.Material;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ScenarioController {
     public static Stage primaryStage;
     public static ScenarioManager scenarioManager;
     private static Parent root;
 
+
     public ScenarioController() {}
 
-    public ScenarioController(Stage primaryStage) throws IOException {
+
+
+    public ScenarioController(Stage primaryStage, List<Material> materialsList) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/scenario.fxml"));
-        ScenarioController.primaryStage=primaryStage;
+        ScenarioController.primaryStage = primaryStage;
         primaryStage.setTitle("Редактор сценария");
-        ScenarioController.scenarioManager = new ScenarioManager(root);
+        ScenarioController.scenarioManager = new ScenarioManager(root, materialsList);
         primaryStage.setScene(new Scene(root));
         //primaryStage.show();
     }

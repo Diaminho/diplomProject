@@ -86,16 +86,17 @@ public class ExperimentController {
     public void onScenarioButton(){
         ScenarioStage sStage=new ScenarioStage();
         try {
-            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage));
+            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage, new ArrayList<Material>(experimentManager.getMaterialQualityMap().keySet())));
             experimentManager.setNewExperiment(experiment);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
         try {
-            new ScenarioController(new Stage());
+            new ScenarioController();
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 

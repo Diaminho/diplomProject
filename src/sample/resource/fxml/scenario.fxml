@@ -21,9 +21,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="tabPaneId" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controller.ScenarioController">
     <tabs>
-        <Tab text="Настройки">
+        <Tab fx:id="settingsTabId" text="Настройки">
          <content>
             <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="800.0">
               <items>
@@ -47,9 +47,9 @@
                                             <Insets left="15.0" />
                                         </GridPane.margin>
                                     </Text>
-                                    <TextField fx:id="defaultDefectId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+                                    <TextField fx:id="materialsQualityId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
                                     <Button mnemonicParsing="false" onAction="#onSaveButton" text="Сохранить" GridPane.rowIndex="4" />
-                                    <ChoiceBox prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <ChoiceBox fx:id="materialsChoiceBoxId" prefWidth="50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                     <Label alignment="TOP_CENTER" text="Материалы" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Качество" wrappingWidth="64.7841796875" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                         <GridPane.margin>

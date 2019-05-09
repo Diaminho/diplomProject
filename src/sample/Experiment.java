@@ -24,7 +24,7 @@ public class Experiment {
     private Map<String, Image> stagesNames;
     private List<Integer> countList=new ArrayList<>();
 
-    private List<Double> defaultMaterialsQuality=new ArrayList<>();
+    private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
 
     public List<Double> getStageQuality() {
         return stageQuality;
@@ -89,7 +89,7 @@ public class Experiment {
     public Experiment(Map materialMap) {
         this.materialMap = new HashMap<>(materialMap);
         materialMap.keySet().forEach(material -> {
-            defaultMaterialsQuality.add(0.9);
+            defaultMaterialsQuality.put((Material) material, 0.9);
         });
         //raw =new ArrayList<>();
         init();
@@ -169,11 +169,13 @@ public class Experiment {
         //need to redo
         //
         //
-        Double rawQuality=stageQuality.get(0);
+        Double rawQuality = stageQuality.get(0);
+        //TODO изменить подсчет качества производимого сырья как сумма (качества материалов по умолчанию) /количество видов)
+        Double matQuality = defaultMaterialsQuality.values().stream().mapToDouble(i->i).sum()  / defaultMaterialsQuality.size();
         //Double matQuality=defaultMaterialsQuality.stream().mapToDouble(Double::doubleValue).sum();
         List<Double> avgMaterialQuality=new ArrayList<>();
         for (int i=0;i<100;i++){
-            avgMaterialQuality.add(rawQuality);
+            avgMaterialQuality.add(rawQuality + matQuality);
         }
         ////
         generateQualityForMaterial(rawList,"Сырец", rawQuality, avgMaterialQuality);
