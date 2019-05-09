@@ -2,7 +2,6 @@ package sample.manager;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -20,10 +19,12 @@ import sample.controller.MainController;
 import sample.resource.Material;
 import sample.sampling.SampleGenerator;
 import sample.task.ExperimentTask;
-import sample.task.SuspendableTask;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ExperimentManager {
@@ -51,7 +52,7 @@ public class ExperimentManager {
     Label rawVolumeLabel;
     ExperimentTask experimentTask;
     private List<Timeline> timelineList;
-    private List<SuspendableTask> taskList=new ArrayList<>();
+    private List<Runnable> taskList=new ArrayList<>();
 
 
 
@@ -146,9 +147,10 @@ public class ExperimentManager {
             newExperiment = new Experiment(materialIntegerMap);
         }
         experimentTask=new ExperimentTask();
-        SuspendableTask t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
-        taskList.add(t);
-        t.start();
+        Runnable t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
+        //taskList.add(t);
+        //t.start();
+        experimentTask.addSuspendableTask(t,0, 5);
 
 
 
@@ -220,28 +222,30 @@ public class ExperimentManager {
         //
         //newExperiment.doCutting();
 
-        SuspendableTask t2=experimentTask.CuttingTask(newExperiment);
-        taskList.add(t2);
-        t2.start();
+        Runnable t2=experimentTask.CuttingTask(newExperiment);
+        //taskList.add(t2);
+        //t2.start();
+        experimentTask.addSuspendableTask(t2,1, 6);
 
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
         timeline=AnimationFunctions.doDryingAnimation(experimentPane,500,100);
         timelineList.add(timeline);
         //
-        SuspendableTask t3=experimentTask.DryingTask(newExperiment);
+        Runnable t3=experimentTask.DryingTask(newExperiment);
         taskList.add(t3);
-        t3.start();
+        //t3.start();
+        experimentTask.addSuspendableTask(t3,2, 7);
 
         //BURNING
         //SOME ANIMATION
         //
 
         //TASK
-        SuspendableTask t4=experimentTask.BurningTask(newExperiment);
-        taskList.add(t4);
-        t4.start();
-
+        Runnable t4=experimentTask.BurningTask(newExperiment);
+        //taskList.add(t4);
+        //t4.start();
+        experimentTask.addSuspendableTask(t4,3, 8);
 
         return 0;
     }
@@ -296,25 +300,29 @@ public class ExperimentManager {
                 timeline.pause();
             }
             //pause();
-            for (SuspendableTask t: taskList){
-                if (!t.isSuspendFlag()) {
-                    t.suspend();
-                }
+            for (Runnable t: taskList){
+                //if (!t.isSuspendFlag()) {
+                    //t.suspend();
+                //}
             }
+            //TRY EXECUTOR
+            experimentTask.getExecutor().pause();
         }
         else {
             for (Timeline timeline:timelineList) {
                 timeline.play();
             }
             //experimentTask.resume();
-            for (SuspendableTask t: taskList){
+            for (Runnable t: taskList){
                 //t.cancel(false);
-                if (t.isSuspendFlag()) {
-                    t.resume();
-                }
+                //if (t.isSuspendFlag()) {
+                //    t.resume();
+                //}
                 //Thread th=new Thread(t);
                 //th.run();
             }
+            //TRY EXECUTOR
+            experimentTask.getExecutor().resume();
 
         }
     }
