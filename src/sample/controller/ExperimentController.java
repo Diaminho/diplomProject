@@ -29,6 +29,9 @@ public class ExperimentController {
         return experimentManager;
     }
 
+    private ControlChartController controlChartController;
+
+
     public ExperimentController(Stage primaryStage) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/experiment.fxml"));
         ExperimentController.primaryStage=primaryStage;
@@ -105,7 +108,7 @@ public class ExperimentController {
             }
         }
         try {
-            new ControlChartController(primaryStage, qualityList);
+            controlChartController = new ControlChartController(new Stage(), qualityList);
         } catch (IOException e) {
             e.printStackTrace();
         }

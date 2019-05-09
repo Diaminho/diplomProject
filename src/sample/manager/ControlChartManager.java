@@ -47,10 +47,8 @@ public class ControlChartManager {
     }
 
     public void onBuildButton(){
-        NumberAxis x = new NumberAxis();
-        NumberAxis y = new NumberAxis();
+        controlChartId.getData().clear();
 
-        //avalancheChartID;
         controlChartId.setTitle("Оперативная характеристика");
         controlChartId.setLegendVisible(false);
         controlChartId.getStylesheets().add(Main.class.getResource("/sample/css/samplingChart.css").toExternalForm());
@@ -84,5 +82,15 @@ public class ControlChartManager {
         controlChartId.setVisible(true);
     }
 
+    public void updateChart(){
+        while (true) {
+            onBuildButton();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 
