@@ -62,4 +62,26 @@ public class ScenarioController {
     public static ScenarioManager getScenarioManager() {
         return scenarioManager;
     }
+
+
+    //Tab Stages
+    @FXML
+    public void onSaveBlendingButton() {
+        scenarioManager.onSaveBlendingButton();
+    }
+
+    @FXML
+    public void onSaveCuttingButton() {
+        scenarioManager.onSaveCuttingButton();
+    }
+
+    @FXML
+    public void onSaveDryingButton() {
+        scenarioManager.onSaveDryingButton();
+    }
+
+    @FXML
+    public void onSaveBurningButton() {
+        scenarioManager.onSaveBurningButton();
+    }
 }

@@ -31,6 +31,20 @@ public class ScenarioManager {
     ChoiceBox<Integer> brigadesChoiceBoxId;
     TextField brigadesQualityId;
 
+    //Tab Этапы
+    //Смешивание
+    Tab stagesTabId;
+    TextField blendingQuantityId;
+    ChoiceBox<Integer> blendingChoiceBoxId;
+    TextField blendingQualityId;
+    //Формовка
+    TextField cuttingQualityId;
+    //Сушка
+    TextField dryingQualityId;
+    //Обжиг
+    TextField burningQualityId;
+
+
     private Experiment experiment;
 
 
@@ -55,7 +69,9 @@ public class ScenarioManager {
         }
 
         settingsTabId = ((TabPane) root).getTabs().get(0);
+        stagesTabId = ((TabPane) root).getTabs().get(1);
 
+        //Настройки
         GridPane gridPaneMaterials = (GridPane) (((SplitPane) ((SplitPane)settingsTabId.getContent()).getItems().get(0)).getItems().get(0) );
         materialsQualityId = (TextField) gridPaneMaterials.lookup("#materialsQualityId");
         materialsChoiceBoxId = (ChoiceBox<String>)  gridPaneMaterials.lookup("#materialsChoiceBoxId");
@@ -66,6 +82,25 @@ public class ScenarioManager {
         brigadesChoiceBoxId = (ChoiceBox<Integer>) gridPaneBrigades.lookup("#brigadesChoiceBoxId");
         brigadesQualityId = (TextField) gridPaneBrigades.lookup("#brigadesQualityId");
         fillSettingsBrigades();
+
+        //Этапы
+        GridPane gridPaneBlending = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(0));
+        blendingQuantityId = (TextField) gridPaneBlending.lookup("#blendingQuantityId");
+        blendingChoiceBoxId = (ChoiceBox<Integer>) gridPaneBlending.lookup("#blendingChoiceBoxId");
+        blendingQualityId = (TextField) gridPaneBlending.lookup("#blendingQualityId");
+        fillBlending();
+
+        GridPane gridPaneCutting = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(1));
+        cuttingQualityId = (TextField) gridPaneCutting.lookup("#cuttingQualityId");
+        fillCutting();
+
+        GridPane gridPaneDrying = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(2));
+        dryingQualityId = (TextField) gridPaneDrying.lookup("#dryingQualityId");
+        fillDrying();
+
+        GridPane gridPaneBurning = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(3));
+        burningQualityId = (TextField) gridPaneBurning.lookup("#burningQualityId");
+        fillBurning();
     }
 
     private void fillSettingsMaterials() {
@@ -109,6 +144,42 @@ public class ScenarioManager {
         brigadesChoiceBoxId.getSelectionModel().selectedItemProperty().addListener(changeListener);
     }
 
+    //Stages
+    private void fillBlending() {
+        blendingQualityId.setText("-");
+        //TODO add parallel blending
+        blendingQuantityId.setText("1");
+        List<Double> blendingList = new ArrayList<>();
+        blendingList.add(experiment.getStageQuality().get(0));
+        //for (int i = 0; i < ; i++) {
+            blendingChoiceBoxId.getItems().add(1);
+        //}
+        ChangeListener<Integer> changeListener = new ChangeListener<Integer>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, //
+                                Integer  oldValue, Integer newValue) {
+                if (newValue != null) {
+                    blendingQualityId.setText(""+blendingList.get(newValue-1));
+                }
+            }
+        };
+        blendingChoiceBoxId.getSelectionModel().selectedItemProperty().addListener(changeListener);
+    }
+
+    private void fillCutting() {
+        cuttingQualityId.setText("" + experiment.getStageQuality().get(1));
+    }
+
+    private void fillDrying() {
+        dryingQualityId.setText("" + experiment.getStageQuality().get(2));
+    }
+
+    private void fillBurning() {
+        burningQualityId.setText("" + experiment.getStageQuality().get(3));
+    }
+
+
     public void onSaveButton(){
         List<Double> qualityList=experiment.getStageQuality();
         //qualityList.replaceAll(x -> Double.parseDouble(defaultDefectId.getText()));
@@ -137,11 +208,27 @@ public class ScenarioManager {
     }
 
     public void onSetBrigadeCountButton() {
-
+        experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
     }
 
     public void onCancelButton(){
 
     }
 
+    //Stages
+    public void onSaveBlendingButton() {
+        experiment.getStageQuality().set(0, Double.parseDouble(blendingQualityId.getText()));
+    }
+
+    public void onSaveCuttingButton() {
+        experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
+    }
+
+    public void onSaveDryingButton() {
+        experiment.getStageQuality().set(2, Double.parseDouble(dryingQualityId.getText()));
+    }
+
+    public void onSaveBurningButton() {
+        experiment.getStageQuality().set(3, Double.parseDouble(burningQualityId.getText()));
+    }
 }
