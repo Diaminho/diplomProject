@@ -25,6 +25,33 @@ public class Experiment {
     private List<Integer> countList=new ArrayList<>();
 
     private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
+    private List<Integer> scenarioStagesList = new ArrayList<>();
+    private List<Integer> scenarioBrigadesList = new ArrayList<>();
+
+
+    public Map<Material, Integer> getNeededMaterials() {
+        return neededMaterials;
+    }
+
+    public void setNeededMaterials(Map<Material, Integer> neededMaterials) {
+        this.neededMaterials = neededMaterials;
+    }
+
+    public List<Integer> getScenarioBrigadesList() {
+        return scenarioBrigadesList;
+    }
+
+    public void setScenarioBrigadesList(List<Integer> scenarioBrigadesList) {
+        this.scenarioBrigadesList = scenarioBrigadesList;
+    }
+
+    public List<Integer> getScenarioStagesList() {
+        return scenarioStagesList;
+    }
+
+    public void setScenarioStagesList(List<Integer> scenarioStagesList) {
+        this.scenarioStagesList = scenarioStagesList;
+    }
 
     public Map<Material, Double> getDefaultMaterialsQuality() {
         return defaultMaterialsQuality;
@@ -137,6 +164,9 @@ public class Experiment {
         brigades.add(0.5);
         brigades.add(0.5);
 
+        scenarioBrigadesList.add(-1);
+        scenarioBrigadesList.add(-1);
+
 
         //fill default defects for bricks
         defects=new HashMap<>();
@@ -144,6 +174,11 @@ public class Experiment {
         /*for (Material m: materialMap.keySet()) {
             defaultMaterialsQuality.put(m, 0.9);
         }*/
+
+        scenarioStagesList.add(-1);
+        scenarioStagesList.add(-1);
+        scenarioStagesList.add(-1);
+        scenarioStagesList.add(-1);
     }
 
     public void fillNeededMaterials(){
@@ -277,6 +312,15 @@ public class Experiment {
             }
             rawList.add(raw);
         }
+    }
+
+    public Material findMaterialByName(String name, Set<Material> materialSet) {
+        for (Material m: materialSet) {
+            if (m.getName().compareTo(name) == 0) {
+                return m;
+            }
+        }
+        return null;
     }
 };
 

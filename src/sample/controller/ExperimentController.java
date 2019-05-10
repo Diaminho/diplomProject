@@ -25,6 +25,8 @@ public class ExperimentController {
 
     private static Stage primaryStage;
 
+    Map<Material, Integer> chosenMaterials;
+
     public ExperimentManager getExperimentManager() {
         return experimentManager;
     }
@@ -58,7 +60,7 @@ public class ExperimentController {
     public void onChooseMaterialsButton() {
         ChosenMaterialsStage matStage=new ChosenMaterialsStage();
         try {
-            Map<Material, Integer> chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
+            chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
             experimentManager.onChooseMaterialsButton(chosenMaterials);
         } catch (IOException e) {
             e.printStackTrace();
@@ -86,7 +88,7 @@ public class ExperimentController {
     public void onScenarioButton(){
         ScenarioStage sStage=new ScenarioStage();
         try {
-            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage, new ArrayList<Material>(experimentManager.getMaterialQualityMap().keySet())));
+            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage, chosenMaterials));
             experimentManager.setNewExperiment(experiment);
         } catch (IOException e) {
             e.printStackTrace();

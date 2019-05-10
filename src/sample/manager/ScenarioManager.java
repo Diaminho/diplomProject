@@ -2,24 +2,20 @@ package sample.manager;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import sample.Experiment;
 import sample.resource.Material;
 
-import javax.xml.soap.Text;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.rmi.Naming.lookup;
-
 public class ScenarioManager {
     private static Parent root;
-    private List<Material> materialList;
+    private Map<Material, Integer> materialQuantityMap;
 
     //Tab Настройки
     //Materials
@@ -44,9 +40,21 @@ public class ScenarioManager {
     //Обжиг
     TextField burningQualityId;
 
+    //Tab Сценарий
+    Tab scenarioTabId;
+    //Бригады
+    ChoiceBox<Integer> scenarioBrigadeChoiceBoxId;
+    Slider scenarioBrigadeSliderId;
+    TextField scenarioBrigadeCountTurnsId;
+    //Этапы
+    ChoiceBox<String> scenarioStageChoiceBoxId;
+    Slider scenarioStageSliderId;
+    TextField scenarioStageTextFieldId;
 
     private Experiment experiment;
 
+
+    private int maxCountProcessIterations;
 
     public Experiment getExperiment() {
         return experiment;
@@ -56,64 +64,90 @@ public class ScenarioManager {
         this.experiment = experiment;
     }
 
-    public ScenarioManager(Parent root, List<Material> materialList) {
-        ScenarioManager.root=root;
-        this.materialList = new ArrayList<>(materialList);
+    public ScenarioManager(Parent root, Map<Material, Integer> materialQuantityMap) {
+        ScenarioManager.root = root;
+        this.materialQuantityMap = new HashMap<>(materialQuantityMap);
         init();
     }
 
     private void init(){
-        experiment = new Experiment();
-        for (Material m: materialList) {
+        //TODO ADD LOGS IN TEXTAREA and add scenario influence in Experiment
+        experiment = new Experiment(materialQuantityMap);
+        for (Material m: materialQuantityMap.keySet()) {
             experiment.getDefaultMaterialsQuality().put(m, 0.9);
         }
 
-        settingsTabId = ((TabPane) root).getTabs().get(0);
-        stagesTabId = ((TabPane) root).getTabs().get(1);
+        maxCountProcessIterations = -1;
+        Material neededMaterial;
+        for (Material i: experiment.getMaterialMap().keySet()) {
+            if (experiment.getMaterialMap().get(i) > -1) {
+                neededMaterial = experiment.findMaterialByName(i.getName(), experiment.getNeededMaterials().keySet());
+                maxCountProcessIterations = experiment.getMaterialMap().get(i) / experiment.getNeededMaterials().get(neededMaterial);
+            }
+        }
+
+        TabPane tabPane = (TabPane) ((SplitPane) root).getItems().get(0);
+
+        settingsTabId = tabPane.getTabs().get(0);
+        stagesTabId = tabPane.getTabs().get(1);
+        scenarioTabId = tabPane.getTabs().get(2);
 
         //Настройки
-        GridPane gridPaneMaterials = (GridPane) (((SplitPane) ((SplitPane)settingsTabId.getContent()).getItems().get(0)).getItems().get(0) );
+        GridPane gridPaneMaterials = (GridPane) (((SplitPane)settingsTabId.getContent()).getItems().get(0));
         materialsQualityId = (TextField) gridPaneMaterials.lookup("#materialsQualityId");
         materialsChoiceBoxId = (ChoiceBox<String>)  gridPaneMaterials.lookup("#materialsChoiceBoxId");
         fillSettingsMaterials();
 
-        GridPane gridPaneBrigades = (GridPane) (((SplitPane) ((SplitPane)settingsTabId.getContent()).getItems().get(0)).getItems().get(1));
+        GridPane gridPaneBrigades = (GridPane) (((SplitPane)settingsTabId.getContent()).getItems().get(1));
         brigadesCountId = (TextField) gridPaneBrigades.lookup("#brigadesCountId");
         brigadesChoiceBoxId = (ChoiceBox<Integer>) gridPaneBrigades.lookup("#brigadesChoiceBoxId");
         brigadesQualityId = (TextField) gridPaneBrigades.lookup("#brigadesQualityId");
         fillSettingsBrigades();
 
         //Этапы
-        GridPane gridPaneBlending = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(0));
+        GridPane gridPaneBlending = (GridPane) (((SplitPane)stagesTabId.getContent()).getItems().get(0));
         blendingQuantityId = (TextField) gridPaneBlending.lookup("#blendingQuantityId");
         blendingChoiceBoxId = (ChoiceBox<Integer>) gridPaneBlending.lookup("#blendingChoiceBoxId");
         blendingQualityId = (TextField) gridPaneBlending.lookup("#blendingQualityId");
         fillBlending();
 
-        GridPane gridPaneCutting = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(1));
+        GridPane gridPaneCutting = (GridPane) (((SplitPane)stagesTabId.getContent()).getItems().get(1));
         cuttingQualityId = (TextField) gridPaneCutting.lookup("#cuttingQualityId");
         fillCutting();
 
-        GridPane gridPaneDrying = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(2));
+        GridPane gridPaneDrying = (GridPane) (((SplitPane)stagesTabId.getContent()).getItems().get(2));
         dryingQualityId = (TextField) gridPaneDrying.lookup("#dryingQualityId");
         fillDrying();
 
-        GridPane gridPaneBurning = (GridPane) (((SplitPane) ((SplitPane)stagesTabId.getContent()).getItems().get(0)).getItems().get(3));
+        GridPane gridPaneBurning = (GridPane) (((SplitPane)stagesTabId.getContent()).getItems().get(3));
         burningQualityId = (TextField) gridPaneBurning.lookup("#burningQualityId");
         fillBurning();
+
+        //Сценарий
+        GridPane gridPaneScenarioBrigade = (GridPane) (((SplitPane)scenarioTabId.getContent()).getItems().get(0));
+        scenarioBrigadeChoiceBoxId = (ChoiceBox<Integer>) gridPaneScenarioBrigade.lookup("#scenarioBrigadeChoiceBoxId");
+        scenarioBrigadeSliderId = (Slider) gridPaneScenarioBrigade.lookup("#scenarioBrigadeSliderId");
+        scenarioBrigadeCountTurnsId = (TextField) gridPaneScenarioBrigade.lookup("#scenarioBrigadeCountTurnsId");
+        fillScenarioBrigades();
+
+        GridPane gridPaneScenarioStage = (GridPane) (((SplitPane)scenarioTabId.getContent()).getItems().get(1));
+        scenarioStageChoiceBoxId = (ChoiceBox<String>) gridPaneScenarioStage.lookup("#scenarioStageChoiceBoxId");
+        scenarioStageSliderId = (Slider) gridPaneScenarioStage.lookup("#scenarioStageSliderId");
+        scenarioStageTextFieldId = (TextField) gridPaneScenarioStage.lookup("#scenarioStageTextFieldId");
+        fillScenarioStages();
     }
 
     private void fillSettingsMaterials() {
         materialsQualityId.setText("-");
         List<String> materialsNamesList = new ArrayList<>();
-        for (Material m: materialList) {
+        for (Material m: materialQuantityMap.keySet()) {
             materialsNamesList.add(m.getName());
         }
         materialsChoiceBoxId.getItems().addAll(materialsNamesList);
         ChangeListener<String> changeListener = new ChangeListener<String>() {
 
             @Override
-            public void changed(ObservableValue<? extends String> observable, //
+            public void changed(ObservableValue<? extends String> observable,
                                 String  oldValue, String newValue) {
                 if (newValue != null) {
                     Material m = findMaterialByName(newValue);
@@ -179,6 +213,91 @@ public class ScenarioManager {
         burningQualityId.setText("" + experiment.getStageQuality().get(3));
     }
 
+    private void fillScenarioStages() {
+        scenarioStageTextFieldId.setText("-");
+        scenarioStageTextFieldId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Integer.parseInt(newValue) > maxCountProcessIterations) {
+                newValue = "" + maxCountProcessIterations;
+            }
+            scenarioStageSliderId.setValue(Double.parseDouble(newValue));
+        });
+
+
+        List<String> stagesNameList = new ArrayList<>();
+        stagesNameList.add("Смешивание");
+        stagesNameList.add("Формовка");
+        stagesNameList.add("Сушка");
+        stagesNameList.add("Обжиг");
+
+        scenarioStageChoiceBoxId.getItems().addAll(stagesNameList);
+        //ChoiceBox
+        ChangeListener<String> changeListener = new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, //
+                                String  oldValue, String newValue) {
+                if (newValue != null) {
+                    scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)));
+                }
+            }
+        };
+        scenarioStageChoiceBoxId.getSelectionModel().selectedItemProperty().addListener(changeListener);
+
+        scenarioStageSliderId.setMax(maxCountProcessIterations);
+        scenarioStageSliderId.setMin(-1);
+        scenarioStageSliderId.setShowTickLabels(true);
+        scenarioStageSliderId.setShowTickMarks(true);
+        scenarioStageSliderId.valueProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, //
+                                Number oldValue, Number newValue) {
+                scenarioStageTextFieldId.setText("" + newValue.intValue());
+            }
+        });
+
+    }
+
+    private void fillScenarioBrigades() {
+        scenarioBrigadeCountTurnsId.setText("-");
+        scenarioBrigadeCountTurnsId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Integer.parseInt(newValue) > maxCountProcessIterations) {
+                newValue = "" + maxCountProcessIterations;
+            }
+            scenarioBrigadeSliderId.setValue(Integer.parseInt(newValue));
+        });
+
+        List<Integer> brigadesList = new ArrayList<>();
+        for (int i = 0; i < experiment.getBrigades().size(); i++) {
+            brigadesList.add(i + 1);
+        }
+
+        scenarioBrigadeChoiceBoxId.getItems().addAll(brigadesList);
+        //ChoiceBox
+        ChangeListener<Integer> changeListener = new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, //
+                                Integer  oldValue, Integer newValue) {
+                if (newValue != null) {
+                    scenarioBrigadeCountTurnsId.setText("" + experiment.getScenarioBrigadesList().get(newValue - 1));
+                }
+            }
+        };
+        scenarioBrigadeChoiceBoxId.getSelectionModel().selectedItemProperty().addListener(changeListener);
+
+        scenarioBrigadeSliderId.setMax(maxCountProcessIterations);
+        scenarioBrigadeSliderId.setMin(-1);
+        scenarioBrigadeSliderId.setShowTickLabels(true);
+        scenarioBrigadeSliderId.setShowTickMarks(true);
+        scenarioBrigadeSliderId.valueProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, //
+                                Number oldValue, Number newValue) {
+                scenarioBrigadeCountTurnsId.setText("" + newValue.intValue());
+            }
+        });
+    }
+
 
     public void onSaveButton(){
         List<Double> qualityList=experiment.getStageQuality();
@@ -230,5 +349,14 @@ public class ScenarioManager {
 
     public void onSaveBurningButton() {
         experiment.getStageQuality().set(3, Double.parseDouble(burningQualityId.getText()));
+    }
+
+    //Scenario
+    public void onScenarioStageSaveButton() {
+        experiment.getScenarioStagesList().set(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioStageTextFieldId.getText()));
+    }
+
+    public void onScenarioBrigadeSaveButton() {
+        experiment.getScenarioBrigadesList().set(scenarioBrigadeChoiceBoxId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioBrigadeCountTurnsId.getText()));
     }
 }

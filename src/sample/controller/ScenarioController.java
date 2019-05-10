@@ -12,6 +12,7 @@ import sample.resource.Material;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ScenarioController {
     public static Stage primaryStage;
@@ -23,11 +24,11 @@ public class ScenarioController {
 
 
 
-    public ScenarioController(Stage primaryStage, List<Material> materialsList) throws IOException {
+    public ScenarioController(Stage primaryStage, Map<Material, Integer> materialsQuantityMap) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/scenario.fxml"));
         ScenarioController.primaryStage = primaryStage;
         primaryStage.setTitle("Редактор сценария");
-        ScenarioController.scenarioManager = new ScenarioManager(root, materialsList);
+        ScenarioController.scenarioManager = new ScenarioManager(root, materialsQuantityMap);
         primaryStage.setScene(new Scene(root));
         //primaryStage.show();
     }
@@ -83,5 +84,16 @@ public class ScenarioController {
     @FXML
     public void onSaveBurningButton() {
         scenarioManager.onSaveBurningButton();
+    }
+
+    //Tab Scenario
+    @FXML
+    public void onScenarioStageSaveButton() {
+        scenarioManager.onScenarioStageSaveButton();
+    }
+
+    @FXML
+    public void onScenarioBrigadeSaveButton() {
+        scenarioManager.onScenarioBrigadeSaveButton();
     }
 }
