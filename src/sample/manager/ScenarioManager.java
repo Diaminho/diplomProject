@@ -206,7 +206,7 @@ public class ScenarioManager {
         brigadesQualityId.setText("-");
         brigadesCountId.setText("" + experiment.getBrigades().size());
         for (int i = 0; i < experiment.getBrigades().size(); i++) {
-            brigadesChoiceBoxId.getItems().add(i);
+            brigadesChoiceBoxId.getItems().add(i + 1);
         }
         ChangeListener<Integer> changeListener = new ChangeListener<Integer>() {
 

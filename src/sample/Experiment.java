@@ -274,7 +274,7 @@ public class Experiment {
             rawQuality.add(quality);
         });
 
-        Double avgQuality=(stageQuality.get(1) + brigades.get(0)) / 2;
+        Double avgQuality = (stageQuality.get(1) + brigades.get(0)) / 2;
         if (rawQuality.size() < 100) {
             System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
             return false;
@@ -292,7 +292,7 @@ public class Experiment {
         List<Double> cuttedQuality = new ArrayList<>();
         int counterDrying = countList.get(2);
         if (cuttedRawList.size() >= 100) {
-            cuttedRawList.subList(100*counterDrying, 100*(counterDrying+1)).forEach(material -> {
+            cuttedRawList.subList(100 * counterDrying, 100 * (counterDrying+1)).forEach(material -> {
                 Random random = new Random();
                 Double quality = (material.getAvgQuality()) ? acceptableQuality + random.nextDouble() * (1 - acceptableQuality) : random.nextDouble() * acceptableQuality;
                 cuttedQuality.add(quality);
@@ -335,8 +335,8 @@ public class Experiment {
     private void generateQualityForMaterial(List<Material>  rawList, String rawName, double avgQuality, List<Double> qualityList){
         Random rnd=new Random();
         for (int i = 0; i < 100; i++) {
-            Material raw =new Material(rawName);
-            if (rnd.nextDouble() >= (1 - (avgQuality + qualityList.get(i))/2)) {
+            Material raw = new Material(rawName);
+            if (rnd.nextDouble() >= (1 - (avgQuality + qualityList.get(i)) / 2)) {
                 raw.setAvgQuality(true);
             } else {
                 raw.setAvgQuality(false);
