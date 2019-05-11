@@ -284,12 +284,12 @@
       </TabPane>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="800.0">
          <children>
-            <TextArea fx:id="logTextAreaId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="145.0" prefWidth="784.0" GridPane.rowIndex="1">
+            <TextArea fx:id="logTextAreaId" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="795.0" GridPane.rowIndex="1">
                <padding>
                   <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                </padding>
                <GridPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="15.0" top="5.0" />
+                  <Insets />
                </GridPane.margin>
             </TextArea>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Влияние на технологический процесс" textAlignment="CENTER" GridPane.halignment="CENTER" />
@@ -298,8 +298,8 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
-            <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="93.0" minHeight="-Infinity" prefHeight="27.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="143.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
   </items>

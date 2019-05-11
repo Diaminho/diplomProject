@@ -16,6 +16,9 @@ import java.util.Map;
 public class ScenarioManager {
     private static Parent root;
     private Map<Material, Integer> materialQuantityMap;
+    private Map<String, String> logStringsMap;
+
+    TextArea logTextAreaId;
 
     //Tab Настройки
     //Materials
@@ -67,7 +70,48 @@ public class ScenarioManager {
     public ScenarioManager(Parent root, Map<Material, Integer> materialQuantityMap) {
         ScenarioManager.root = root;
         this.materialQuantityMap = new HashMap<>(materialQuantityMap);
+        logStringsMap = new HashMap<>();
         init();
+        initLog();
+    }
+
+    private void constructLogStringDrying() {
+        logStringsMap.put("Сушка", "Показатель надежности оборудования на стадии \"Сушка\": " + 100 * experiment.getStageQuality().get(2) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Сушка").get(0)) + "%");
+    }
+
+    private void constructLogStringCutting() {
+        logStringsMap.put("Формовка", "Показатель надежности оборудования на стадии \"Формовка\": " + 100 * experiment.getStageQuality().get(1) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Формовка").get(0)) + "%");
+    }
+
+    private void constructLogStringBlending() {
+        logStringsMap.put("Смешивание", "Показатель надежности оборудования на стадии \"Смешивание\": " + 100 * experiment.getStageQuality().get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Смешивание").get(0)) + "%");
+    }
+
+    private void constructLogStringBurning() {
+        logStringsMap.put("Обжиг",
+                "Показатель надежности оборудования на стадии \"Обжиг\": "
+                        + 100 * experiment.getStageQuality().get(3) + "%" +
+                        " приведет к вероятности возникновения дефектов: \"Структура\" " +
+                        String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Обжиг").get(3)) + "%" +
+                        ";  \"Цвет\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Обжиг").get(0)) + "%" +
+                        ";  \"Размеры\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Обжиг").get(1)) + "%" +
+                        ";  \"Структура\" " + String.format("%.5f"  , 100 * experiment.getStagesInfluenceMap().get("Обжиг").get(2)) + "%"
+                );
+    }
+
+    private void initLog() {
+        logTextAreaId = (TextArea) (((SplitPane) root).getItems().get(1)).lookup("#logTextAreaId");
+        experiment.calculatInfluenceForStages();
+        constructLogStringBlending();
+        constructLogStringCutting();
+        constructLogStringDrying();
+        constructLogStringBurning();
+
+
+        logTextAreaId.setText("");
+        for (String s: logStringsMap.keySet()) {
+            logTextAreaId.setText(logTextAreaId.getText() + logStringsMap.get(s) + "\n");
+        }
     }
 
     private void init(){
@@ -160,8 +204,7 @@ public class ScenarioManager {
 
     private void fillSettingsBrigades() {
         brigadesQualityId.setText("-");
-        brigadesCountId.setText(""+experiment.getBrigades().size());
-        List<Double> brigadesList = experiment.getBrigades();
+        brigadesCountId.setText("" + experiment.getBrigades().size());
         for (int i = 0; i < experiment.getBrigades().size(); i++) {
             brigadesChoiceBoxId.getItems().add(i);
         }
@@ -171,7 +214,7 @@ public class ScenarioManager {
             public void changed(ObservableValue<? extends Integer> observable, //
                                 Integer  oldValue, Integer newValue) {
                 if (newValue != null) {
-                    brigadesQualityId.setText(""+brigadesList.get(newValue));
+                    brigadesQualityId.setText(""+experiment.getBrigades().get(newValue - 1));
                 }
             }
         };
@@ -207,6 +250,9 @@ public class ScenarioManager {
 
     private void fillDrying() {
         dryingQualityId.setText("" + experiment.getStageQuality().get(2));
+        dryingQualityId.textProperty().addListener(((observableValue, s, t1) -> {
+
+        } ));
     }
 
     private void fillBurning() {
@@ -324,10 +370,18 @@ public class ScenarioManager {
 
     public void onSetBrigadeButton() {
         experiment.getBrigades().set(brigadesChoiceBoxId.getSelectionModel().getSelectedIndex(), Double.parseDouble(brigadesQualityId.getText()));
+        initLog();
     }
 
     public void onSetBrigadeCountButton() {
         experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
+        List<Double> brigades = new ArrayList<>();
+        brigadesChoiceBoxId.getItems().clear();
+        for (int i = 0; i < Integer.parseInt(brigadesCountId.getText()); i++) {
+            brigades.add(0.8);
+            brigadesChoiceBoxId.getItems().add(i + 1);
+        }
+        experiment.setBrigades(brigades);
     }
 
     public void onCancelButton(){
@@ -337,18 +391,22 @@ public class ScenarioManager {
     //Stages
     public void onSaveBlendingButton() {
         experiment.getStageQuality().set(0, Double.parseDouble(blendingQualityId.getText()));
+        initLog();
     }
 
     public void onSaveCuttingButton() {
         experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
+        initLog();
     }
 
     public void onSaveDryingButton() {
         experiment.getStageQuality().set(2, Double.parseDouble(dryingQualityId.getText()));
+        initLog();
     }
 
     public void onSaveBurningButton() {
         experiment.getStageQuality().set(3, Double.parseDouble(burningQualityId.getText()));
+        initLog();
     }
 
     //Scenario
