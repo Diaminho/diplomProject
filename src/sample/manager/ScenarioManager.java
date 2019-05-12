@@ -51,6 +51,7 @@ public class ScenarioManager {
     TextField scenarioBrigadeCountTurnsId;
     //Этапы
     ChoiceBox<String> scenarioStageChoiceBoxId;
+    ChoiceBox<Integer> scenarioStageToolId;
     Slider scenarioStageSliderId;
     TextField scenarioStageTextFieldId;
 
@@ -189,8 +190,10 @@ public class ScenarioManager {
 
         GridPane gridPaneScenarioStage = (GridPane) (((SplitPane)scenarioTabId.getContent()).getItems().get(1));
         scenarioStageChoiceBoxId = (ChoiceBox<String>) gridPaneScenarioStage.lookup("#scenarioStageChoiceBoxId");
+        scenarioStageToolId = (ChoiceBox<Integer>) gridPaneScenarioStage.lookup("#scenarioStageToolId");
         scenarioStageSliderId = (Slider) gridPaneScenarioStage.lookup("#scenarioStageSliderId");
         scenarioStageTextFieldId = (TextField) gridPaneScenarioStage.lookup("#scenarioStageTextFieldId");
+
         fillScenarioStages();
     }
 
@@ -283,6 +286,7 @@ public class ScenarioManager {
                                 String  oldValue, String newValue) {
                 if (newValue != null) {
                     scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)));
+                    //TODO add choose tool for Stage
                 }
             }
         };
