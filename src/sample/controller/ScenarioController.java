@@ -67,6 +67,11 @@ public class ScenarioController {
 
     //Tab Stages
     @FXML
+    public void onOkStageBlendingButton() {
+        scenarioManager.onOkStageBlendingButton();
+    }
+
+    @FXML
     public void onSaveBlendingButton() {
         scenarioManager.onSaveBlendingButton();
     }

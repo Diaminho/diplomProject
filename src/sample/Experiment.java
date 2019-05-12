@@ -16,9 +16,8 @@ public class Experiment {
     private List<Brick> brickList=new ArrayList<>();
     private Integer counter=0;
 
-    private Map<String, Double> defects;
     private List<Double> brigades;
-    private List<Double> stageQuality;
+    private List<List<Double>> stageQuality;
 
     private Map<Image, Double> stages;
     private Map<String, Image> stagesNames;
@@ -72,7 +71,7 @@ public class Experiment {
         this.defaultMaterialsQuality = defaultMaterialsQuality;
     }
 
-    public List<Double> getStageQuality() {
+    public List<List<Double>> getStageQuality() {
         return stageQuality;
     }
 
@@ -84,7 +83,7 @@ public class Experiment {
         this.materialMap = materialMap;
     }
 
-    public void setStageQuality(List<Double> stageQuality) {
+    public void setStageQuality(List<List<Double>> stageQuality) {
         this.stageQuality = stageQuality;
     }
 
@@ -145,22 +144,30 @@ public class Experiment {
 
     public void calculatInfluenceForStages() {
         List<Double> blendingInfluenceList = new ArrayList<>();
-        blendingInfluenceList.add((1 - stageQuality.get(0)) / 2);
+        for (Double d: stageQuality.get(0)) {
+            blendingInfluenceList.add((1 - d) / 2);
+        }
         stagesInfluenceMap.put("Смешивание", blendingInfluenceList);
 
         List<Double> cuttingInfluenceList = new ArrayList<>();
-        cuttingInfluenceList.add((1 - stageQuality.get(1)) / 4);
+        for (Double d: stageQuality.get(1)) {
+            cuttingInfluenceList.add((1 - d) / 4);
+        }
         stagesInfluenceMap.put("Формовка", cuttingInfluenceList);
 
         List<Double> dryingInfluenceList = new ArrayList<>();
-        dryingInfluenceList.add((1 - stageQuality.get(2)) / 2);
+        for (Double d: stageQuality.get(2)) {
+            dryingInfluenceList.add((1 - d) / 2);
+        }
         stagesInfluenceMap.put("Сушка", dryingInfluenceList);
 
         List<Double> brickInfluenceList = new ArrayList<>();
-        brickInfluenceList.add((1 - stageQuality.get(0)) / 2);
-        brickInfluenceList.add((1 - stageQuality.get(1)) / 2);
-        brickInfluenceList.add((1 - stageQuality.get(2)) / 2);
-        brickInfluenceList.add(1 - stageQuality.get(3));
+        for (Double d: stageQuality.get(3)) {
+            brickInfluenceList.add((1 - d) / 2);
+            brickInfluenceList.add((1 - d) / 2);
+            brickInfluenceList.add((1 - d) / 2);
+            brickInfluenceList.add(1 - d);
+        }
         stagesInfluenceMap.put("Обжиг", brickInfluenceList);
     }
 
@@ -186,8 +193,10 @@ public class Experiment {
 
         //fill default stageQuality
         stageQuality=new ArrayList<>();
-        for (int i=0;i<stagesNames.size();i++) {
-            stageQuality.add(0.95);
+        for (int i = 0;i < stagesNames.size(); i++) {
+            List<Double> list = new ArrayList<>();
+            list.add(0.9d);
+            stageQuality.add(list);
         }
         //
 
@@ -200,17 +209,16 @@ public class Experiment {
         scenarioBrigadesList.add(-1);
 
 
-        //fill default defects for bricks
-        defects=new HashMap<>();
-
         /*for (Material m: materialMap.keySet()) {
             defaultMaterialsQuality.put(m, 0.9);
         }*/
 
         calculatInfluenceForStages();
 
-        for (Double d: stageQuality) {
-            scenarioStagesList.add(-1);
+        for (List<Double> listD: stageQuality) {
+            for (Double d: listD) {
+                scenarioStagesList.add(-1);
+            }
             //stagesInfluenceMapadd(0d);
         }
     }
@@ -250,7 +258,8 @@ public class Experiment {
         //need to redo
         //
         //
-        Double rawQuality = stageQuality.get(0);
+        int toolIndex = ((rawList.size() / 100) % stageQuality.get(0).size());
+        Double rawQuality = stageQuality.get(0).get(toolIndex);
         Double matQuality = defaultMaterialsQuality.values().stream().mapToDouble(i->i).sum()  / defaultMaterialsQuality.size();
         //Double matQuality=defaultMaterialsQuality.stream().mapToDouble(Double::doubleValue).sum();
         List<Double> avgMaterialQuality=new ArrayList<>();
@@ -274,7 +283,8 @@ public class Experiment {
             rawQuality.add(quality);
         });
 
-        Double avgQuality = (stageQuality.get(1) + brigades.get(0)) / 2;
+        int brigadeIndex = ((cuttedRawList.size() / 100) % brigades.size());
+        Double avgQuality = (stageQuality.get(1).get(0) + brigades.get(brigadeIndex)) / 2;
         if (rawQuality.size() < 100) {
             System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
             return false;
@@ -288,7 +298,7 @@ public class Experiment {
 
     //3 stage
     public boolean doDrying(){
-        Double avgQuality = stageQuality.get(2);
+        Double avgQuality = stageQuality.get(2).get(0);
         List<Double> cuttedQuality = new ArrayList<>();
         int counterDrying = countList.get(2);
         if (cuttedRawList.size() >= 100) {
@@ -309,8 +319,8 @@ public class Experiment {
     }
 
     //4 stage
-    public boolean doBurning(){
-        Double avgQuality=stageQuality.get(3);
+    public boolean doBurning() {
+        Double avgQuality = stageQuality.get(3).get(0);
         Random random=new Random();
         Boolean quality;
         int counterBrick=countList.get(3);

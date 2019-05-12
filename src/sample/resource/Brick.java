@@ -1,11 +1,23 @@
 package sample.resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Brick extends Material {
-    private Map<String, Boolean> properties=new HashMap<>();
+    private Map<String, Boolean> properties = new HashMap<>();
     private Map<String, Double> acceptableProperties;
+    private List<Integer> brigadeAndStagesToolsList = new ArrayList<>();
+
+
+    public List<Integer> getBrigadeAndStagesToolsList() {
+        return brigadeAndStagesToolsList;
+    }
+
+    public void setBrigadeAndStagesToolsList(List<Integer> brigadeAndStagesToolsList) {
+        this.brigadeAndStagesToolsList = brigadeAndStagesToolsList;
+    }
 
     public Map<String, Boolean> getProperties() {
         return properties;
@@ -19,7 +31,7 @@ public class Brick extends Material {
         for (String s:properties.keySet()){
             properties.get(s);
         }
-        this.avgQuality=avgQuality;
+        this.avgQuality = avgQuality;
     }
 
     public void setProperties(Map<String, Boolean> properties) {
