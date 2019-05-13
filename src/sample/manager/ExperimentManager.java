@@ -327,6 +327,10 @@ public class ExperimentManager {
         }
     }
 
+    public void onFixButton() {
+
+    }
+
 
     private void showAlertDialog(){
         Alert alert = new Alert(Alert.AlertType.ERROR);

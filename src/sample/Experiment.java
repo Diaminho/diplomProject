@@ -30,6 +30,9 @@ public class Experiment {
 
     private double acceptableQuality = 0.8;
 
+    public double getAcceptableQuality() {
+        return acceptableQuality;
+    }
 
     public Map<String, List<Double>> getStagesInfluenceMap() {
         return stagesInfluenceMap;

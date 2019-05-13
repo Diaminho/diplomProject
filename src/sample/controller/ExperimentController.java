@@ -117,4 +117,13 @@ public class ExperimentController {
         }
     }
 
+    @FXML
+    public void onFixButton() {
+        try {
+            new FixWindowController(new Stage(), experimentManager.getNewExperiment());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
