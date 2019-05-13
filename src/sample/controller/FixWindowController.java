@@ -19,7 +19,7 @@ public class FixWindowController {
 
     public FixWindowController(Stage primaryStage, Experiment experiment) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/fixWindow.fxml"));
-        FixWindowController.primaryStage=primaryStage;
+        FixWindowController.primaryStage = primaryStage;
         primaryStage.setTitle("Окно воздействия на технологический процесс");
         FixWindowController.fixWindowManager = new FixWindowManager(root, experiment);
         primaryStage.setScene(new Scene(root));

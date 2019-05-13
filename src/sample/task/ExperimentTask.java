@@ -60,6 +60,11 @@ public class ExperimentTask {
                     //}
                     //Thread.sleep(10000);
                 if (flag) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     flag = experiment.doCutting();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
@@ -88,6 +93,11 @@ public class ExperimentTask {
                 //}
                 //Thread.sleep(10000);
                 if (flag) {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     flag = experiment.doDrying();
                 //System.out.println(raw.getAvgQuality());
                 //final String rawVolume = String.valueOf(raw.getVolume());
@@ -117,6 +127,11 @@ public class ExperimentTask {
                 //}
                 //Thread.sleep(10000);
                 if (flag) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     flag = experiment.doBurning();
                     //System.out.println(raw.getAvgQuality());
                     //final String rawVolume = String.valueOf(raw.getVolume());
