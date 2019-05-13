@@ -25,7 +25,7 @@ public class SamplingChartManager {
     private SamplingControl samplingControl;
 
     @FXML
-    private LineChart<String, Double> chartId;
+    private LineChart<String, Double> controlChartId;
 
     @FXML
     private Text outputTextId;
@@ -54,12 +54,12 @@ public class SamplingChartManager {
         this.root = root;
     }
 
-    public LineChart<String, java.lang.Double> getChartId() {
-        return chartId;
+    public LineChart<String, java.lang.Double> getControlChartId() {
+        return controlChartId;
     }
 
-    public void setChartId(LineChart<String, java.lang.Double> chartId) {
-        this.chartId = chartId;
+    public void setControlChartId(LineChart<String, java.lang.Double> controlChartId) {
+        this.controlChartId = controlChartId;
     }
 
     public SamplingChartManager(Parent root,
@@ -75,7 +75,7 @@ public class SamplingChartManager {
 
     private void init() {
         outputTextId= (Text) root.lookup("#outputTextId");
-        chartId= (LineChart<String, Double>) root.lookup("#chartId");
+        controlChartId = (LineChart<String, Double>) root.lookup("#controlChartId");
         buildChart();
     }
 
@@ -84,9 +84,9 @@ public class SamplingChartManager {
         NumberAxis y = new NumberAxis();
 
         //avalancheChartID;
-        chartId.setTitle("Оперативная характеристика");
-        chartId.setLegendVisible(false);
-        chartId.getStylesheets().add(Main.class.getResource("/sample/css/samplingChart.css").toExternalForm());
+        controlChartId.setTitle("Оперативная характеристика");
+        controlChartId.setLegendVisible(false);
+        controlChartId.getStylesheets().add(Main.class.getResource("/sample/css/samplingChart.css").toExternalForm());
 
         XYChart.Series<String, Double> series  = new XYChart.Series<String, java.lang.Double>();
         XYChart.Series<String, Double> sampleSeries  = new XYChart.Series<>();
@@ -123,13 +123,13 @@ public class SamplingChartManager {
         //////////
         series.setName("Расчетные данные");
         sampleSeries.setName("Сгенерированные данные");
-        chartId.getData().add(series);
-        chartId.getData().add(sampleSeries);
-        chartId.getXAxis().setLabel("Количество дефектной продукции в %");
-        chartId.getYAxis().setLabel("Вероятность приема выборки");
-        chartId.setCreateSymbols(false);
-        chartId.setLegendVisible(true);
-        chartId.setVisible(true);
+        controlChartId.getData().add(series);
+        controlChartId.getData().add(sampleSeries);
+        controlChartId.getXAxis().setLabel("Количество дефектной продукции в %");
+        controlChartId.getYAxis().setLabel("Вероятность приема выборки");
+        controlChartId.setCreateSymbols(false);
+        controlChartId.setLegendVisible(true);
+        controlChartId.setVisible(true);
 
     }
 
