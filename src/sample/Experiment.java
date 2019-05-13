@@ -25,7 +25,7 @@ public class Experiment {
 
     private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
     private Map<String, List<Double>> stagesInfluenceMap = new HashMap<>();
-    private List<Integer> scenarioStagesList = new ArrayList<>();
+    private List<List<Integer>> scenarioStagesList = new ArrayList<>();
     private List<Integer> scenarioBrigadesList = new ArrayList<>();
 
     private double acceptableQuality = 0.8;
@@ -55,11 +55,11 @@ public class Experiment {
         this.scenarioBrigadesList = scenarioBrigadesList;
     }
 
-    public List<Integer> getScenarioStagesList() {
+    public List<List<Integer>> getScenarioStagesList() {
         return scenarioStagesList;
     }
 
-    public void setScenarioStagesList(List<Integer> scenarioStagesList) {
+    public void setScenarioStagesList(List<List<Integer>> scenarioStagesList) {
         this.scenarioStagesList = scenarioStagesList;
     }
 
@@ -202,8 +202,8 @@ public class Experiment {
 
         //fill default brigadeQuality
         brigades=new ArrayList<>();
-        brigades.add(0.5);
-        brigades.add(0.5);
+        brigades.add(0.9);
+        brigades.add(0.9);
 
         scenarioBrigadesList.add(-1);
         scenarioBrigadesList.add(-1);
@@ -216,9 +216,11 @@ public class Experiment {
         calculatInfluenceForStages();
 
         for (List<Double> listD: stageQuality) {
+            List<Integer> stagesInfulenceList = new ArrayList<>();
             for (Double d: listD) {
-                scenarioStagesList.add(-1);
+                stagesInfulenceList.add(-1);
             }
+            scenarioStagesList.add(stagesInfulenceList);
             //stagesInfluenceMapadd(0d);
         }
     }
@@ -240,6 +242,8 @@ public class Experiment {
 
     //2 stage blending
     public boolean produceRawMaterial() {
+        int toolIndex = ((rawList.size() / 100) % stageQuality.get(0).size());
+        checkScenario(0, toolIndex);
         for (Object o : materialMap.keySet()) {
             for (Object o1 : neededMaterials.keySet()) {
                 if (((Material) o).getName().equals(((Material) o1).getName())) {
@@ -258,7 +262,6 @@ public class Experiment {
         //need to redo
         //
         //
-        int toolIndex = ((rawList.size() / 100) % stageQuality.get(0).size());
         Double rawQuality = stageQuality.get(0).get(toolIndex);
         Double matQuality = defaultMaterialsQuality.values().stream().mapToDouble(i->i).sum()  / defaultMaterialsQuality.size();
         //Double matQuality=defaultMaterialsQuality.stream().mapToDouble(Double::doubleValue).sum();
@@ -273,6 +276,14 @@ public class Experiment {
 
     //2 stage Cutting
     public boolean doCutting(){
+        int toolIndex = ((cuttedRawList.size() / 100) % stageQuality.get(1).size());
+        checkScenario(1, toolIndex);
+        int brigadeIndex = ((cuttedRawList.size() / 100) % brigades.size());
+        if (scenarioBrigadesList.get(brigadeIndex) != -1) {
+            if (scenarioBrigadesList.get(brigadeIndex) <= (cuttedRawList.size() / (100 * brigades.size()) + (cuttedRawList.size() % (100 * (brigadeIndex + 2))) / 100)) {
+                brigades.set(brigadeIndex, 0.3d);
+            }
+        }
         //Material cuttedRaw =new Material("Нарезанный сырец");
         List<Double> rawQuality = new ArrayList<>();
         int countCutting = countList.get(1);
@@ -283,7 +294,6 @@ public class Experiment {
             rawQuality.add(quality);
         });
 
-        int brigadeIndex = ((cuttedRawList.size() / 100) % brigades.size());
         Double avgQuality = (stageQuality.get(1).get(0) + brigades.get(brigadeIndex)) / 2;
         if (rawQuality.size() < 100) {
             System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
@@ -297,7 +307,9 @@ public class Experiment {
     }
 
     //3 stage
-    public boolean doDrying(){
+    public boolean doDrying() {
+        int toolIndex = ((dryRawList.size() / 100) % stageQuality.get(2).size());
+        checkScenario(2, toolIndex);
         Double avgQuality = stageQuality.get(2).get(0);
         List<Double> cuttedQuality = new ArrayList<>();
         int counterDrying = countList.get(2);
@@ -320,13 +332,14 @@ public class Experiment {
 
     //4 stage
     public boolean doBurning() {
+        int toolIndex = ((brickList.size() / 100) % stageQuality.get(3).size());
+        checkScenario(3, toolIndex);
         Double avgQuality = stageQuality.get(3).get(0);
-        Random random=new Random();
+        Random random = new Random();
         Boolean quality;
-        int counterBrick=countList.get(3);
-        for (int i = 100 * (counterBrick); i < 100 * (counterBrick + 1);i++){
-            Brick brick=new Brick();
-            //TODO add influence of current stage to other defects
+        int counterBrick = countList.get(3);
+        for (int i = 100 * (counterBrick); i < 100 * (counterBrick + 1); i++) {
+            Brick brick = new Brick();
             brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             brick.getProperties().put("Размеры", cuttedRawList.get(i).getAvgQuality());
@@ -336,7 +349,7 @@ public class Experiment {
             //
             brickList.add(brick);
         }
-        countList.set(3,++counterBrick);
+        countList.set(3, ++counterBrick);
         return true;
     }
 
@@ -362,6 +375,38 @@ public class Experiment {
             }
         }
         return null;
+    }
+
+
+    private boolean checkScenario(int stageId, int toolId) {
+        int stage = -1;
+        List<Integer> stagesTools = scenarioStagesList.get(stageId);
+        switch (stageId) {
+            case  (0):
+                stage = rawList.size();
+                break;
+            case (1):
+                stage = cuttedRawList.size();
+                break;
+            case (2):
+                stage = dryRawList.size();
+                break;
+            case (3):
+                stage = brickList.size();
+                break;
+            default:
+                break;
+        }
+
+        if (stagesTools.get(toolId) >= 0) {
+            int count = stage / (100 *  stagesTools.size()) + stage % (100 * (toolId + 1));
+            if (count >= stagesTools.get(toolId)) {
+                stageQuality.get(stageId).set(toolId, 0.3d);
+                //calculatInfluenceForStages();
+                return true;
+            }
+        }
+        return false;
     }
 };
 

@@ -285,8 +285,13 @@ public class ScenarioManager {
             public void changed(ObservableValue<? extends String> observable, //
                                 String  oldValue, String newValue) {
                 if (newValue != null) {
-                    scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)));
                     //TODO add choose tool for Stage
+                    scenarioStageToolId.getItems().clear();
+                    for (int i = 0; i < experiment.getStageQuality().get(stagesNameList.indexOf(newValue)).size(); i++) {
+                        scenarioStageToolId.getItems().add(i + 1);
+                    }
+                    scenarioStageToolId.getSelectionModel().select(0);
+                    scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)).get(scenarioStageToolId.getSelectionModel().getSelectedIndex()));
                 }
             }
         };
@@ -394,10 +399,13 @@ public class ScenarioManager {
     //Stages
     public void onOkStageBlendingButton() {
         List <Double> blendingList = new ArrayList<>();
+        List<Integer> scenariosList = new ArrayList<>();
         for (int i = 0; i < Integer.parseInt(blendingQuantityId.getText()); i++) {
             blendingList.add(0.8d);
+            scenariosList.add(-1);
         }
         experiment.getStageQuality().set(0, blendingList);
+        experiment.getScenarioStagesList().set(0, scenariosList);
         fillBlending();
     }
 
@@ -423,7 +431,9 @@ public class ScenarioManager {
 
     //Scenario
     public void onScenarioStageSaveButton() {
-        experiment.getScenarioStagesList().set(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioStageTextFieldId.getText()));
+        experiment.getScenarioStagesList().
+                get(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex()).
+                set(scenarioStageToolId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioStageTextFieldId.getText()));
     }
 
     public void onScenarioBrigadeSaveButton() {
