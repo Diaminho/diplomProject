@@ -39,15 +39,17 @@ public class SuspendableTask extends Task {
         suspendFlag = true;
     }
 
-    public synchronized void resume() {
+    public void resume() {
         suspendFlag = false;
-        notify();
+        synchronized (this) {
+            notify();
+        }
     }
 
     public void start () {
         if (t == null) {
             t = new Thread (this);
-            t.start ();
+            t.start();
         }
     }
 }

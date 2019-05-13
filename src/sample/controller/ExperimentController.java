@@ -25,9 +25,14 @@ public class ExperimentController {
 
     private static Stage primaryStage;
 
+    Map<Material, Integer> chosenMaterials;
+
     public ExperimentManager getExperimentManager() {
         return experimentManager;
     }
+
+    private ControlChartController controlChartController;
+
 
     public ExperimentController(Stage primaryStage) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/experiment.fxml"));
@@ -55,7 +60,7 @@ public class ExperimentController {
     public void onChooseMaterialsButton() {
         ChosenMaterialsStage matStage=new ChosenMaterialsStage();
         try {
-            Map<Material, Integer> chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
+            chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
             experimentManager.onChooseMaterialsButton(chosenMaterials);
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,16 +88,17 @@ public class ExperimentController {
     public void onScenarioButton(){
         ScenarioStage sStage=new ScenarioStage();
         try {
-            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage));
+            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage, chosenMaterials));
             experimentManager.setNewExperiment(experiment);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        /*
         try {
-            new ScenarioController(new Stage());
+            new ScenarioController();
         } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -105,9 +111,10 @@ public class ExperimentController {
             }
         }
         try {
-            new ControlChartController(primaryStage, qualityList);
+            controlChartController = new ControlChartController(new Stage(), qualityList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

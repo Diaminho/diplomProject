@@ -45,6 +45,7 @@ public class ControlChartController {
 
     @FXML
     public void onBuildButton() {
+        //controlChartManager.updateChart();
         controlChartManager.onBuildButton();
     }
 }
