@@ -1,6 +1,8 @@
 package sample.manager;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.Parent;
@@ -15,7 +17,10 @@ import sample.validator.MaterialsListManagerValidator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MaterialsListManager {
 
@@ -53,7 +58,8 @@ public class MaterialsListManager {
         materialNameColumn =materialsTableID.getColumns().get(0);
         setMaterialNameCol();
         materialNameColumn.setEditable(false);
-        chooseColumn =materialsTableID.getColumns().get(1);
+        chooseColumn = materialsTableID.getColumns().get(1);
+        chooseColumn.setStyle( "-fx-alignment: CENTER;");
         setCheckBox();
         volumeColumn = materialsTableID.getColumns().get(2);
         //System.out.println("VOLUME EDIT"+volumeColumn.editableProperty());
