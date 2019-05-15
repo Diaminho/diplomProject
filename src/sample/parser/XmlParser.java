@@ -80,7 +80,7 @@ public class XmlParser{
                 doc.normalize();
 
                 //CREATING ROOT ELEMENT
-                Element root = doc.createElement("material");
+                Element root = doc.createElement("materials");
                 doc.appendChild(root);
                 //
 

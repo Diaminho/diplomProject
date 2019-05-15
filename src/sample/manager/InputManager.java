@@ -103,7 +103,7 @@ public class InputManager {
 
     private String getImageChooser(){
         FileChooser fc=new FileChooser();
-        fc.setTitle("Open Image");
+        fc.setTitle("Выбрать изображение");
 
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter(
