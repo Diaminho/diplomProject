@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +45,8 @@ public class XmlParser{
                 if (element != null) {
                     printElement(element.getChildNodes(), res);
                 }
+
+
             }
             return res;
         }
@@ -68,7 +71,7 @@ public class XmlParser{
         }
 
 
-        public static void writeXMLFile(String fileName, List materialsList){
+        public static void writeXMLFile(String fileName, List<Material> materialsList){
 
             try {
                 // Строим объектную модель исходного XML файла
@@ -86,14 +89,14 @@ public class XmlParser{
                 Node materials = doc.getFirstChild();
 
 
-                for (Object mat:materialsList) {
+                for (Material mat:materialsList) {
                     Element materialElem=doc.createElement("material");
                     materials.appendChild(materialElem);
                     // set Material Name
-                    setAttributeName(materialElem,(Material)mat);
+                    setAttributeName(materialElem, mat);
                     //
                     // set Image
-                    setAttributeImage(materialElem,(Material)mat);
+                    setAttributeImage(materialElem, mat);
                     //
 
                 }
@@ -128,6 +131,18 @@ public class XmlParser{
                 attr.setValue(mat.getMaterialImage().impl_getUrl());
             }
             elem.setAttributeNode(attr);
-}
+        }
+
+        private void deleteDuplicates(List<Material> materialList) {
+            Iterator<Material> iter = materialList.iterator();
+            while (iter.hasNext()) {
+                //TODO Add tmpList for Names and check current Name with items in tmpList
+            }
+            List<Material> resList = new ArrayList<>(materialList);
+            for (int i = 0; i < materialList.size(); i++) {
+                resList.get(i).getName();
+                materialList.get(i).getName();
+            }
+        }
 
 }
