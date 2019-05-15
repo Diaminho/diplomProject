@@ -38,10 +38,10 @@ public class InputManager {
 
     public InputManager(Parent root) {
         InputManager.root = root;
-        materialsList=new ArrayList<>();
+        materialsList = new ArrayList<>();
         init();
         try {
-            materialsList= FXCollections.observableArrayList(XmlParser.readXMLFile(fileName));
+            materialsList = FXCollections.observableArrayList(XmlParser.readXMLFile(fileName));
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {

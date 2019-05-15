@@ -29,19 +29,21 @@ public class XmlParser{
         }
 
         public static List<Material> readXMLFile(String fileName) throws ParserConfigurationException, IOException {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = null;
-            try {
-                document = builder.parse(new File(fileName));
-            } catch (org.xml.sax.SAXException e) {
-                e.printStackTrace();
-            }
-            Element element = document != null ? document.getDocumentElement() : null;
+            List<Material> res = new ArrayList<>();
+            if (new File(fileName).isFile()) {
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document document = null;
+                try {
+                    document = builder.parse(new File(fileName));
+                } catch (org.xml.sax.SAXException e) {
+                    e.printStackTrace();
+                }
+                Element element = document != null ? document.getDocumentElement() : null;
 
-            List<Material> res=new ArrayList<>();
-            if (element!=null) {
-                printElement(element.getChildNodes(), res);
+                if (element != null) {
+                    printElement(element.getChildNodes(), res);
+                }
             }
             return res;
         }
@@ -70,7 +72,6 @@ public class XmlParser{
 
             try {
                 // Строим объектную модель исходного XML файла
-                //final File xmlFile = new File(fileName);
                 DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 doc = db.newDocument();
                 doc.normalize();
