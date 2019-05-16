@@ -42,6 +42,8 @@ public class ScenarioManager {
     TextField dryingQualityId;
     //Обжиг
     TextField burningQualityId;
+    //Обжиг
+    TextField logisticQualityId;
 
     //Tab Сценарий
     Tab scenarioTabId;
@@ -181,6 +183,10 @@ public class ScenarioManager {
         burningQualityId = (TextField) gridPaneBurning.lookup("#burningQualityId");
         fillBurning();
 
+        GridPane gridPaneLogistic = (GridPane) (((SplitPane)stagesTabId.getContent()).getItems().get(4));
+        logisticQualityId = (TextField) gridPaneLogistic.lookup("#logisticQualityId");
+        fillLogistic();
+
         //Сценарий
         GridPane gridPaneScenarioBrigade = (GridPane) (((SplitPane)scenarioTabId.getContent()).getItems().get(0));
         scenarioBrigadeChoiceBoxId = (ChoiceBox<Integer>) gridPaneScenarioBrigade.lookup("#scenarioBrigadeChoiceBoxId");
@@ -260,6 +266,10 @@ public class ScenarioManager {
 
     private void fillBurning() {
         burningQualityId.setText("" + experiment.getStageQuality().get(3).get(0));
+    }
+
+    private void fillLogistic() {
+        logisticQualityId.setText("" + experiment.getStageQuality().get(4).get(0));
     }
 
     private void fillScenarioStages() {
@@ -426,6 +436,11 @@ public class ScenarioManager {
 
     public void onSaveBurningButton() {
         experiment.getStageQuality().get(3).set(0, Double.parseDouble(burningQualityId.getText()));
+        initLog();
+    }
+
+    public void onSaveLogisticButton() {
+        experiment.getStageQuality().get(4).set(0, Double.parseDouble(logisticQualityId.getText()));
         initLog();
     }
 

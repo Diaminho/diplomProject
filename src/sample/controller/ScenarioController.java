@@ -91,6 +91,11 @@ public class ScenarioController {
         scenarioManager.onSaveBurningButton();
     }
 
+    @FXML
+    public void onSaveLogisticButton() {
+        scenarioManager.onSaveLogisticButton();
+    }
+
     //Tab Scenario
     @FXML
     public void onScenarioStageSaveButton() {
