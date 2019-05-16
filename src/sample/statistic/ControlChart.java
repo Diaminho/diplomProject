@@ -4,6 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControlChart {
+    double ucl = 0.1;
+    double lcl = 0;
+    double pAvg;
+
+    public double getUcl() {
+        return ucl;
+    }
+
+    public void setUcl(double ucl) {
+        this.ucl = ucl;
+    }
+
+    public double getLcl() {
+        return lcl;
+    }
+
+    public void setLcl(double lcl) {
+        this.lcl = lcl;
+    }
+
+    public double getpAvg() {
+        return pAvg;
+    }
+
+    public void setpAvg(double pAvg) {
+        this.pAvg = pAvg;
+    }
 
     public Double getPi(List<Boolean> list) {
         Integer defects = 0;
@@ -19,14 +46,6 @@ public class ControlChart {
         return pList.stream().mapToDouble(f -> f).sum() / pList.size();
     }
 
-    public List<Double> getULControlPoint(double pAvg, double n) {
-        double upper = pAvg + 3 * Math.sqrt((pAvg * (1 - pAvg)) / n);
-        double lower = pAvg - 3 * Math.sqrt((pAvg * (1 - pAvg)) / n);
-        List<Double> result = new ArrayList<>();
-        result.add(lower);
-        result.add(upper);
-        return result;
-    }
 
     public List<Double> calculate(List<Boolean> list) {
         List<Double> piList=new ArrayList<>();
@@ -39,10 +58,8 @@ public class ControlChart {
             piList.add(tmp);
         }
         //calculating pAvg
-        double pAvg = getPAvg(piList);
+        pAvg = getPAvg(piList);
         //calculating Lower and Upper borders
-        List<Double> res = getULControlPoint(pAvg, n);
-
         return piList;
     }
 

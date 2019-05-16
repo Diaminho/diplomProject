@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.TextField;
 import sample.Main;
 import sample.statistic.ControlChart;
 
@@ -16,8 +17,10 @@ public class ControlChartManager {
     private Parent root;
     private List<Boolean> qualityList;
 
-    @FXML
+    ControlChart controlChart;
     private LineChart<String, Double> controlChartId;
+    private TextField uclId;
+    private TextField lclId;
 
     public Parent getRoot() {
         return root;
@@ -42,7 +45,15 @@ public class ControlChartManager {
     }
 
     private void init() {
+        controlChart = new ControlChart();
+
         controlChartId = (LineChart<String, Double>) root.lookup("#controlChartId");
+
+        uclId = (TextField) root.lookup("#uclId");
+        uclId.setText("" + controlChart.getUcl());
+
+        lclId = (TextField) root.lookup("#lclId");
+        lclId.setText("" + controlChart.getLcl());
         //buildChart();
     }
 
@@ -52,23 +63,23 @@ public class ControlChartManager {
         controlChartId.setTitle("Оперативная характеристика");
         controlChartId.setLegendVisible(false);
         controlChartId.getStylesheets().add(Main.class.getResource("/sample/css/samplingChart.css").toExternalForm());
+        controlChart.setLcl(Double.parseDouble(lclId.getText()));
+        controlChart.setUcl(Double.parseDouble(uclId.getText()));
 
         XYChart.Series<String, Double> seriesPi  = new XYChart.Series<String, java.lang.Double>();
         XYChart.Series<String, Double> seriesPAvg  = new XYChart.Series<>();
         XYChart.Series<String, Double> seriesLower  = new XYChart.Series<>();
         XYChart.Series<String, Double> seriesUpper  = new XYChart.Series<>();
         ///////TEST OPERATE CHARACTERISTICS
-        int n = qualityList.size() / 20;
-        ControlChart controlChart = new ControlChart();
+        //int n = qualityList.size() / 20;
         List <Double> pi = controlChart.calculate(qualityList);
         double pAvg = controlChart.getPAvg(pi);
-        List<Double> ULlines = controlChart.getULControlPoint(pAvg, n);
 
         for (int i=0;i < pi.size(); i++){
             seriesPi.getData().add(new XYChart.Data<>(""+i, pi.get(i)));
             seriesPAvg.getData().add(new XYChart.Data<>(""+i, pAvg));
-            seriesLower.getData().add(new XYChart.Data<>(""+i, ULlines.get(0)));
-            seriesUpper.getData().add(new XYChart.Data<>(""+i, ULlines.get(1)));
+            seriesLower.getData().add(new XYChart.Data<>("" + i, controlChart.getLcl()));
+            seriesUpper.getData().add(new XYChart.Data<>("" + i, controlChart.getUcl()));
         }
 
         controlChartId.getData().add(seriesPi);
@@ -82,15 +93,5 @@ public class ControlChartManager {
         controlChartId.setVisible(true);
     }
 
-    public void updateChart(){
-        while (true) {
-            onBuildButton();
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
 
