@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ScenarioManager {
+    //TODO добавить новую вкладку для мер воздействия на процесс Название, показатель качества после воздействия (случайно, нормальное распределение)
     private static Parent root;
     private Map<Material, Integer> materialQuantityMap;
     private Map<String, String> logStringsMap;
@@ -287,6 +288,9 @@ public class ScenarioManager {
         stagesNameList.add("Формовка");
         stagesNameList.add("Сушка");
         stagesNameList.add("Обжиг");
+        stagesNameList.add("Логистика");
+
+        //TODO добавить названия для мер воздействия
 
         scenarioStageChoiceBoxId.getItems().addAll(stagesNameList);
         //ChoiceBox
