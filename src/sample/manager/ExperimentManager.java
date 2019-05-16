@@ -247,6 +247,11 @@ public class ExperimentManager {
         //t4.start();
         experimentTask.addSuspendableTask(t4,3, 8);
 
+        //TASK
+        Runnable t5=experimentTask.LogisticTask(newExperiment);
+        //taskList.add(t4);
+        //t4.start();
+        experimentTask.addSuspendableTask(t5,4, 8);
         return 0;
     }
 
@@ -310,6 +315,7 @@ public class ExperimentManager {
         }
         else {
             for (Timeline timeline:timelineList) {
+                timeline.stop();
                 timeline.play();
             }
             //experimentTask.resume();

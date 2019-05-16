@@ -145,4 +145,39 @@ public class ExperimentTask {
             }
         };
     }
+
+    public Runnable LogisticTask(Experiment experiment){
+        return new Runnable() {
+            private int counter = 0;
+            private boolean flag = true;
+
+            @Override
+            public void run() {
+                //need to fix
+                //int count=oldCount;
+                //Thread.sleep(1000);
+                //while(flag) {
+                //while (suspendFlag) {
+                //    wait();
+                //}
+                //Thread.sleep(10000);
+                if (flag) {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    flag = experiment.doLogistic();
+                    //System.out.println(raw.getAvgQuality());
+                    //final String rawVolume = String.valueOf(raw.getVolume());
+                    //
+                    System.out.println("Logistic " + counter++ + " Thread: " + Thread.currentThread().getName());
+                    Statistic.printBrickStat(experiment.getLogisticBrickList());
+                    //oldCount+=1;
+                    //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                    //}
+                }
+            }
+        };
+    }
 }

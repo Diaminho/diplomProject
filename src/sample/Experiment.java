@@ -14,6 +14,7 @@ public class Experiment {
     private List<Material> dryRawList=new ArrayList<>();
     private List<Material> cuttedRawList=new ArrayList<>();
     private List<Brick> brickList=new ArrayList<>();
+    private List<Brick> logisticBrickList = new ArrayList<>();
     private Integer counter=0;
 
     private List<Double> brigades;
@@ -29,6 +30,10 @@ public class Experiment {
     private List<Integer> scenarioBrigadesList = new ArrayList<>();
 
     private double acceptableQuality = 0.8;
+
+    public List<Brick> getLogisticBrickList() {
+        return logisticBrickList;
+    }
 
     public double getAcceptableQuality() {
         return acceptableQuality;
@@ -172,6 +177,13 @@ public class Experiment {
             brickInfluenceList.add(1 - d);
         }
         stagesInfluenceMap.put("Обжиг", brickInfluenceList);
+
+        List<Double> logisticInfluenceList = new ArrayList<>();
+        for (Double d: stageQuality.get(4)) {
+            logisticInfluenceList.add((1 - d) / 2);
+            logisticInfluenceList.add((1 - d) / 2);
+        }
+        stagesInfluenceMap.put("Логистика", logisticInfluenceList);
     }
 
     private void init(){
@@ -186,6 +198,8 @@ public class Experiment {
         stagesNames.put("Cutting",new Image("/sample/image/stage/cutting/cutting.png"));
         stagesNames.put("Drying", new Image("/sample/image/stage/drying.png"));
         stagesNames.put("Burning",new Image("/sample/image/stage/burning.png"));
+        //TODO add logistic pic and burning pic
+        stagesNames.put("Logistic", new Image("/sample/image/stage/burning.png"));
         //raw.setVolume(0);
 
         int ii=0;
@@ -337,7 +351,7 @@ public class Experiment {
     public boolean doBurning() {
         int toolIndex = ((brickList.size() / 100) % stageQuality.get(3).size());
         checkScenario(3, toolIndex);
-        Double avgQuality = stageQuality.get(3).get(0);
+        Double avgQuality = stageQuality.get(3).get(toolIndex);
         Random random = new Random();
         Boolean quality;
         int counterBrick = countList.get(3);
@@ -353,6 +367,31 @@ public class Experiment {
             brickList.add(brick);
         }
         countList.set(3, ++counterBrick);
+        return true;
+    }
+
+
+    //5 stage
+    public boolean doLogistic() {
+        int toolIndex = ((logisticBrickList.size() / 100) % stageQuality.get(4).size());
+        checkScenario(4, toolIndex);
+        Double avgQuality = stageQuality.get(4).get(toolIndex);
+        Random random = new Random();
+        Boolean quality;
+        int counterBrick = countList.get(4);
+        for (int i = 100 * (counterBrick); i < 100 * (counterBrick + 1); i++) {
+            //TODO add influence of stage to brick quality
+            Brick brick = new Brick();
+            brick.getProperties().put("Цвет", brickList.get(i).getProperties().get("Цвет"));
+            //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
+            brick.getProperties().put("Размеры", brickList.get(i).getProperties().get("Размеры"));
+            brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины"));
+            quality = (1 - random.nextDouble()) < avgQuality;
+            brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура"));
+            //
+            logisticBrickList.add(brick);
+        }
+        countList.set(4, ++counterBrick);
         return true;
     }
 
@@ -397,6 +436,9 @@ public class Experiment {
             case (3):
                 stage = brickList.size();
                 break;
+            case (4):
+                stage = logisticBrickList.size();
+                break;
             default:
                 break;
         }
@@ -404,6 +446,7 @@ public class Experiment {
         if (stagesTools.get(toolId) >= 0) {
             int count = stage / (100 *  stagesTools.size()) + stage % (100 * (toolId + 1));
             if (count >= stagesTools.get(toolId)) {
+                //TODO add custom quality change in scenario module
                 stageQuality.get(stageId).set(toolId, 0.3d);
                 //calculatInfluenceForStages();
                 return true;
