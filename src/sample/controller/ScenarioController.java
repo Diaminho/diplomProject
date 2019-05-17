@@ -4,14 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import sample.Experiment;
 import sample.manager.ScenarioManager;
 import sample.resource.Material;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class ScenarioController {
@@ -106,4 +103,7 @@ public class ScenarioController {
     public void onScenarioBrigadeSaveButton() {
         scenarioManager.onScenarioBrigadeSaveButton();
     }
+
+    @FXML
+    public void onConfigureFixButton() { scenarioManager.onConfigureFixButton();}
 }

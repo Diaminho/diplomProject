@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.image.Image;
+import javafx.util.Pair;
 import sample.resource.Brick;
 import sample.resource.Material;
 
@@ -28,8 +29,17 @@ public class Experiment {
     private Map<String, List<Double>> stagesInfluenceMap = new HashMap<>();
     private List<List<Integer>> scenarioStagesList = new ArrayList<>();
     private List<Integer> scenarioBrigadesList = new ArrayList<>();
+    private List<Pair<String, Double>> configureQualityValuesList = new ArrayList<>();
 
     private double acceptableQuality = 0.8;
+
+    public List<Pair<String, Double>> getConfigureQualityValuesList() {
+        return configureQualityValuesList;
+    }
+
+    public void setConfigureQualityValuesList(List<Pair<String, Double>> configureQualityValuesList) {
+        this.configureQualityValuesList = configureQualityValuesList;
+    }
 
     public List<Brick> getLogisticBrickList() {
         return logisticBrickList;
@@ -150,7 +160,7 @@ public class Experiment {
         //
     }
 
-    public void calculatInfluenceForStages() {
+    public void calculateInfluenceForStages() {
         List<Double> blendingInfluenceList = new ArrayList<>();
         for (Double d: stageQuality.get(0)) {
             blendingInfluenceList.add((1 - d) / 2);
@@ -199,6 +209,7 @@ public class Experiment {
         stagesNames.put("Drying", new Image("/sample/image/stage/drying.png"));
         stagesNames.put("Burning",new Image("/sample/image/stage/burning.png"));
         //TODO add logistic pic and burning pic
+        //TODO add configuration of scenario quality (not only 0.3)
         stagesNames.put("Logistic", new Image("/sample/image/stage/burning.png"));
         //raw.setVolume(0);
 
@@ -230,7 +241,7 @@ public class Experiment {
             defaultMaterialsQuality.put(m, 0.9);
         }*/
 
-        calculatInfluenceForStages();
+        calculateInfluenceForStages();
 
         for (List<Double> listD: stageQuality) {
             List<Integer> stagesInfulenceList = new ArrayList<>();
@@ -239,6 +250,10 @@ public class Experiment {
             }
             scenarioStagesList.add(stagesInfulenceList);
             //stagesInfluenceMapadd(0d);
+        }
+
+        for (int i = 0; i < stageQuality.size() + 2; i ++) {
+            configureQualityValuesList.add(new Pair<>("Воздействие",0.95));
         }
     }
 
@@ -448,12 +463,13 @@ public class Experiment {
             if (count >= stagesTools.get(toolId)) {
                 //TODO add custom quality change in scenario module
                 stageQuality.get(stageId).set(toolId, 0.3d);
-                //calculatInfluenceForStages();
+                //calculateInfluenceForStages();
                 return true;
             }
         }
         return false;
     }
+
 };
 
 

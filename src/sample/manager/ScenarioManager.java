@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.util.Pair;
 import sample.Experiment;
 import sample.resource.Material;
 
@@ -58,6 +59,11 @@ public class ScenarioManager {
     Slider scenarioStageSliderId;
     TextField scenarioStageTextFieldId;
 
+    //Tab Меры воздействия
+    ChoiceBox<String> configureObjectListChoiceBoixId;
+    TextField configureDescriptionNameId;
+    TextField configureQualityId;
+
     private Experiment experiment;
 
 
@@ -105,7 +111,7 @@ public class ScenarioManager {
 
     private void initLog() {
         logTextAreaId = (TextArea) (((SplitPane) root).getItems().get(1)).lookup("#logTextAreaId");
-        experiment.calculatInfluenceForStages();
+        experiment.calculateInfluenceForStages();
         constructLogStringBlending();
         constructLogStringCutting();
         constructLogStringDrying();
@@ -200,8 +206,14 @@ public class ScenarioManager {
         scenarioStageToolId = (ChoiceBox<Integer>) gridPaneScenarioStage.lookup("#scenarioStageToolId");
         scenarioStageSliderId = (Slider) gridPaneScenarioStage.lookup("#scenarioStageSliderId");
         scenarioStageTextFieldId = (TextField) gridPaneScenarioStage.lookup("#scenarioStageTextFieldId");
-
         fillScenarioStages();
+
+        //Меры воздействия
+        GridPane gridPaneConfigure = (GridPane) tabPane.getTabs().get(3).getContent();
+        configureObjectListChoiceBoixId = (ChoiceBox<String>) gridPaneConfigure.lookup("#configureObjectListChoiceBoixId");
+        configureDescriptionNameId = (TextField) gridPaneConfigure.lookup("#configureDescriptionNameId");
+        configureQualityId = (TextField) gridPaneConfigure.lookup("#configureQualityId");
+        fillConfigure();
     }
 
     private void fillSettingsMaterials() {
@@ -367,6 +379,28 @@ public class ScenarioManager {
         });
     }
 
+    private void fillConfigure() {
+        //fill List of Objects
+        List<String> objList = new ArrayList<>();
+        objList.add("Материалы");
+        objList.add("Бригады");
+        objList.add("Смешивание");
+        objList.add("Формовка");
+        objList.add("Сушка");
+        objList.add("Обжиг");
+        objList.add("Логистика");
+        configureObjectListChoiceBoixId.getItems().clear();
+        configureObjectListChoiceBoixId.getItems().addAll(objList);
+
+        //fill List of items of Object
+        configureObjectListChoiceBoixId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            int index = configureObjectListChoiceBoixId.getItems().indexOf(newValue);
+            configureDescriptionNameId.setText(experiment.getConfigureQualityValuesList().get(index).getKey());
+            configureQualityId.setText("" + experiment.getConfigureQualityValuesList().get(index).getValue());
+        });
+
+    }
+
 
     public void onSaveButton(){
         //qualityList.replaceAll(x -> Double.parseDouble(defaultDefectId.getText()));
@@ -457,5 +491,11 @@ public class ScenarioManager {
 
     public void onScenarioBrigadeSaveButton() {
         experiment.getScenarioBrigadesList().set(scenarioBrigadeChoiceBoxId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioBrigadeCountTurnsId.getText()));
+    }
+
+    //Configure
+    public void onConfigureFixButton() {
+        experiment.getConfigureQualityValuesList().set(configureObjectListChoiceBoixId.getSelectionModel().getSelectedIndex(),
+                new Pair<>(configureDescriptionNameId.getText(), Double.parseDouble(configureQualityId.getText())) );
     }
 }
