@@ -400,9 +400,9 @@ public class Experiment {
             brick.getProperties().put("Цвет", brickList.get(i).getProperties().get("Цвет"));
             //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             brick.getProperties().put("Размеры", brickList.get(i).getProperties().get("Размеры"));
-            brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины"));
             quality = (1 - random.nextDouble()) < avgQuality;
-            brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура"));
+            brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины") & quality);
+            brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура") & quality);
             //
             logisticBrickList.add(brick);
         }

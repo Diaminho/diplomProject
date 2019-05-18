@@ -105,11 +105,10 @@ public class ExperimentController {
     @FXML
     public void onControlChartButton() {
         List<Boolean> qualityList = new ArrayList<>();
-        synchronized (experimentManager.getNewExperiment()) {
-            for (Material m : experimentManager.getNewExperiment().getRawList()) {
-                qualityList.add(m.getAvgQuality());
-            }
+        for (Material m : experimentManager.getNewExperiment().getRawList()) {
+            qualityList.add(m.getAvgQuality());
         }
+
         try {
             controlChartController = new ControlChartController(new Stage(), qualityList);
         } catch (IOException e) {
@@ -121,6 +120,16 @@ public class ExperimentController {
     public void onFixButton() {
         try {
             new FixWindowController(new Stage(), experimentManager.getNewExperiment());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void onIshikawaButton() {
+        try {
+            new IshikawaController(new Stage());
         } catch (IOException e) {
             e.printStackTrace();
         }
