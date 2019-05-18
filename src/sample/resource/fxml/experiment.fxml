@@ -31,12 +31,10 @@
       <Text fx:id="rawQualityID" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
       <Text fx:id="firstStageText" strokeType="OUTSIDE" strokeWidth="0.0" text="1 этап" visible="false" GridPane.rowIndex="3" GridPane.valignment="TOP" />
       <Button mnemonicParsing="false" onAction="#onChooseMaterialsButton" text="Выбрать материалы" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
-      <Button mnemonicParsing="false" onAction="#onOperateButton" text="Построить оперативную характеристику" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <AnchorPane fx:id="experimentPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="3" />
       <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPauseButton" text="Пауза" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
       <Button mnemonicParsing="false" onAction="#onScenarioButton" text="Задать сценарий" />
-      <Button mnemonicParsing="false" onAction="#onControlChartButton" text="Контрольная карта" GridPane.rowIndex="1" />
       <Button mnemonicParsing="false" onAction="#onFixButton" text="Повлиять на процесс" GridPane.rowIndex="4" />
-      <Button mnemonicParsing="false" onAction="#onIshikawaButton" text="Диаграмма Ишикавы" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" onAction="#onStatMethodsButton" text="Статистические методы" GridPane.columnIndex="1" />
    </children>
 </GridPane>

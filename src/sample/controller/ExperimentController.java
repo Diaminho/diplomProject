@@ -68,18 +68,6 @@ public class ExperimentController {
     }
 
     @FXML
-    public void onOperateButton(){
-        if (experimentManager.onOperateButton()==0) {
-            try {
-                Map materialsMap = getExperimentManager().getMaterialQualityMap();
-                new InputSampleParamsController(new Stage(), materialsMap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
     public void onPauseButton(){
         experimentManager.onPauseButton();
     }
@@ -103,20 +91,6 @@ public class ExperimentController {
 
 
     @FXML
-    public void onControlChartButton() {
-        List<Boolean> qualityList = new ArrayList<>();
-        for (Material m : experimentManager.getNewExperiment().getRawList()) {
-            qualityList.add(m.getAvgQuality());
-        }
-
-        try {
-            controlChartController = new ControlChartController(new Stage(), qualityList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public void onFixButton() {
         try {
             new FixWindowController(new Stage(), experimentManager.getNewExperiment());
@@ -126,10 +100,12 @@ public class ExperimentController {
     }
 
 
+
+
     @FXML
-    public void onIshikawaButton() {
+    public void onStatMethodsButton() {
         try {
-            new IshikawaController(new Stage());
+            new StatMethodsController(new Stage(), experimentManager.getNewExperiment());
         } catch (IOException e) {
             e.printStackTrace();
         }

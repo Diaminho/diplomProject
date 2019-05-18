@@ -286,16 +286,7 @@ public class ExperimentManager {
 
     }
 
-    @FXML
-    public Integer onOperateButton(){
-        if (materialIntegerMap==null) {
-            showAlertDialog();
-            return -1;
-        }
-        else {
-            return 0;
-        }
-    }
+
 
 
     @FXML

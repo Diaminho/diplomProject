@@ -19,7 +19,7 @@ public class FixWindowManager {
 
     public FixWindowManager(Parent root, Experiment experiment) {
         FixWindowManager.root = root;
-        this.experiment= experiment;
+        this.experiment = experiment;
         init();
     }
 
