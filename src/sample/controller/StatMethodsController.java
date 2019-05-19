@@ -67,6 +67,15 @@ public class StatMethodsController {
         }
     }
 
+    @FXML
+    public void onParetoButton() {
+        try {
+            new ParetoController(new Stage(), experiment);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Integer onOperateButtonCan(){
         if (experiment.getMaterialMap()==null) {

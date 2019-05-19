@@ -137,7 +137,9 @@ public class ExperimentTask {
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
                     System.out.println("Burning " + counter++ + " Thread: " + Thread.currentThread().getName());
-                    Statistic.printBrickStat(experiment.getBrickList());
+                    Statistic statistic = new Statistic();
+                    statistic.calculateBrickStat(experiment.getBrickList());
+                    statistic.printResult();
                     //oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                     //}
@@ -172,8 +174,9 @@ public class ExperimentTask {
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
                     System.out.println("Logistic " + counter++ + " Thread: " + Thread.currentThread().getName());
-                    Statistic.printBrickStat(experiment.getLogisticBrickList());
-                    //oldCount+=1;
+                    Statistic statistic = new Statistic();
+                    statistic.calculateBrickStat(experiment.getLogisticBrickList());
+                    statistic.printResult();//oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                     //}
                 }

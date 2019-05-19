@@ -8,9 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 public class Statistic {
+    private Map<String, Double> defectsCountMap;
 
-    public static void printBrickStat(List<Brick> brickList){
-        Map<String,Double> defectsCountMap=new HashMap<>();
+
+    public Map<String, Double> getDefectsCountMap() {
+        return defectsCountMap;
+    }
+
+    public void calculateBrickStat(List<Brick> brickList){
+        defectsCountMap=new HashMap<>();
 
         for (String s:brickList.get(0).getProperties().keySet()){
             defectsCountMap.put(s,0d);
@@ -25,18 +31,13 @@ public class Statistic {
         }
 
         defectsCountMap.replaceAll((k, v) -> v=v/100);
-
-
-        printResult(defectsCountMap);
-
     }
 
 
-
-    private static void printResult(Map map){
+    public void printResult(){
         System.out.println("Количество дефектов");
-        for (Object o: map.keySet()){
-            System.out.println(o+": "+map.get(o));
+        for (Object o: defectsCountMap.keySet()){
+            System.out.println(o+": " + defectsCountMap.get(o));
         }
     }
 }
