@@ -4,3 +4,8 @@
 .default-color0.chart-series-line {
     -fx-stroke: forestgreen;
 }
+.default-color0.chart-symbol { /* solid circle */
+    -fx-background-color: forestgreen;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}

@@ -1,5 +1,6 @@
 package sample.statistic;
 
+import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.layout.StackPane;
 import sample.resource.Brick;
@@ -42,9 +43,9 @@ public class ParetoDiagram {
         lineChart =  new LineChart<String, Number> (new CategoryAxis(), createYaxis());
         setDefaultChartProperties(barChart);
         setDefaultChartProperties(lineChart);
-        lineChart.setCreateSymbols(false);
-        //barChart.setCategoryGap(0);
-        //barChart.setBarGap(0);
+        lineChart.setCreateSymbols(true);
+        barChart.setCategoryGap(0);
+        barChart.setBarGap(0);
 
         //xAxis.setLabel("Дефекты");
         //yAxis.setLabel("Процентное содержание в выборке");
@@ -65,8 +66,13 @@ public class ParetoDiagram {
                     }
                     seriesBar.getData().add(new XYChart.Data<>(e.getKey(), e.getValue()));
                 });
+        double oldSumDef = series.getData().get(series.getData().size() - 1).getYValue().doubleValue();
         series.getData().stream().forEach(e -> {
-            e.setYValue( e.getYValue().doubleValue() / series.getData().get(series.getData().size() -1).getYValue().doubleValue());
+            e.setYValue( e.getYValue().doubleValue() / oldSumDef);
+        });
+
+        seriesBar.getData().stream().forEach(e -> {
+            e.setYValue( e.getYValue().doubleValue() / oldSumDef);
         });
         lineChart.getData().addAll(series);
         barChart.getData().addAll(seriesBar);
