@@ -1,8 +1,6 @@
 package sample.manager;
 
 import javafx.scene.Parent;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.layout.StackPane;
 import sample.Experiment;
 import sample.statistic.ParetoDiagram;
