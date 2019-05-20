@@ -1,15 +1,13 @@
 package sample.statistic;
 
-import javafx.geometry.Side;
 import javafx.scene.chart.*;
 import javafx.scene.layout.StackPane;
 import sample.resource.Brick;
-import sample.resource.Material;
 
-import java.util.*;
-
-import static java.util.Map.Entry.comparingByValue;
-import static java.util.stream.Collectors.toMap;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ParetoDiagram {
     private BarChart<String, Number> barChart;
@@ -46,6 +44,13 @@ public class ParetoDiagram {
         lineChart.setCreateSymbols(true);
         barChart.setCategoryGap(0);
         barChart.setBarGap(0);
+        barChart.getXAxis().setLabel("Виды дефектов");
+        barChart.getYAxis().setLabel("Доля дефекта");
+        barChart.setTitle("Доли всех разновидностей дефектов");
+
+        lineChart.getXAxis().setLabel("Виды дефектов");
+        lineChart.getYAxis().setLabel("Доля дефекта");
+        lineChart.setTitle("Доли всех разновидностей дефектов");
 
         //xAxis.setLabel("Дефекты");
         //yAxis.setLabel("Процентное содержание в выборке");
@@ -105,8 +110,8 @@ public class ParetoDiagram {
     }
 
     private NumberAxis createYaxis() {
-        final NumberAxis axis = new NumberAxis(0, 1, 0.05);
-        axis.setPrefWidth(35);
+        final NumberAxis axis = new NumberAxis(0, 1.1, 0.05);
+        axis.setPrefWidth(65);
         axis.setMinorTickCount(10);
 
         axis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(axis) {

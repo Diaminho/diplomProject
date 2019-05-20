@@ -17,14 +17,11 @@ import sample.Experiment;
 import sample.animation.AnimationFunctions;
 import sample.controller.MainController;
 import sample.resource.Material;
-import sample.sampling.SampleGenerator;
 import sample.task.ExperimentTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class ExperimentManager {
@@ -45,10 +42,7 @@ public class ExperimentManager {
 
     @FXML
     Stage primaryStage;
-    private Thread animationThread;
-    private Experiment newExperiment;
-    private Map<Material, Integer> materialIntegerMap;
-    private Map<Material, List<Double>> materialQualityMap;
+    public static Experiment newExperiment;
     Label rawVolumeLabel;
     ExperimentTask experimentTask;
     private List<Timeline> timelineList;
@@ -64,18 +58,11 @@ public class ExperimentManager {
         this.newExperiment = newExperiment;
     }
 
-    public ExperimentManager(Parent root) {
+    public ExperimentManager(Parent root, Experiment experiment) {
         ExperimentManager.root = root;
+        ExperimentManager.newExperiment = experiment;
         init();
         timelineList=new ArrayList<>();
-    }
-
-    public Map<Material, List<Double>> getMaterialQualityMap() {
-        return materialQualityMap;
-    }
-
-    public void setMaterialQualityMap(Map<Material, List<Double>> materialQualityMap) {
-        this.materialQualityMap = materialQualityMap;
     }
 
     private void init() {
@@ -117,11 +104,11 @@ public class ExperimentManager {
         Timeline timeline;
         ImageView iv=new ImageView();
 
-        if (materialIntegerMap !=null){
+        if (newExperiment.getMaterialMap() !=null){
             //GRAPHICS
             //gc.clearRect(0, 0, canvasExperiment.getWidth(), canvasExperiment.getHeight());
             int pos=70;
-            for (Material i: materialIntegerMap.keySet()) {
+            for (Material i: newExperiment.getMaterialMap().keySet()) {
                 //timeline=AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
                 //timelineList.add(timeline);
                 iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
@@ -136,23 +123,12 @@ public class ExperimentManager {
             showAlertDialog();
             return -1;
         }
-
-
-        //NEED TO MOVE TO ANOTHER THREAD
-        if (newExperiment!=null) {
-            newExperiment.setMaterialMap(materialIntegerMap);
-            newExperiment.fillNeededMaterials();
-        }
-        else{
-            newExperiment = new Experiment(materialIntegerMap);
-        }
+        
         experimentTask=new ExperimentTask();
         Runnable t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
         //taskList.add(t);
         //t.start();
         experimentTask.addSuspendableTask(t,0, 5);
-
-
 
 
         //BRIGADES
@@ -263,29 +239,6 @@ public class ExperimentManager {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public void onChooseMaterialsButton(Map<Material, Integer> materials) {
-        if (materials!=null) {
-            materialIntegerMap = new HashMap<>(materials);
-            //
-            Double quality;
-            List<Double> qualityList = new ArrayList<>();
-            materialQualityMap = new HashMap<>();
-            for (Object o : materialIntegerMap.keySet()) {
-                //set material properties
-                //((Material)o).addProperty("","0.9");
-                //
-                qualityList = SampleGenerator.generateSample(materialIntegerMap.get(o), 0.05f, 0.88f);
-                materialQualityMap.put((Material) o, qualityList);
-            }
-        }
-        //
-        //SampleGenerator.generateSample();
-        //
-
-    }
-
 
 
 

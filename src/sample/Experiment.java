@@ -152,8 +152,9 @@ public class Experiment {
     public Experiment(Map materialMap) {
         this.materialMap = new HashMap<>(materialMap);
         materialMap.keySet().forEach(material -> {
-            defaultMaterialsQuality.put((Material) material, 0.9);
+            defaultMaterialsQuality.put((Material) material, 0.99);
         });
+
         //raw =new ArrayList<>();
         init();
         fillNeededMaterials();
@@ -223,15 +224,15 @@ public class Experiment {
         stageQuality=new ArrayList<>();
         for (int i = 0;i < stagesNames.size(); i++) {
             List<Double> list = new ArrayList<>();
-            list.add(0.9d);
+            list.add(0.99d);
             stageQuality.add(list);
         }
         //
 
         //fill default brigadeQuality
         brigades=new ArrayList<>();
-        brigades.add(0.9);
-        brigades.add(0.9);
+        brigades.add(0.99);
+        brigades.add(0.99);
 
         scenarioBrigadesList.add(-1);
         scenarioBrigadesList.add(-1);
@@ -259,8 +260,10 @@ public class Experiment {
 
     public void fillNeededMaterials(){
         neededMaterials=new HashMap<>();
+        defaultMaterialsQuality = new HashMap<>();
         for (Object o: materialMap.keySet()){
             neededMaterials.put(new Material(((Material)o).getName()),5);
+            defaultMaterialsQuality.put( (Material) o, 0.99);
         }
     }
 

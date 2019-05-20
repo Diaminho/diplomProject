@@ -9,12 +9,8 @@ import javafx.stage.Stage;
 import sample.Experiment;
 import sample.manager.ExperimentManager;
 import sample.resource.Material;
-import sample.stage.ChosenMaterialsStage;
-import sample.stage.ScenarioStage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class ExperimentController {
@@ -34,11 +30,11 @@ public class ExperimentController {
     private ControlChartController controlChartController;
 
 
-    public ExperimentController(Stage primaryStage) throws IOException {
+    public ExperimentController(Stage primaryStage, Experiment experiment) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/experiment.fxml"));
         ExperimentController.primaryStage=primaryStage;
         primaryStage.setTitle("Производство кирпичей");
-        ExperimentController.experimentManager = new ExperimentManager(root);
+        ExperimentController.experimentManager = new ExperimentManager(root , experiment);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -57,38 +53,9 @@ public class ExperimentController {
     }
 
     @FXML
-    public void onChooseMaterialsButton() {
-        ChosenMaterialsStage matStage=new ChosenMaterialsStage();
-        try {
-            chosenMaterials=matStage.showAndReturn(new MaterialsListController(matStage));
-            experimentManager.onChooseMaterialsButton(chosenMaterials);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public void onPauseButton(){
         experimentManager.onPauseButton();
     }
-
-    @FXML
-    public void onScenarioButton(){
-        ScenarioStage sStage=new ScenarioStage();
-        try {
-            Experiment experiment =sStage.showAndReturn(new ScenarioController(sStage, chosenMaterials));
-            experimentManager.setNewExperiment(experiment);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        /*
-        try {
-            new ScenarioController();
-        } catch(Exception e) {
-            e.printStackTrace();
-        }*/
-    }
-
 
     @FXML
     public void onFixButton() {

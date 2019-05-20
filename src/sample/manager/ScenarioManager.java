@@ -17,7 +17,6 @@ import java.util.Map;
 public class ScenarioManager {
     //TODO добавить новую вкладку для мер воздействия на процесс Название, показатель качества после воздействия (случайно, нормальное распределение)
     private static Parent root;
-    private Map<Material, Integer> materialQuantityMap;
     private Map<String, String> logStringsMap;
 
     TextArea logTextAreaId;
@@ -64,7 +63,7 @@ public class ScenarioManager {
     TextField configureDescriptionNameId;
     TextField configureQualityId;
 
-    private Experiment experiment;
+    public static Experiment experiment;
 
 
     private int maxCountProcessIterations;
@@ -77,9 +76,9 @@ public class ScenarioManager {
         this.experiment = experiment;
     }
 
-    public ScenarioManager(Parent root, Map<Material, Integer> materialQuantityMap) {
+    public ScenarioManager(Parent root, Experiment experiment) {
         ScenarioManager.root = root;
-        this.materialQuantityMap = new HashMap<>(materialQuantityMap);
+        ScenarioManager.experiment = experiment;
         logStringsMap = new HashMap<>();
         init();
         initLog();
@@ -126,10 +125,7 @@ public class ScenarioManager {
 
     private void init(){
         //TODO ADD LOGS IN TEXTAREA and add scenario influence in Experiment
-        experiment = new Experiment(materialQuantityMap);
-        for (Material m: materialQuantityMap.keySet()) {
-            experiment.getDefaultMaterialsQuality().put(m, 0.9);
-        }
+
 
         maxCountProcessIterations = -1;
         Material neededMaterial;
@@ -219,7 +215,7 @@ public class ScenarioManager {
     private void fillSettingsMaterials() {
         materialsQualityId.setText("-");
         List<String> materialsNamesList = new ArrayList<>();
-        for (Material m: materialQuantityMap.keySet()) {
+        for (Material m: experiment.getMaterialMap().keySet()) {
             materialsNamesList.add(m.getName());
         }
         materialsChoiceBoxId.getItems().addAll(materialsNamesList);

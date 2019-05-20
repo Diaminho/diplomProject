@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.Experiment;
 import sample.manager.HistogramManager;
-import sample.manager.InputManager;
 
 import java.io.IOException;
 
@@ -25,8 +24,11 @@ public class HistogramController {
         primaryStage.show();
     }
 
+    public HistogramController() {
+    }
+
     @FXML
     public void onBuildButton() {
-
+        histogramManager.onBuildButton();
     }
 }

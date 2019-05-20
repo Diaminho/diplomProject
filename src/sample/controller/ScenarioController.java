@@ -5,11 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Experiment;
 import sample.manager.ScenarioManager;
-import sample.resource.Material;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class ScenarioController {
     public static Stage primaryStage;
@@ -21,11 +20,11 @@ public class ScenarioController {
 
 
 
-    public ScenarioController(Stage primaryStage, Map<Material, Integer> materialsQuantityMap) throws IOException {
+    public ScenarioController(Stage primaryStage, Experiment experiment) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/scenario.fxml"));
         ScenarioController.primaryStage = primaryStage;
         primaryStage.setTitle("Редактор сценария");
-        ScenarioController.scenarioManager = new ScenarioManager(root, materialsQuantityMap);
+        ScenarioController.scenarioManager = new ScenarioManager(root, experiment);
         primaryStage.setScene(new Scene(root));
         //primaryStage.show();
     }

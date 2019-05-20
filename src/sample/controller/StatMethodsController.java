@@ -66,6 +66,14 @@ public class StatMethodsController {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void onHistogramButton() {
+        try {
+            new HistogramController(new Stage(), experiment);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void onParetoButton() {
