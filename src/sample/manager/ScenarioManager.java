@@ -298,8 +298,6 @@ public class ScenarioManager {
         stagesNameList.add("Обжиг");
         stagesNameList.add("Логистика");
 
-        //TODO добавить названия для мер воздействия
-
         scenarioStageChoiceBoxId.getItems().addAll(stagesNameList);
         //ChoiceBox
         ChangeListener<String> changeListener = new ChangeListener<String>() {

@@ -28,6 +28,11 @@ public class HistogramController {
     }
 
     @FXML
+    public void onAppyFilterButton() {
+        histogramManager.onAppyFilterButton();
+    }
+
+    @FXML
     public void onBuildButton() {
         histogramManager.onBuildButton();
     }

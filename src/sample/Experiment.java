@@ -473,6 +473,19 @@ public class Experiment {
         return false;
     }
 
+
+    public List<Brick> getFilterBrick(List<Brick> bricks, int toolId, int sizeTools) {
+        List<Brick> filterBrickList = new ArrayList<>();
+        int toolIndex;
+        for (int i = 100; i <= bricks.size(); i+=100) {
+            toolIndex = ((i / 100) % sizeTools);
+            if (toolIndex == toolId) {
+                filterBrickList.addAll(bricks.subList((i - 100), i));
+            }
+        }
+        return filterBrickList;
+    }
+
 };
 
 

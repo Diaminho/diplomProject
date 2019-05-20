@@ -4,35 +4,75 @@ import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ChoiceBox;
 import sample.Experiment;
 import sample.resource.Brick;
 import sample.statistic.Statistic;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HistogramManager {
     static Parent root;
     Experiment experiment;
+    List<Brick> brickList;
+
+    ChoiceBox<String> objectChoiceBoxId;
+    ChoiceBox<String> numberChoiceBoxId;
     BarChart<String, Number> barChartId;
 
     public HistogramManager(Parent root, Experiment experiment) {
         this.experiment = experiment;
         HistogramManager.root = root;
         init();
+        brickList = experiment.getLogisticBrickList();
     }
 
     private void init() {
         barChartId = (BarChart<String, Number>) root.lookup("#barChartId");
+        objectChoiceBoxId = (ChoiceBox<String>) root.lookup("#objectChoiceBoxId");
+        List<String> objList = new ArrayList<>();
+        objList.add("Бригады");
+        objList.add("Смешивание");
+        objList.add("Формовка");
+        objList.add("Сушка");
+        objList.add("Обжиг");
+        objList.add("Логистика");
+        objectChoiceBoxId.getItems().addAll(objList);
+
+        numberChoiceBoxId = (ChoiceBox<String>) root.lookup("#numberChoiceBoxId");
+        objectChoiceBoxId.valueProperty().addListener((observable, oldValue, newValue) -> {
+            int size;
+            int index = objectChoiceBoxId.getItems().indexOf(newValue);
+            if (index == 0) {
+                size = experiment.getBrigades().size();
+            }
+            else {
+                size = experiment.getStageQuality().get(index - 1).size();
+            }
+            numberChoiceBoxId.getItems().clear();
+            for (int i = 0; i < size; i++) {
+                numberChoiceBoxId.getItems().add(""+ (i + 1));
+            }
+        });
+    }
+
+    public void onAppyFilterButton() {
+        brickList = experiment.getLogisticBrickList();
+        int objId = objectChoiceBoxId.getSelectionModel().getSelectedIndex();
+        if (objId != -1) {
+            int size = (objId == 0) ? experiment.getBrigades().size(): experiment.getStageQuality().get(objId - 1).size();
+            brickList = experiment.getFilterBrick(brickList, numberChoiceBoxId.getSelectionModel().getSelectedIndex(), size);
+        }
     }
 
     public void onBuildButton() {
-        buildHistogram();
+        buildHistogram(brickList);
     }
 
-    private void buildHistogram() {
+    private void buildHistogram(List<Brick> brickList) {
+        if (brickList.size() == 0) {
+            return;
+        }
         //barChartId = new BarChart<>(new CategoryAxis(), new NumberAxis(0, 1.1, 0.05));
         barChartId.getYAxis().setAutoRanging(false);
         ((NumberAxis) barChartId.getYAxis()).setLowerBound(0);
@@ -50,7 +90,6 @@ public class HistogramManager {
 
         //xAxis.setLabel("Дефекты");
         //yAxis.setLabel("Процентное содержание в выборке");
-        List<Brick> brickList = experiment.getLogisticBrickList();
         Statistic statistic = new Statistic();
         statistic.calculateBrickStat(brickList);
         Map<String, Double> defectMap = new HashMap<>(statistic.getDefectsCountMap());
