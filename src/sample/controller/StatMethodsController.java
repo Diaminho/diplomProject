@@ -59,6 +59,7 @@ public class StatMethodsController {
         for (Material m : experiment.getRawList()) {
             qualityList.add(m.getAvgQuality());
         }
+        //TODO add materials and final brick
 
         try {
             new ControlChartController(new Stage(), qualityList);
