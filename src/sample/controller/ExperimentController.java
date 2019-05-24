@@ -66,9 +66,6 @@ public class ExperimentController {
         }
     }
 
-
-
-
     @FXML
     public void onStatMethodsButton() {
         try {

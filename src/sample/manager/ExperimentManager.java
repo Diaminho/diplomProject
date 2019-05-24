@@ -75,9 +75,6 @@ public class ExperimentManager {
         rawVolumeLabel=new Label();
     }
 
-
-
-
     private ImageView setImageViewProperties(Image image, double width, double height, double x, double y){
         ImageView iv=new ImageView(image);
         iv.setFitWidth(width);
@@ -86,8 +83,6 @@ public class ExperimentManager {
         iv.setY(y);
         return iv;
     }
-
-
 
     @FXML
     public Integer onStartExperimentButton() throws IOException {
@@ -103,6 +98,7 @@ public class ExperimentManager {
 
         Timeline timeline;
         ImageView iv=new ImageView();
+        newExperiment.generatePreData();
 
         if (newExperiment.getMaterialMap() !=null){
             //GRAPHICS

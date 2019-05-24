@@ -28,8 +28,9 @@ public class Brick extends Material {
     }
 
     public void calculateAvgQuality(){
+        boolean avgQuality = true;
         for (String s:properties.keySet()){
-            properties.get(s);
+            avgQuality = avgQuality & properties.get(s);
         }
         this.avgQuality = avgQuality;
     }

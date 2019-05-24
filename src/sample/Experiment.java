@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.util.Pair;
 import sample.resource.Brick;
 import sample.resource.Material;
+import sample.statistic.Statistic;
 
 import java.util.*;
 
@@ -275,8 +276,28 @@ public class Experiment {
         return (double)rawVolume/3;
     }
 
+
+    public void generatePreData() {
+        materialMap.forEach((k, v) -> v = v + 50);
+        int i = 0;
+        Statistic statistic = new Statistic();
+        while (i < 10) {
+            produceRawMaterial();
+            doCutting();
+            doDrying();
+            doBurning();
+            doLogistic();
+            statistic.calculateBrickStat(logisticBrickList);
+            statistic.printResult();
+            i++;
+        }
+        System.out.println("DONE");
+    }
+
+
     //2 stage blending
     public boolean produceRawMaterial() {
+        //TODO need to redo this
         int toolIndex = ((rawList.size() / 100) % stageQuality.get(0).size());
         checkScenario(0, toolIndex);
         for (Object o : materialMap.keySet()) {
@@ -407,6 +428,7 @@ public class Experiment {
             brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины") & quality);
             brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура") & quality);
             //
+            brick.calculateAvgQuality();
             logisticBrickList.add(brick);
         }
         countList.set(4, ++counterBrick);

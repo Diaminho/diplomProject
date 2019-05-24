@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import sample.Experiment;
+import sample.resource.Brick;
 import sample.resource.Material;
 
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class StatMethodsController {
     @FXML
     public void onControlChartButton() {
         List<Boolean> qualityList = new ArrayList<>();
-        for (Material m : experiment.getRawList()) {
+        for (Brick m : experiment.getLogisticBrickList()) {
             qualityList.add(m.getAvgQuality());
         }
         //TODO add materials and final brick

@@ -89,7 +89,7 @@ public class ControlChartManager {
         controlChartId.getData().add(seriesPAvg);
         controlChartId.getData().add(seriesLower);
         controlChartId.getData().add(seriesUpper);
-        controlChartId.getXAxis().setLabel("Количество дефектной продукции в %");
+        controlChartId.getXAxis().setLabel("Номер выборки");
         controlChartId.getYAxis().setLabel("Вероятность приема выборки");
         controlChartId.setCreateSymbols(false);
         controlChartId.setLegendVisible(true);

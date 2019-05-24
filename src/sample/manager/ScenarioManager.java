@@ -426,12 +426,15 @@ public class ScenarioManager {
     public void onSetBrigadeCountButton() {
         //experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
         List<Double> brigades = new ArrayList<>();
+        List<Integer> brigadesScenario = new ArrayList<>();
         brigadesChoiceBoxId.getItems().clear();
         for (int i = 0; i < Integer.parseInt(brigadesCountId.getText()); i++) {
             brigades.add(0.8);
+            brigadesScenario.add(-1);
             brigadesChoiceBoxId.getItems().add(i + 1);
         }
         experiment.setBrigades(brigades);
+        experiment.setScenarioBrigadesList(brigadesScenario);
     }
 
     public void onCancelButton(){
