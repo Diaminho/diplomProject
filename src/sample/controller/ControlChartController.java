@@ -23,7 +23,7 @@ public class ControlChartController {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/controlChart.fxml"));
         //MainController.primaryStage = primaryStage;
         ControlChartController.primaryStage=primaryStage;
-        primaryStage.setTitle("Контрольная картя");
+        primaryStage.setTitle("Контрольная карта");
         ControlChartController.controlChartManager = new ControlChartManager(root, qualityList);
         ControlChartController.primaryStage.setScene(new Scene(root));
         ControlChartController.primaryStage.show();

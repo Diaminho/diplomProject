@@ -60,7 +60,7 @@ public class ControlChartManager {
     public void onBuildButton(){
         controlChartId.getData().clear();
 
-        controlChartId.setTitle("Оперативная характеристика");
+        controlChartId.setTitle("Контрольная p карта");
         controlChartId.setLegendVisible(false);
         controlChartId.getStylesheets().add(Main.class.getResource("/sample/css/samplingChart.css").toExternalForm());
         controlChart.setLcl(Double.parseDouble(lclId.getText()));
@@ -81,7 +81,10 @@ public class ControlChartManager {
             seriesLower.getData().add(new XYChart.Data<>("" + i, controlChart.getLcl()));
             seriesUpper.getData().add(new XYChart.Data<>("" + i, controlChart.getUcl()));
         }
-
+        seriesPi.setName("Значения дефектов в выборках");
+        seriesLower.setName("Нижняя линия контроля");
+        seriesUpper.setName("Верхняя линия контроля");
+        seriesPAvg.setName("Линия среднего значения");
         controlChartId.getData().add(seriesPi);
         controlChartId.getData().add(seriesPAvg);
         controlChartId.getData().add(seriesLower);

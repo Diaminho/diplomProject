@@ -15,9 +15,8 @@
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="46.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="356.0" minHeight="10.0" prefHeight="313.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="85.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="128.0" minHeight="0.0" prefHeight="55.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="359.0" minHeight="10.0" prefHeight="345.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Выберите вид дефектов">
@@ -27,6 +26,5 @@
       </Text>
       <ChoiceBox fx:id="ishikawaChoiceBoxId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
       <ImageView fx:id="imageViewId" fitHeight="317.0" fitWidth="444.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button mnemonicParsing="false" text="Закрыть" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
    </children>
 </GridPane>
