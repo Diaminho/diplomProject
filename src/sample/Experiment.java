@@ -34,6 +34,11 @@ public class Experiment {
 
     private double acceptableQuality = 0.8;
 
+    private List<Double> normalDistrParamsList;
+    private List<Double> gaussianDistrParamsList;
+
+
+
     public List<Pair<String, Double>> getConfigureQualityValuesList() {
         return configureQualityValuesList;
     }
@@ -344,13 +349,17 @@ public class Experiment {
         List<Double> rawQuality = new ArrayList<>();
         int countCutting = countList.get(1);
 
+        Random newRandom = new Random();
+        newRandom.nextGaussian();
         rawList.subList(100 * countCutting,100 * (countCutting + 1)).forEach(material -> {
             Random random = new Random();
             Double quality = (material.getAvgQuality()) ? acceptableQuality + random.nextDouble() * (1 - acceptableQuality): random.nextDouble() * acceptableQuality;
             rawQuality.add(quality);
         });
 
-        Double avgQuality = (stageQuality.get(1).get(0) + brigades.get(brigadeIndex)) / 2;
+        //double avgQuality = (stageQuality.get(1).get(0));
+        double avgQuality = (stageQuality.get(1).get(0) + brigades.get(brigadeIndex)) / 2;
+
         if (rawQuality.size() < 100) {
             System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
             return false;
@@ -416,7 +425,7 @@ public class Experiment {
         checkScenario(4, toolIndex);
         Double avgQuality = stageQuality.get(4).get(toolIndex);
         Random random = new Random();
-        Boolean quality;
+        boolean quality, prevQuality;
         int counterBrick = countList.get(4);
         for (int i = 100 * (counterBrick); i < 100 * (counterBrick + 1); i++) {
             //TODO add influence of stage to brick quality
@@ -425,6 +434,7 @@ public class Experiment {
             //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             brick.getProperties().put("Размеры", brickList.get(i).getProperties().get("Размеры"));
             quality = (1 - random.nextDouble()) < avgQuality;
+            prevQuality = brickList.get(i).getProperties().get("Трещины") ? (1 - random.nextDouble()) < stageQuality.get(2).get(0) :
             brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины") & quality);
             brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура") & quality);
             //

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Statistic {
     private Map<String, Double> defectsCountMap;
-
+    private double defectBrickCount = 0;
 
     public Map<String, Double> getDefectsCountMap() {
         return defectsCountMap;
@@ -28,16 +28,18 @@ public class Statistic {
                     defectsCountMap.replace(property, defectsCountMap.get(property) + 1);
                 }
             }
+            defectBrickCount += (brick.getAvgQuality()) ? 0: 1;
         }
-
+        defectBrickCount /= 100;
         defectsCountMap.replaceAll((k, v) -> v=v/100);
     }
 
 
     public void printResult(){
-        System.out.println("Количество дефектов");
+        System.out.println("Доли дефектов");
         for (Object o: defectsCountMap.keySet()){
             System.out.println(o+": " + defectsCountMap.get(o));
         }
+        System.out.println("Дефектных изделий в партии: " + defectBrickCount);
     }
 }

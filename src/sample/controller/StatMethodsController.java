@@ -60,7 +60,6 @@ public class StatMethodsController {
         for (Brick m : experiment.getLogisticBrickList()) {
             qualityList.add(m.getAvgQuality());
         }
-        //TODO add materials and final brick
 
         try {
             new ControlChartController(new Stage(), qualityList);
