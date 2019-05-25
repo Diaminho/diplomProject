@@ -6,35 +6,64 @@ import sample.resource.Brick;
 import sample.resource.Material;
 import sample.statistic.Statistic;
 
+import javax.xml.bind.annotation.*;
 import java.util.*;
 
+
+@XmlRootElement(name = "technological_process")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Experiment {
 
+    @XmlElement(name = "materialMap")
     private Map<Material, Integer> materialMap;
+    @XmlTransient
     private Map<Material, Integer> neededMaterials;
+    @XmlTransient
     private List<Material> rawList=new ArrayList<>();
+    @XmlTransient
     private List<Material> dryRawList=new ArrayList<>();
+    @XmlTransient
     private List<Material> cuttedRawList=new ArrayList<>();
+    @XmlTransient
     private List<Brick> brickList=new ArrayList<>();
+    @XmlTransient
     private List<Brick> logisticBrickList = new ArrayList<>();
     private Integer counter=0;
 
+    @XmlElement(name = "brigades")
     private List<Double> brigades;
+    //@XmlElement(name = "stageQuality")
+    @XmlTransient
     private List<List<Double>> stageQuality;
 
+    @XmlTransient
     private Map<Image, Double> stages;
+    @XmlTransient
     private Map<String, Image> stagesNames;
+    @XmlTransient
     private List<Integer> countList=new ArrayList<>();
 
+    @XmlElement(name = "defaultMaterialsQuality")
     private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
+    //@XmlElement(name = "stageInfluenceMap")
+    @XmlTransient
     private Map<String, List<Double>> stagesInfluenceMap = new HashMap<>();
+    //@XmlElement(name = "scenarioStagesList")
+    @XmlTransient
     private List<List<Integer>> scenarioStagesList = new ArrayList<>();
+    //@XmlElement(name = "scenarioBrigadesList")
+    @XmlTransient
     private List<Integer> scenarioBrigadesList = new ArrayList<>();
+    //@XmlElement(name = "configureQualityValuesList")
+    @XmlTransient
     private List<Pair<String, Double>> configureQualityValuesList = new ArrayList<>();
 
+    @XmlTransient
     private double acceptableQuality = 0.8;
 
+    @XmlTransient
     private List<Double> normalDistrParamsList;
+    @XmlTransient
     private List<Double> gaussianDistrParamsList;
 
 
@@ -434,7 +463,7 @@ public class Experiment {
             //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             brick.getProperties().put("Размеры", brickList.get(i).getProperties().get("Размеры"));
             quality = (1 - random.nextDouble()) < avgQuality;
-            prevQuality = brickList.get(i).getProperties().get("Трещины") ? (1 - random.nextDouble()) < stageQuality.get(2).get(0) :
+            //prevQuality = brickList.get(i).getProperties().get("Трещины") ? (1 - random.nextDouble()) < stageQuality.get(2).get(0) :
             brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины") & quality);
             brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура") & quality);
             //

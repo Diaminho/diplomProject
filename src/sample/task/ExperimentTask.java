@@ -5,9 +5,26 @@ import javafx.scene.control.Label;
 import sample.Experiment;
 import sample.statistic.Statistic;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import java.util.concurrent.*;
 
 public class ExperimentTask {
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setExecutor(PausableScheduledThreadPoolExecutor executor) {
+        this.executor = executor;
+    }
 
     private PausableScheduledThreadPoolExecutor executor = new PausableScheduledThreadPoolExecutor(4);
 
@@ -137,9 +154,9 @@ public class ExperimentTask {
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
                     System.out.println("Burning " + counter++ + " Thread: " + Thread.currentThread().getName());
-                    Statistic statistic = new Statistic();
-                    statistic.calculateBrickStat(experiment.getBrickList());
-                    statistic.printResult();
+                    //Statistic statistic = new Statistic();
+                    //statistic.calculateBrickStat(experiment.getBrickList());
+                    //statistic.printResult();
                     //oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                     //}
@@ -176,11 +193,26 @@ public class ExperimentTask {
                     System.out.println("Logistic " + counter++ + " Thread: " + Thread.currentThread().getName());
                     Statistic statistic = new Statistic();
                     statistic.calculateBrickStat(experiment.getLogisticBrickList());
-                    statistic.printResult();//oldCount+=1;
+                    writeBrickInfoToFile(statistic.printResult());//oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                     //}
                 }
             }
         };
+    }
+
+
+
+
+    private void writeBrickInfoToFile(String info) {
+        File file = new File("result" + date + ".txt");
+        try(FileWriter writer = new FileWriter(file, true))
+        {
+            writer.write(info);
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

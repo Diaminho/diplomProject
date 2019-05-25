@@ -18,9 +18,13 @@ import sample.animation.AnimationFunctions;
 import sample.controller.MainController;
 import sample.resource.Material;
 import sample.task.ExperimentTask;
+import sample.task.MarshallConverter;
 
+import javax.xml.bind.JAXBException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -91,6 +95,13 @@ public class ExperimentManager {
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
         //startMyPlayer();
 
+        //test SAVE EXPERIMENT TO XML
+        try {
+            MarshallConverter.marshalingExample(newExperiment);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
         /**
         test thread with pause
         **/
@@ -121,10 +132,11 @@ public class ExperimentManager {
         }
         
         experimentTask=new ExperimentTask();
+        experimentTask.setDate(new Date());
         Runnable t=experimentTask.BlendingTask(newExperiment, rawVolumeLabel);
         //taskList.add(t);
         //t.start();
-        experimentTask.addSuspendableTask(t,0, 5);
+        experimentTask.addSuspendableTask(t,5, 5);
 
 
         //BRIGADES
@@ -197,7 +209,7 @@ public class ExperimentManager {
         Runnable t2=experimentTask.CuttingTask(newExperiment);
         //taskList.add(t2);
         //t2.start();
-        experimentTask.addSuspendableTask(t2,1, 6);
+        experimentTask.addSuspendableTask(t2,6, 6);
 
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
@@ -207,7 +219,7 @@ public class ExperimentManager {
         Runnable t3=experimentTask.DryingTask(newExperiment);
         taskList.add(t3);
         //t3.start();
-        experimentTask.addSuspendableTask(t3,2, 7);
+        experimentTask.addSuspendableTask(t3,7, 6);
 
         //BURNING
         //SOME ANIMATION
@@ -217,13 +229,13 @@ public class ExperimentManager {
         Runnable t4=experimentTask.BurningTask(newExperiment);
         //taskList.add(t4);
         //t4.start();
-        experimentTask.addSuspendableTask(t4,3, 8);
+        experimentTask.addSuspendableTask(t4,8, 6);
 
         //TASK
         Runnable t5=experimentTask.LogisticTask(newExperiment);
         //taskList.add(t4);
         //t4.start();
-        experimentTask.addSuspendableTask(t5,4, 8);
+        experimentTask.addSuspendableTask(t5,9, 6);
         return 0;
     }
 
@@ -284,4 +296,5 @@ public class ExperimentManager {
         alert.setHeaderText("Не были выбраны материалы");
         alert.showAndWait();
     }
+
 }

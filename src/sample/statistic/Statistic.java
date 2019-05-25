@@ -35,11 +35,15 @@ public class Statistic {
     }
 
 
-    public void printResult(){
+    public String printResult(){
+        String res = "\n\nДоли дефектов";
         System.out.println("Доли дефектов");
         for (Object o: defectsCountMap.keySet()){
+            res += "\n" + o + ": " + defectsCountMap.get(o);
             System.out.println(o+": " + defectsCountMap.get(o));
         }
         System.out.println("Дефектных изделий в партии: " + defectBrickCount);
+        res += "\nДефектных изделий в партии: " + defectBrickCount;
+        return res;
     }
 }
