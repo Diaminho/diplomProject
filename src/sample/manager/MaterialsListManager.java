@@ -39,7 +39,7 @@ public class MaterialsListManager {
         MaterialsListManager.root = root;
         init();
         try {
-            for (Material mat:FXCollections.observableArrayList(XmlParser.readXMLFile("./materials.xml"))){
+            for (Material mat:FXCollections.observableArrayList(XmlParser.readXMLFile("materials.xml"))){
                 materialIntegerMap.putNew(mat,0);
             }
         } catch (ParserConfigurationException e) {

@@ -4,11 +4,13 @@ import javafx.scene.image.Image;
 import javafx.util.Pair;
 import sample.resource.Brick;
 import sample.resource.Material;
+import sample.resource.helper.ConfigureQuality;
+import sample.resource.helper.ScenarioStage;
+import sample.resource.helper.StageQualityList;
 import sample.statistic.Statistic;
 
 import javax.xml.bind.annotation.*;
 import java.util.*;
-
 
 @XmlRootElement(name = "technological_process")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -28,13 +30,13 @@ public class Experiment {
     private List<Brick> brickList=new ArrayList<>();
     @XmlTransient
     private List<Brick> logisticBrickList = new ArrayList<>();
-    private Integer counter=0;
 
-    @XmlElement(name = "brigades")
+    @XmlElementWrapper
+    @XmlElement(name="brigade")
     private List<Double> brigades;
-    //@XmlElement(name = "stageQuality")
-    @XmlTransient
-    private List<List<Double>> stageQuality;
+    @XmlElementWrapper
+    @XmlElement(name="stageQuality")
+    private List<StageQualityList> stageQualityList;
 
     @XmlTransient
     private Map<Image, Double> stages;
@@ -45,18 +47,18 @@ public class Experiment {
 
     @XmlElement(name = "defaultMaterialsQuality")
     private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
-    //@XmlElement(name = "stageInfluenceMap")
     @XmlTransient
     private Map<String, List<Double>> stagesInfluenceMap = new HashMap<>();
-    //@XmlElement(name = "scenarioStagesList")
-    @XmlTransient
-    private List<List<Integer>> scenarioStagesList = new ArrayList<>();
+    @XmlElementWrapper
+    @XmlElement(name="scenarioStage")
+    private List<ScenarioStage> scenarioStagesList = new ArrayList<>();
     //@XmlElement(name = "scenarioBrigadesList")
-    @XmlTransient
+    @XmlElementWrapper
+    @XmlElement(name="scenarioBrigade")
     private List<Integer> scenarioBrigadesList = new ArrayList<>();
-    //@XmlElement(name = "configureQualityValuesList")
-    @XmlTransient
-    private List<Pair<String, Double>> configureQualityValuesList = new ArrayList<>();
+    @XmlElementWrapper
+    @XmlElement(name = "configureQuality")
+    private List<ConfigureQuality> configureQualityValuesList = new ArrayList<>();
 
     @XmlTransient
     private double acceptableQuality = 0.8;
@@ -67,12 +69,11 @@ public class Experiment {
     private List<Double> gaussianDistrParamsList;
 
 
-
-    public List<Pair<String, Double>> getConfigureQualityValuesList() {
+    public List<ConfigureQuality> getConfigureQualityValuesList() {
         return configureQualityValuesList;
     }
 
-    public void setConfigureQualityValuesList(List<Pair<String, Double>> configureQualityValuesList) {
+    public void setConfigureQualityValuesList(List<ConfigureQuality> configureQualityValuesList) {
         this.configureQualityValuesList = configureQualityValuesList;
     }
 
@@ -108,11 +109,11 @@ public class Experiment {
         this.scenarioBrigadesList = scenarioBrigadesList;
     }
 
-    public List<List<Integer>> getScenarioStagesList() {
+    public List<ScenarioStage> getScenarioStagesList() {
         return scenarioStagesList;
     }
 
-    public void setScenarioStagesList(List<List<Integer>> scenarioStagesList) {
+    public void setScenarioStagesList(List<ScenarioStage> scenarioStagesList) {
         this.scenarioStagesList = scenarioStagesList;
     }
 
@@ -124,8 +125,8 @@ public class Experiment {
         this.defaultMaterialsQuality = defaultMaterialsQuality;
     }
 
-    public List<List<Double>> getStageQuality() {
-        return stageQuality;
+    public List<StageQualityList> getStageQualityList() {
+        return stageQualityList;
     }
 
     public Map<Material, Integer> getMaterialMap() {
@@ -136,8 +137,8 @@ public class Experiment {
         this.materialMap = materialMap;
     }
 
-    public void setStageQuality(List<List<Double>> stageQuality) {
-        this.stageQuality = stageQuality;
+    public void setStageQualityList(List<StageQualityList> stageQualityList) {
+        this.stageQualityList = stageQualityList;
     }
 
     public List<Double> getBrigades() {
@@ -198,25 +199,25 @@ public class Experiment {
 
     public void calculateInfluenceForStages() {
         List<Double> blendingInfluenceList = new ArrayList<>();
-        for (Double d: stageQuality.get(0)) {
+        for (Double d: stageQualityList.get(0).getStageToolQuality()) {
             blendingInfluenceList.add((1 - d) / 2);
         }
         stagesInfluenceMap.put("Смешивание", blendingInfluenceList);
 
         List<Double> cuttingInfluenceList = new ArrayList<>();
-        for (Double d: stageQuality.get(1)) {
+        for (Double d: stageQualityList.get(1).getStageToolQuality()) {
             cuttingInfluenceList.add((1 - d) / 4);
         }
         stagesInfluenceMap.put("Формовка", cuttingInfluenceList);
 
         List<Double> dryingInfluenceList = new ArrayList<>();
-        for (Double d: stageQuality.get(2)) {
+        for (Double d: stageQualityList.get(2).getStageToolQuality()) {
             dryingInfluenceList.add((1 - d) / 2);
         }
         stagesInfluenceMap.put("Сушка", dryingInfluenceList);
 
         List<Double> brickInfluenceList = new ArrayList<>();
-        for (Double d: stageQuality.get(3)) {
+        for (Double d: stageQualityList.get(3).getStageToolQuality()) {
             brickInfluenceList.add((1 - d) / 2);
             brickInfluenceList.add((1 - d) / 2);
             brickInfluenceList.add((1 - d) / 2);
@@ -225,7 +226,7 @@ public class Experiment {
         stagesInfluenceMap.put("Обжиг", brickInfluenceList);
 
         List<Double> logisticInfluenceList = new ArrayList<>();
-        for (Double d: stageQuality.get(4)) {
+        for (Double d: stageQualityList.get(4).getStageToolQuality()) {
             logisticInfluenceList.add((1 - d) / 2);
             logisticInfluenceList.add((1 - d) / 2);
         }
@@ -233,7 +234,7 @@ public class Experiment {
     }
 
     private void init(){
-        stages=new HashMap<>();
+        stages = new HashMap<>();
         stages.put(new Image("/sample/image/stage/blending.png"),1d);
         stages.put(new Image("/sample/image/stage/cutting/cutting.png"), 1d);
         stages.put(new Image("/sample/image/stage/drying.png"), 1d);
@@ -255,17 +256,18 @@ public class Experiment {
             ii++;
         }
 
-        //fill default stageQuality
-        stageQuality=new ArrayList<>();
+        //fill default stageQualityList
+        stageQualityList =new ArrayList<>();
         for (int i = 0;i < stagesNames.size(); i++) {
-            List<Double> list = new ArrayList<>();
-            list.add(0.99d);
-            stageQuality.add(list);
+            StageQualityList list = new StageQualityList();
+            list.setStageToolQuality(new ArrayList<>());
+            list.getStageToolQuality().add(0.99d);
+            stageQualityList.add(list);
         }
         //
 
         //fill default brigadeQuality
-        brigades=new ArrayList<>();
+        brigades = new ArrayList<>();
         brigades.add(0.99);
         brigades.add(0.99);
 
@@ -279,22 +281,22 @@ public class Experiment {
 
         calculateInfluenceForStages();
 
-        for (List<Double> listD: stageQuality) {
-            List<Integer> stagesInfulenceList = new ArrayList<>();
-            for (Double d: listD) {
-                stagesInfulenceList.add(-1);
+        for (StageQualityList listD: stageQualityList) {
+            ScenarioStage stagesInfulenceList = new ScenarioStage();
+            for (Double d: listD.getStageToolQuality()) {
+                stagesInfulenceList.getScenarioStage().add(-1);
             }
             scenarioStagesList.add(stagesInfulenceList);
             //stagesInfluenceMapadd(0d);
         }
 
-        for (int i = 0; i < stageQuality.size() + 2; i ++) {
-            configureQualityValuesList.add(new Pair<>("Воздействие",0.95));
+        for (int i = 0; i < stageQualityList.size() + 2; i ++) {
+            configureQualityValuesList.add(new ConfigureQuality("Воздействие",0.95));
         }
     }
 
     public void fillNeededMaterials(){
-        neededMaterials=new HashMap<>();
+        neededMaterials = new HashMap<>();
         defaultMaterialsQuality = new HashMap<>();
         for (Object o: materialMap.keySet()){
             neededMaterials.put(new Material(((Material)o).getName()),5);
@@ -332,15 +334,15 @@ public class Experiment {
     //2 stage blending
     public boolean produceRawMaterial() {
         //TODO need to redo this
-        int toolIndex = ((rawList.size() / 100) % stageQuality.get(0).size());
+        int toolIndex = ((rawList.size() / 100) % stageQualityList.get(0).getStageToolQuality().size());
         checkScenario(0, toolIndex);
-        for (Object o : materialMap.keySet()) {
-            for (Object o1 : neededMaterials.keySet()) {
-                if (((Material) o).getName().equals(((Material) o1).getName())) {
+        for (Material o : materialMap.keySet()) {
+            for (Material o1 : neededMaterials.keySet()) {
+                if (o.getName().equals(o1.getName())) {
                     if (materialMap.get(o) >= neededMaterials.get(o1)) {
-                        materialMap.replace((Material) o, materialMap.get(o) - neededMaterials.get(o1));
+                        materialMap.replace(o, materialMap.get(o) - neededMaterials.get(o1));
                     } else {
-                        System.out.println("Нехватка материала: " + ((Material) o).getName());
+                        System.out.println("Нехватка материала: " + o.getName());
                         countList.set(0, countList.get(0) + 1);
                         return false;
                     }
@@ -352,7 +354,7 @@ public class Experiment {
         //need to redo
         //
         //
-        Double rawQuality = stageQuality.get(0).get(toolIndex);
+        Double rawQuality = stageQualityList.get(0).getStageToolQuality().get(toolIndex);
         Double matQuality = defaultMaterialsQuality.values().stream().mapToDouble(i->i).sum()  / defaultMaterialsQuality.size();
         //Double matQuality=defaultMaterialsQuality.stream().mapToDouble(Double::doubleValue).sum();
         List<Double> avgMaterialQuality=new ArrayList<>();
@@ -366,7 +368,7 @@ public class Experiment {
 
     //2 stage Cutting
     public boolean doCutting(){
-        int toolIndex = ((cuttedRawList.size() / 100) % stageQuality.get(1).size());
+        int toolIndex = ((cuttedRawList.size() / 100) % stageQualityList.get(1).getStageToolQuality().size());
         checkScenario(1, toolIndex);
         int brigadeIndex = ((cuttedRawList.size() / 100) % brigades.size());
         if (scenarioBrigadesList.get(brigadeIndex) != -1) {
@@ -386,8 +388,8 @@ public class Experiment {
             rawQuality.add(quality);
         });
 
-        //double avgQuality = (stageQuality.get(1).get(0));
-        double avgQuality = (stageQuality.get(1).get(0) + brigades.get(brigadeIndex)) / 2;
+        //double avgQuality = (stageQualityList.get(1).get(0));
+        double avgQuality = (stageQualityList.get(1).getStageToolQuality().get(0) + brigades.get(brigadeIndex)) / 2;
 
         if (rawQuality.size() < 100) {
             System.out.println("Нехватка материала: " + cuttedRawList.get(0).getName());
@@ -402,9 +404,9 @@ public class Experiment {
 
     //3 stage
     public boolean doDrying() {
-        int toolIndex = ((dryRawList.size() / 100) % stageQuality.get(2).size());
+        int toolIndex = ((dryRawList.size() / 100) % stageQualityList.get(2).getStageToolQuality().size());
         checkScenario(2, toolIndex);
-        Double avgQuality = stageQuality.get(2).get(0);
+        Double avgQuality = stageQualityList.get(2).getStageToolQuality().get(0);
         List<Double> cuttedQuality = new ArrayList<>();
         int counterDrying = countList.get(2);
         if (cuttedRawList.size() >= 100) {
@@ -426,9 +428,9 @@ public class Experiment {
 
     //4 stage
     public boolean doBurning() {
-        int toolIndex = ((brickList.size() / 100) % stageQuality.get(3).size());
+        int toolIndex = ((brickList.size() / 100) % stageQualityList.get(3).getStageToolQuality().size());
         checkScenario(3, toolIndex);
-        Double avgQuality = stageQuality.get(3).get(toolIndex);
+        Double avgQuality = stageQualityList.get(3).getStageToolQuality().get(toolIndex);
         Random random = new Random();
         Boolean quality;
         int counterBrick = countList.get(3);
@@ -450,9 +452,9 @@ public class Experiment {
 
     //5 stage
     public boolean doLogistic() {
-        int toolIndex = ((logisticBrickList.size() / 100) % stageQuality.get(4).size());
+        int toolIndex = ((logisticBrickList.size() / 100) % stageQualityList.get(4).getStageToolQuality().size());
         checkScenario(4, toolIndex);
-        Double avgQuality = stageQuality.get(4).get(toolIndex);
+        Double avgQuality = stageQualityList.get(4).getStageToolQuality().get(toolIndex);
         Random random = new Random();
         boolean quality, prevQuality;
         int counterBrick = countList.get(4);
@@ -463,7 +465,7 @@ public class Experiment {
             //brick.getProperties().put("Цвет", rawList.get(i).getAvgQuality());
             brick.getProperties().put("Размеры", brickList.get(i).getProperties().get("Размеры"));
             quality = (1 - random.nextDouble()) < avgQuality;
-            //prevQuality = brickList.get(i).getProperties().get("Трещины") ? (1 - random.nextDouble()) < stageQuality.get(2).get(0) :
+            //prevQuality = brickList.get(i).getProperties().get("Трещины") ? (1 - random.nextDouble()) < stageQualityList.get(2).get(0) :
             brick.getProperties().put("Трещины", brickList.get(i).getProperties().get("Трещины") & quality);
             brick.getProperties().put("Структура", brickList.get(i).getProperties().get("Структура") & quality);
             //
@@ -501,7 +503,7 @@ public class Experiment {
 
     private boolean checkScenario(int stageId, int toolId) {
         int stage = -1;
-        List<Integer> stagesTools = scenarioStagesList.get(stageId);
+        ScenarioStage stagesTools = scenarioStagesList.get(stageId);
         switch (stageId) {
             case  (0):
                 stage = rawList.size();
@@ -522,11 +524,11 @@ public class Experiment {
                 break;
         }
 
-        if (stagesTools.get(toolId) >= 0) {
-            int count = stage / (100 *  stagesTools.size()) + stage % (100 * (toolId + 1));
-            if (count >= stagesTools.get(toolId)) {
+        if (stagesTools.getScenarioStage().get(toolId) >= 0) {
+            int count = stage / (100 *  stagesTools.getScenarioStage().size()) + stage % (100 * (toolId + 1));
+            if (count >= stagesTools.getScenarioStage().get(toolId)) {
                 //TODO add custom quality change in scenario module
-                stageQuality.get(stageId).set(toolId, 0.3d);
+                stageQualityList.get(stageId).getStageToolQuality().set(toolId, 0.3d);
                 //calculateInfluenceForStages();
                 return true;
             }

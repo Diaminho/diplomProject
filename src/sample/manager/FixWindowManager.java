@@ -47,7 +47,7 @@ public class FixWindowManager {
                 size = experiment.getBrigades().size();
             }
             else {
-                size = experiment.getStageQuality().get(index - 2).size();
+                size = experiment.getStageQualityList().get(index - 2).getStageToolQuality().size();
             }
             if (indexList.size() == 0) {
                 for (int i = 1; i <= size; i++) {
@@ -58,7 +58,7 @@ public class FixWindowManager {
             }
             indexChoiceBoxId.getItems().addAll(indexList);
 
-            descriptionId.setText(experiment.getConfigureQualityValuesList().get(elementChoiceBoxId.getSelectionModel().getSelectedIndex()).getKey());
+            descriptionId.setText(experiment.getConfigureQualityValuesList().get(elementChoiceBoxId.getSelectionModel().getSelectedIndex()).getDescription());
         }));
 
         indexChoiceBoxId = (ChoiceBox<String>) root.lookup("#indexChoiceBoxId");
@@ -69,15 +69,22 @@ public class FixWindowManager {
     public void onFixButton() {
         int elementId = elementChoiceBoxId.getSelectionModel().getSelectedIndex();
         int indexId = indexChoiceBoxId.getSelectionModel().getSelectedIndex();
+        //TODO need to add material fix
         if (elementId == 0) {
             if (experiment.getBrigades().get(indexId) < experiment.getAcceptableQuality()) {
-                experiment.getBrigades().set(indexId, 0.95);
+                experiment.getBrigades().set(indexId, experiment.getConfigureQualityValuesList().get(elementId).getValue());
+                return;
+            }
+        }
+        else if (elementId == 1) {
+            if (experiment.getBrigades().get(indexId) < experiment.getAcceptableQuality()) {
+                experiment.getBrigades().set(indexId, experiment.getConfigureQualityValuesList().get(elementId).getValue());
                 return;
             }
         }
         else  {
-            if (experiment.getStageQuality().get(elementId - 1).get(indexId) < experiment.getAcceptableQuality()) {
-                experiment.getStageQuality().get(elementId - 1).set(indexId, 0.95);
+            if (experiment.getStageQualityList().get(elementId - 2).getStageToolQuality().get(indexId) < experiment.getAcceptableQuality()) {
+                experiment.getStageQualityList().get(elementId - 2).getStageToolQuality().set(indexId, experiment.getConfigureQualityValuesList().get(elementId - 1).getValue());
                 return;
             }
         }

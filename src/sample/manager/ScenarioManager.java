@@ -8,6 +8,9 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 import sample.Experiment;
 import sample.resource.Material;
+import sample.resource.helper.ConfigureQuality;
+import sample.resource.helper.ScenarioStage;
+import sample.resource.helper.StageQualityList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,21 +88,21 @@ public class ScenarioManager {
     }
 
     private void constructLogStringDrying() {
-        logStringsMap.put("Сушка", "Показатель надежности оборудования на стадии \"Сушка\": " + 100 * experiment.getStageQuality().get(2).get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Сушка").get(0)) + "%");
+        logStringsMap.put("Сушка", "Показатель надежности оборудования на стадии \"Сушка\": " + 100 * experiment.getStageQualityList().get(2).getStageToolQuality().get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Сушка").get(0)) + "%");
     }
 
     private void constructLogStringCutting() {
-        logStringsMap.put("Формовка", "Показатель надежности оборудования на стадии \"Формовка\": " + 100 * experiment.getStageQuality().get(1).get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Формовка").get(0)) + "%");
+        logStringsMap.put("Формовка", "Показатель надежности оборудования на стадии \"Формовка\": " + 100 * experiment.getStageQualityList().get(1).getStageToolQuality().get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Формовка").get(0)) + "%");
     }
 
     private void constructLogStringBlending() {
-        logStringsMap.put("Смешивание", "Показатель надежности оборудования на стадии \"Смешивание\": " + 100 * experiment.getStageQuality().get(0).get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Смешивание").get(0)) + "%");
+        logStringsMap.put("Смешивание", "Показатель надежности оборудования на стадии \"Смешивание\": " + 100 * experiment.getStageQualityList().get(0).getStageToolQuality().get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Смешивание").get(0)) + "%");
     }
 
     private void constructLogStringBurning() {
         logStringsMap.put("Обжиг",
                 "Показатель надежности оборудования на стадии \"Обжиг\": "
-                        + 100 * experiment.getStageQuality().get(3).get(0) + "%" +
+                        + 100 * experiment.getStageQualityList().get(3).getStageToolQuality().get(0) + "%" +
                         " приведет к вероятности возникновения дефектов: \"Структура\" " +
                         String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Обжиг").get(3)) + "%" +
                         ";  \"Цвет\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Обжиг").get(0)) + "%" +
@@ -166,7 +169,7 @@ public class ScenarioManager {
             public void changed(ObservableValue<? extends Integer> observable, //
                                 Integer  oldValue, Integer newValue) {
                 if (newValue != null) {
-                    blendingQualityId.setText("" + experiment.getStageQuality().get(0).get(newValue-1));
+                    blendingQualityId.setText("" + experiment.getStageQualityList().get(0).getStageToolQuality().get(newValue-1));
                 }
             }
         };
@@ -256,29 +259,29 @@ public class ScenarioManager {
     private void fillBlending() {
         blendingQualityId.setText("-");
         blendingChoiceBoxId.getItems().clear();
-        blendingQuantityId.setText(""+experiment.getStageQuality().get(0).size());
-        for (int i = 0; i < experiment.getStageQuality().get(0).size(); i++) {
+        blendingQuantityId.setText(""+experiment.getStageQualityList().get(0).getStageToolQuality().size());
+        for (int i = 0; i < experiment.getStageQualityList().get(0).getStageToolQuality().size(); i++) {
             blendingChoiceBoxId.getItems().add(i + 1);
         }
     }
 
     private void fillCutting() {
-        cuttingQualityId.setText("" + experiment.getStageQuality().get(1).get(0));
+        cuttingQualityId.setText("" + experiment.getStageQualityList().get(1).getStageToolQuality().get(0));
     }
 
     private void fillDrying() {
-        dryingQualityId.setText("" + experiment.getStageQuality().get(2).get(0));
+        dryingQualityId.setText("" + experiment.getStageQualityList().get(2).getStageToolQuality().get(0));
         dryingQualityId.textProperty().addListener(((observableValue, s, t1) -> {
 
         } ));
     }
 
     private void fillBurning() {
-        burningQualityId.setText("" + experiment.getStageQuality().get(3).get(0));
+        burningQualityId.setText("" + experiment.getStageQualityList().get(3).getStageToolQuality().get(0));
     }
 
     private void fillLogistic() {
-        logisticQualityId.setText("" + experiment.getStageQuality().get(4).get(0));
+        logisticQualityId.setText("" + experiment.getStageQualityList().get(4).getStageToolQuality().get(0));
     }
 
     private void fillScenarioStages() {
@@ -307,11 +310,11 @@ public class ScenarioManager {
                 if (newValue != null) {
                     //TODO add choose tool for Stage
                     scenarioStageToolId.getItems().clear();
-                    for (int i = 0; i < experiment.getStageQuality().get(stagesNameList.indexOf(newValue)).size(); i++) {
+                    for (int i = 0; i < experiment.getStageQualityList().get(stagesNameList.indexOf(newValue)).getStageToolQuality().size(); i++) {
                         scenarioStageToolId.getItems().add(i + 1);
                     }
                     scenarioStageToolId.getSelectionModel().select(0);
-                    scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)).get(scenarioStageToolId.getSelectionModel().getSelectedIndex()));
+                    scenarioStageTextFieldId.setText("" + experiment.getScenarioStagesList().get(stagesNameList.indexOf(newValue)).getScenarioStage().get(scenarioStageToolId.getSelectionModel().getSelectedIndex()));
                 }
             }
         };
@@ -389,7 +392,7 @@ public class ScenarioManager {
         //fill List of items of Object
         configureObjectListChoiceBoixId.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             int index = configureObjectListChoiceBoixId.getItems().indexOf(newValue);
-            configureDescriptionNameId.setText(experiment.getConfigureQualityValuesList().get(index).getKey());
+            configureDescriptionNameId.setText(experiment.getConfigureQualityValuesList().get(index).getDescription());
             configureQualityId.setText("" + experiment.getConfigureQualityValuesList().get(index).getValue());
         });
 
@@ -424,7 +427,7 @@ public class ScenarioManager {
     }
 
     public void onSetBrigadeCountButton() {
-        //experiment.getStageQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
+        //experiment.getStageToolQuality().set(1, Double.parseDouble(cuttingQualityId.getText()));
         List<Double> brigades = new ArrayList<>();
         List<Integer> brigadesScenario = new ArrayList<>();
         brigadesChoiceBoxId.getItems().clear();
@@ -443,46 +446,46 @@ public class ScenarioManager {
 
     //Stages
     public void onOkStageBlendingButton() {
-        List <Double> blendingList = new ArrayList<>();
-        List<Integer> scenariosList = new ArrayList<>();
+        StageQualityList blendingList = new StageQualityList();
+        ScenarioStage scenariosList = new ScenarioStage();
         for (int i = 0; i < Integer.parseInt(blendingQuantityId.getText()); i++) {
-            blendingList.add(0.8d);
-            scenariosList.add(-1);
+            blendingList.getStageToolQuality().add(0.8d);
+            scenariosList.getScenarioStage().add(-1);
         }
-        experiment.getStageQuality().set(0, blendingList);
+        experiment.getStageQualityList().set(0, blendingList);
         experiment.getScenarioStagesList().set(0, scenariosList);
         fillBlending();
     }
 
     public void onSaveBlendingButton() {
-        experiment.getStageQuality().get(0).set(blendingChoiceBoxId.getValue() - 1, Double.parseDouble(blendingQualityId.getText()));
+        experiment.getStageQualityList().get(0).getStageToolQuality().set(blendingChoiceBoxId.getValue() - 1, Double.parseDouble(blendingQualityId.getText()));
         initLog();
     }
 
     public void onSaveCuttingButton() {
-        experiment.getStageQuality().get(1).set(0, Double.parseDouble(cuttingQualityId.getText()));
+        experiment.getStageQualityList().get(1).getStageToolQuality().set(0, Double.parseDouble(cuttingQualityId.getText()));
         initLog();
     }
 
     public void onSaveDryingButton() {
-        experiment.getStageQuality().get(2).set(0, Double.parseDouble(dryingQualityId.getText()));
+        experiment.getStageQualityList().get(2).getStageToolQuality().set(0, Double.parseDouble(dryingQualityId.getText()));
         initLog();
     }
 
     public void onSaveBurningButton() {
-        experiment.getStageQuality().get(3).set(0, Double.parseDouble(burningQualityId.getText()));
+        experiment.getStageQualityList().get(3).getStageToolQuality().set(0, Double.parseDouble(burningQualityId.getText()));
         initLog();
     }
 
     public void onSaveLogisticButton() {
-        experiment.getStageQuality().get(4).set(0, Double.parseDouble(logisticQualityId.getText()));
+        experiment.getStageQualityList().get(4).getStageToolQuality().set(0, Double.parseDouble(logisticQualityId.getText()));
         initLog();
     }
 
     //Scenario
     public void onScenarioStageSaveButton() {
         experiment.getScenarioStagesList().
-                get(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex()).
+                get(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex()).getScenarioStage().
                 set(scenarioStageToolId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioStageTextFieldId.getText()));
     }
 
@@ -493,6 +496,6 @@ public class ScenarioManager {
     //Configure
     public void onConfigureFixButton() {
         experiment.getConfigureQualityValuesList().set(configureObjectListChoiceBoixId.getSelectionModel().getSelectedIndex(),
-                new Pair<>(configureDescriptionNameId.getText(), Double.parseDouble(configureQualityId.getText())) );
+                new ConfigureQuality(configureDescriptionNameId.getText(), Double.parseDouble(configureQualityId.getText())) );
     }
 }

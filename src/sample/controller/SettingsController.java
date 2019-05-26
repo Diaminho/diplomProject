@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import sample.Experiment;
 import sample.stage.ChosenMaterialsStage;
 import sample.stage.ScenarioStage;
+import sample.task.MarshallConverter;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 public class SettingsController {
@@ -59,6 +61,29 @@ public class SettingsController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @FXML
+    public void onSaveSettingsButton() {
+        try {
+            MarshallConverter.marshalingToXML(experiment);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Сохранение настроек");
+            alert.setHeaderText("Сохранение настроек прошло успешно");
+            alert.show();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onLoadSettingsButton() {
+        experiment = MarshallConverter.marshalingToExperiment();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Загрузка настроек");
+        alert.setHeaderText("Загрузка настроек прошло успешно");
+        alert.show();
     }
 
 

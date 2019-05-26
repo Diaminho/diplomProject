@@ -47,7 +47,7 @@ public class HistogramManager {
                 size = experiment.getBrigades().size();
             }
             else {
-                size = experiment.getStageQuality().get(index - 1).size();
+                size = experiment.getStageQualityList().get(index - 1).getStageToolQuality().size();
             }
             numberChoiceBoxId.getItems().clear();
             for (int i = 0; i < size; i++) {
@@ -60,7 +60,7 @@ public class HistogramManager {
         brickList = experiment.getLogisticBrickList();
         int objId = objectChoiceBoxId.getSelectionModel().getSelectedIndex();
         if (objId != -1) {
-            int size = (objId == 0) ? experiment.getBrigades().size(): experiment.getStageQuality().get(objId - 1).size();
+            int size = (objId == 0) ? experiment.getBrigades().size(): experiment.getStageQualityList().get(objId - 1).getStageToolQuality().size();
             brickList = experiment.getFilterBrick(brickList, numberChoiceBoxId.getSelectionModel().getSelectedIndex(), size);
         }
     }

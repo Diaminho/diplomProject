@@ -20,8 +20,6 @@ import sample.resource.Material;
 import sample.task.ExperimentTask;
 import sample.task.MarshallConverter;
 
-import javax.xml.bind.JAXBException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,12 +93,14 @@ public class ExperimentManager {
         //GraphicsContext gc=canvasExperiment.getGraphicsContext2D();
         //startMyPlayer();
 
-        //test SAVE EXPERIMENT TO XML
+        //test LOAD EXPERIMENT FROM XML
+        /*
         try {
-            MarshallConverter.marshalingExample(newExperiment);
+            MarshallConverter.marshalingToXML(newExperiment);
         } catch (JAXBException e) {
             e.printStackTrace();
-        }
+        }*/
+        newExperiment = MarshallConverter.marshalingToExperiment();
 
         /**
         test thread with pause
