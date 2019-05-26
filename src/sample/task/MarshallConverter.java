@@ -34,17 +34,14 @@ public class MarshallConverter {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             experiment = (Experiment) jaxbUnmarshaller.unmarshal(xmlFile);
 
-
             for (Material m: experiment.getMaterialMap().keySet()) {
                 m.setMaterialImage(new Image(m.getMaterialPath()));
             }
-
             experiment.fillNeededMaterials();
             List<Integer> brigadesScenarioList = new ArrayList<>();
             for (Double d: experiment.getBrigades()) {
                 brigadesScenarioList.add(-1);
             }
-
 
             experiment.setScenarioBrigadesList(brigadesScenarioList);
             //System.out.println(experiment);

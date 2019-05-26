@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.scene.image.Image;
-import javafx.util.Pair;
 import sample.resource.Brick;
 import sample.resource.Material;
 import sample.resource.helper.ConfigureQuality;
@@ -46,7 +45,7 @@ public class Experiment {
     private List<Integer> countList=new ArrayList<>();
 
     @XmlElement(name = "defaultMaterialsQuality")
-    private Map<Material, Double> defaultMaterialsQuality=new HashMap<>();
+    private Map<Material, Double> defaultMaterialsQuality = new HashMap<>();
     @XmlTransient
     private Map<String, List<Double>> stagesInfluenceMap = new HashMap<>();
     @XmlElementWrapper
@@ -297,10 +296,8 @@ public class Experiment {
 
     public void fillNeededMaterials(){
         neededMaterials = new HashMap<>();
-        defaultMaterialsQuality = new HashMap<>();
         for (Object o: materialMap.keySet()){
             neededMaterials.put(new Material(((Material)o).getName()),5);
-            defaultMaterialsQuality.put( (Material) o, 0.99);
         }
     }
 
@@ -311,7 +308,6 @@ public class Experiment {
     public double getBrickNumber(int rawVolume){
         return (double)rawVolume/3;
     }
-
 
     public void generatePreData() {
         materialMap.forEach((k, v) -> v = v + 50);
@@ -491,8 +487,17 @@ public class Experiment {
         }
     }
 
-    public Material findMaterialByName(String name, Set<Material> materialSet) {
+    public Material findMaterialByName(String name, Collection<Material> materialSet) {
         for (Material m: materialSet) {
+            if (m.getName().compareTo(name) == 0) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public Material findMaterialByNameMap(String name, Map<Material, ?> materialSet) {
+        for (Material m: materialSet.keySet()) {
             if (m.getName().compareTo(name) == 0) {
                 return m;
             }

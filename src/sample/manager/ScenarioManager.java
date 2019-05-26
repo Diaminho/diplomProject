@@ -82,6 +82,11 @@ public class ScenarioManager {
     public ScenarioManager(Parent root, Experiment experiment) {
         ScenarioManager.root = root;
         ScenarioManager.experiment = experiment;
+        if (experiment.getDefaultMaterialsQuality().size() == 0) {
+            for (Material o: experiment.getMaterialMap().keySet()){
+                experiment.getDefaultMaterialsQuality().put(o,0.99);
+            }
+        }
         logStringsMap = new HashMap<>();
         init();
         initLog();
@@ -128,7 +133,6 @@ public class ScenarioManager {
 
     private void init(){
         //TODO ADD LOGS IN TEXTAREA and add scenario influence in Experiment
-
 
         maxCountProcessIterations = -1;
         Material neededMaterial;

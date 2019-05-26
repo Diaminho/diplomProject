@@ -4,6 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import sample.Experiment;
+import sample.resource.Material;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,11 @@ public class FixWindowManager {
             int size;
             if (index == 0) {
                 size = experiment.getMaterialMap().size();
-                indexList.addAll((Collection<String>)(Collection<?>) experiment.getMaterialMap().keySet());
+                List<String> materialNames = new ArrayList<>();
+                experiment.getMaterialMap().keySet().forEach(e -> {
+                    materialNames.add(e.getName());
+                });
+                indexList.addAll(materialNames);
             }
             else if (index == 1) {
                 size = experiment.getBrigades().size();
@@ -71,8 +76,10 @@ public class FixWindowManager {
         int indexId = indexChoiceBoxId.getSelectionModel().getSelectedIndex();
         //TODO need to add material fix
         if (elementId == 0) {
-            if (experiment.getBrigades().get(indexId) < experiment.getAcceptableQuality()) {
-                experiment.getBrigades().set(indexId, experiment.getConfigureQualityValuesList().get(elementId).getValue());
+            String value = indexChoiceBoxId.getSelectionModel().getSelectedItem();
+            Material m = experiment.findMaterialByNameMap(value, experiment.getDefaultMaterialsQuality());
+            if (experiment.getDefaultMaterialsQuality().get(m) < experiment.getAcceptableQuality()) {
+                experiment.getDefaultMaterialsQuality().put(m, experiment.getConfigureQualityValuesList().get(elementId).getValue());
                 return;
             }
         }

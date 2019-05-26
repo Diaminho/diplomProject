@@ -65,6 +65,7 @@ public class ExperimentManager {
         ExperimentManager.newExperiment = experiment;
         init();
         timelineList=new ArrayList<>();
+        newExperiment = MarshallConverter.marshalingToExperiment();
     }
 
     private void init() {
@@ -100,7 +101,6 @@ public class ExperimentManager {
         } catch (JAXBException e) {
             e.printStackTrace();
         }*/
-        newExperiment = MarshallConverter.marshalingToExperiment();
 
         /**
         test thread with pause

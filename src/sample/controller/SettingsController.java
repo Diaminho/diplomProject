@@ -55,6 +55,10 @@ public class SettingsController {
 
     @FXML
     public void onScenarioButton() {
+        if (experiment.getMaterialMap() == null) {
+            showAlertDialog();
+            return;
+        }
         ScenarioStage sStage = new ScenarioStage();
         try {
             sStage.showAndReturn(new ScenarioController(sStage, experiment));
