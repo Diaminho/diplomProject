@@ -201,7 +201,7 @@ public class ExperimentManager {
         image=newExperiment.findImageByMaterialName("Cutting");
         //iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
-        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 430,150);
+        timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 410,150);
         timelineList.add(timeline);
         //
         //newExperiment.doCutting();
@@ -213,8 +213,11 @@ public class ExperimentManager {
 
         //DRYING
         //ImageView iv2=setImageViewProperties(newExperiment.getStages().get(2),60,30,experimentPane.getWidth()/2+100,0);
-        timeline=AnimationFunctions.doDryingAnimation(experimentPane,500,100);
-        timelineList.add(timeline);
+        iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),100,70,550, 150);
+        experimentPane.getChildren().add(iv);
+        image=newExperiment.findImageByMaterialName("Drying");
+        iv=setImageViewProperties(image,200,150,660,100);
+        experimentPane.getChildren().add(iv);
         //
         Runnable t3=experimentTask.DryingTask(newExperiment);
         taskList.add(t3);
@@ -224,7 +227,11 @@ public class ExperimentManager {
         //BURNING
         //SOME ANIMATION
         //
-
+        iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),100,70,850, 150);
+        experimentPane.getChildren().add(iv);
+        image=newExperiment.findImageByMaterialName("Burning");
+        iv=setImageViewProperties(image,200,100,950,130);
+        experimentPane.getChildren().add(iv);
         //TASK
         Runnable t4=experimentTask.BurningTask(newExperiment);
         //taskList.add(t4);
@@ -232,6 +239,11 @@ public class ExperimentManager {
         experimentTask.addSuspendableTask(t4,8, 6);
 
         //TASK
+        iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),80,50,1120, 150);
+        experimentPane.getChildren().add(iv);
+        image=newExperiment.findImageByMaterialName("Logistic");
+        iv=setImageViewProperties(image,160,80,1200,130);
+        experimentPane.getChildren().add(iv);
         Runnable t5=experimentTask.LogisticTask(newExperiment);
         //taskList.add(t4);
         //t4.start();

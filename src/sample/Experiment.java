@@ -237,6 +237,8 @@ public class Experiment {
         stages.put(new Image("/sample/image/stage/blending.png"),1d);
         stages.put(new Image("/sample/image/stage/cutting/cutting.png"), 1d);
         stages.put(new Image("/sample/image/stage/drying.png"), 1d);
+        stages.put(new Image("/sample/image/stage/burning.png"), 1d);
+        stages.put(new Image("/sample/image/stage/logistic.png"), 1d);
 
         //
         stagesNames=new HashMap<>();
@@ -244,9 +246,9 @@ public class Experiment {
         stagesNames.put("Cutting",new Image("/sample/image/stage/cutting/cutting.png"));
         stagesNames.put("Drying", new Image("/sample/image/stage/drying.png"));
         stagesNames.put("Burning",new Image("/sample/image/stage/burning.png"));
+        stagesNames.put("Logistic", new Image("/sample/image/stage/logistic.png"));
         //TODO add logistic pic and burning pic
         //TODO add configuration of scenario quality (not only 0.3)
-        stagesNames.put("Logistic", new Image("/sample/image/stage/burning.png"));
         //raw.setVolume(0);
 
         int ii=0;

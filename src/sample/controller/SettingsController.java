@@ -86,7 +86,7 @@ public class SettingsController {
         experiment = MarshallConverter.marshalingToExperiment();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Загрузка настроек");
-        alert.setHeaderText("Загрузка настроек прошло успешно");
+        alert.setHeaderText("Загрузка настроек прошла успешно");
         alert.show();
     }
 
