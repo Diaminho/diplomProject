@@ -321,7 +321,7 @@ public class Experiment {
             doDrying();
             doBurning();
             doLogistic();
-            statistic.calculateBrickStat(logisticBrickList);
+            statistic.calculateBrickStat(this);
             statistic.printResult();
             i++;
         }

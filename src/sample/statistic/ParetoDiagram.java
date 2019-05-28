@@ -2,6 +2,7 @@ package sample.statistic;
 
 import javafx.scene.chart.*;
 import javafx.scene.layout.StackPane;
+import sample.Experiment;
 import sample.resource.Brick;
 
 import java.util.Collections;
@@ -12,11 +13,11 @@ import java.util.Map;
 public class ParetoDiagram {
     private BarChart<String, Number> barChart;
     private LineChart<String, Number> lineChart;
-    private List<Brick> brickList;
+    private Experiment experiment;
     private StackPane stackPane;
 
-    public ParetoDiagram(StackPane stackPane, List<Brick> brickList) {
-        this.brickList = brickList;
+    public ParetoDiagram(StackPane stackPane, Experiment experiment) {
+        this.experiment = experiment;
         this.stackPane = stackPane;
     }
 
@@ -26,14 +27,6 @@ public class ParetoDiagram {
 
     public void setBarChart(BarChart<String, Number> barChart) {
         this.barChart = barChart;
-    }
-
-    public List<Brick> getBrickList() {
-        return brickList;
-    }
-
-    public void setBrickList(List<Brick> brickList) {
-        this.brickList = brickList;
     }
 
     public void build() {
@@ -56,7 +49,7 @@ public class ParetoDiagram {
         //yAxis.setLabel("Процентное содержание в выборке");
 
         Statistic statistic = new Statistic();
-        statistic.calculateBrickStat(brickList);
+        statistic.calculateBrickStat(experiment);
         Map<String, Double> defectMap = new HashMap<>(statistic.getDefectsCountMap());
         XYChart.Series<String, Number> series  = new XYChart.Series<>();
         XYChart.Series<String, Number> seriesBar  = new XYChart.Series<>();

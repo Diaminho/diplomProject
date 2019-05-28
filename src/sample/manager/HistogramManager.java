@@ -91,7 +91,7 @@ public class HistogramManager {
         //xAxis.setLabel("Дефекты");
         //yAxis.setLabel("Процентное содержание в выборке");
         Statistic statistic = new Statistic();
-        statistic.calculateBrickStat(brickList);
+        statistic.calculateBrickStat(experiment);
         Map<String, Double> defectMap = new HashMap<>(statistic.getDefectsCountMap());
         XYChart.Series<String, Number> seriesBar  = new XYChart.Series<>();
         defectMap.entrySet().stream()

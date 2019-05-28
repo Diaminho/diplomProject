@@ -2,6 +2,7 @@ package sample.task;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import sample.Experiment;
 import sample.statistic.Statistic;
 
@@ -165,7 +166,7 @@ public class ExperimentTask {
         };
     }
 
-    public Runnable LogisticTask(Experiment experiment){
+    public Runnable LogisticTask(Experiment experiment, TextArea textArea){
         return new Runnable() {
             private int counter = 0;
             private boolean flag = true;
@@ -192,9 +193,10 @@ public class ExperimentTask {
                     //
                     System.out.println("Logistic " + counter++ + " Thread: " + Thread.currentThread().getName());
                     Statistic statistic = new Statistic();
-                    statistic.calculateBrickStat(experiment.getLogisticBrickList());
-                    writeBrickInfoToFile(statistic.printResult());//oldCount+=1;
-                    //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
+                    statistic.calculateBrickStat(experiment);
+                    String info = statistic.printResult();
+                    writeBrickInfoToFile(info);//oldCount+=1;
+                    Platform.runLater(() -> textArea.setText(info));
                     //}
                 }
             }

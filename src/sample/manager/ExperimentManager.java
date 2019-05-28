@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -31,18 +32,11 @@ public class ExperimentManager {
 
     private static Parent root;
 
-    @FXML
-    private Text resultExperimentID;
-    @FXML
     private AnchorPane experimentPane;
-    @FXML
-    private Text rawQualityID;
-    @FXML
-    private Text firstStageText;
-    @FXML
-    private Button pauseButton;
 
-    @FXML
+    private TextArea logAreaId;
+
+
     Stage primaryStage;
     public static Experiment newExperiment;
     Label rawVolumeLabel;
@@ -69,13 +63,9 @@ public class ExperimentManager {
     }
 
     private void init() {
-
-        resultExperimentID = (Text) root.lookup("#resultExperimentID");
         experimentPane = (AnchorPane) root.lookup("#experimentPane");
-        rawQualityID = (Text) root.lookup("#rawQualityID");
-        firstStageText = (Text) root.lookup("#firstStageText");
-        pauseButton = (Button) root.lookup("#pauseButton");
-        rawVolumeLabel=new Label();
+        rawVolumeLabel = new Label();
+        logAreaId = (TextArea) root.lookup("#logAreaId");
     }
 
     private ImageView setImageViewProperties(Image image, double width, double height, double x, double y){
@@ -118,6 +108,12 @@ public class ExperimentManager {
             for (Material i: newExperiment.getMaterialMap().keySet()) {
                 //timeline=AnimationFunctions.doAnimation(experimentPane,80,40+pos,150, Color.SANDYBROWN);
                 //timelineList.add(timeline);
+                Label newLabel = new Label(i.getName());
+                newLabel.setFont(new Font(12));
+                newLabel.setTranslateX(5);
+                newLabel.setTranslateY(pos - 12);
+                newLabel.setVisible(true);
+                experimentPane.getChildren().add(newLabel);
                 iv=setImageViewProperties(i.getMaterialImage(),60,60,0,pos);
                 experimentPane.getChildren().add(iv);
                 iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),130,60,60, pos);
@@ -140,7 +136,15 @@ public class ExperimentManager {
 
 
         //BRIGADES
+
         iv=setImageViewProperties(new Image("/sample/image/brigade.png"),70,70,0,300);
+        Label brigadeTitleLabel = new Label("Бригады");
+        brigadeTitleLabel.setFont(new Font(14));
+        brigadeTitleLabel.setTranslateX(5);
+        brigadeTitleLabel.setTranslateY(275);
+        brigadeTitleLabel.setVisible(true);
+        experimentPane.getChildren().add(brigadeTitleLabel);
+
         Label brigadeLabel=new Label();
         brigadeLabel.setTranslateX(80);
         brigadeLabel.setTranslateY(330);
@@ -174,7 +178,13 @@ public class ExperimentManager {
 
         Image image;
         //BLENDING
-        if (newExperiment.getRawList()!=null){
+        Label blendingLabel = new Label("Смешивание");
+        blendingLabel.setFont(new Font(20));
+        blendingLabel.setTranslateX(185);
+        blendingLabel.setTranslateY(30);
+        blendingLabel.setVisible(true);
+        experimentPane.getChildren().add(blendingLabel);
+        if (newExperiment.getRawList() != null){
             //GRAPHICS
             timeline=AnimationFunctions.doBlendingStageProgress(experimentPane,200,250, 100);
             timelineList.add(timeline);
@@ -194,11 +204,20 @@ public class ExperimentManager {
         //timeline=AnimationFunctions.doEndlessBrick(experimentPane,200,200,Color.FIREBRICK);
         //timelineList.add(timeline);
 
+
+
         iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),110,60,310, 160);
         experimentPane.getChildren().add(iv);
 
         //CUTTING
         image=newExperiment.findImageByMaterialName("Cutting");
+        Label cuttingLabel = new Label("Формовка");
+        cuttingLabel.setFont(new Font(20));
+        cuttingLabel.setTranslateX(430);
+        cuttingLabel.setTranslateY(110);
+        cuttingLabel.setVisible(true);
+        experimentPane.getChildren().add(cuttingLabel);
+
         //iv=setImageViewProperties(image,60,60,experimentPane.getWidth()/2,0);
         //experimentPane.getChildren().add(iv);
         timeline=AnimationFunctions.doCuttingStageAnimation(experimentPane, 410,150);
@@ -216,6 +235,12 @@ public class ExperimentManager {
         iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),100,70,550, 150);
         experimentPane.getChildren().add(iv);
         image=newExperiment.findImageByMaterialName("Drying");
+        Label dryingLabel = new Label("Сушка");
+        dryingLabel.setFont(new Font(20));
+        dryingLabel.setTranslateX(725);
+        dryingLabel.setTranslateY(70);
+        dryingLabel.setVisible(true);
+        experimentPane.getChildren().add(dryingLabel);
         iv=setImageViewProperties(image,200,150,660,100);
         experimentPane.getChildren().add(iv);
         //
@@ -230,6 +255,13 @@ public class ExperimentManager {
         iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),100,70,850, 150);
         experimentPane.getChildren().add(iv);
         image=newExperiment.findImageByMaterialName("Burning");
+        Label burningLabel = new Label("Обжиг");
+        burningLabel.setFont(new Font(20));
+        burningLabel.setTranslateX(1030);
+        burningLabel.setTranslateY(100);
+        burningLabel.setVisible(true);
+        experimentPane.getChildren().add(burningLabel);
+
         iv=setImageViewProperties(image,200,100,950,130);
         experimentPane.getChildren().add(iv);
         //TASK
@@ -242,9 +274,15 @@ public class ExperimentManager {
         iv=setImageViewProperties(new Image("/sample/image/right_arrow.png"),80,50,1120, 150);
         experimentPane.getChildren().add(iv);
         image=newExperiment.findImageByMaterialName("Logistic");
+        Label logisticLabel = new Label("Логистика");
+        logisticLabel.setFont(new Font(20));
+        logisticLabel.setTranslateX(1230);
+        logisticLabel.setTranslateY(100);
+        logisticLabel.setVisible(true);
+        experimentPane.getChildren().add(logisticLabel);
         iv=setImageViewProperties(image,160,80,1200,130);
         experimentPane.getChildren().add(iv);
-        Runnable t5=experimentTask.LogisticTask(newExperiment);
+        Runnable t5=experimentTask.LogisticTask(newExperiment, logAreaId);
         //taskList.add(t4);
         //t4.start();
         experimentTask.addSuspendableTask(t5,9, 6);

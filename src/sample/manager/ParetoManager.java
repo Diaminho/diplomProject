@@ -19,7 +19,7 @@ public class ParetoManager {
 
     private void init() {
         stackPaneId = (StackPane) root.lookup("#stackPaneId");
-        ParetoDiagram paretoDiagram = new ParetoDiagram(stackPaneId, experiment.getLogisticBrickList());
+        ParetoDiagram paretoDiagram = new ParetoDiagram(stackPaneId, experiment);
         paretoDiagram.build();
     }
 }
