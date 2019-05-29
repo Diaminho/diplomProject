@@ -62,7 +62,7 @@ public class ExperimentTask {
         };
     }
 
-    public Runnable CuttingTask(Experiment experiment){
+    public Runnable CuttingTask(Experiment experiment, Label label){
         return new Runnable() {
             private int counter = 0;
             private boolean flag = true;
@@ -88,6 +88,7 @@ public class ExperimentTask {
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
                     System.out.println("Cutting " + counter++ + " Thread: " + Thread.currentThread().getName());
+                    Platform.runLater(() -> label.setText("" + experiment.getCuttedRawList().size()));
                     //oldCount+=1;
                     //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 }
@@ -95,7 +96,7 @@ public class ExperimentTask {
         };
     }
 
-    public Runnable DryingTask(Experiment experiment){
+    public Runnable DryingTask(Experiment experiment, Label label){
         return new Runnable() {
             private int counter = 0;
             private boolean flag = true;
@@ -121,6 +122,7 @@ public class ExperimentTask {
                 //final String rawVolume = String.valueOf(raw.getVolume());
                 //
                     System.out.println("Drying " + counter++ + " Thread: " + Thread.currentThread().getName());
+                    Platform.runLater(() -> label.setText("" + experiment.getDryRawList().size()));
                 //oldCount+=1;
                 //Platform.runLater(() -> label.setText(""+experiment.getRawList().size()));
                 //}
@@ -129,7 +131,7 @@ public class ExperimentTask {
         };
     }
 
-    public Runnable BurningTask(Experiment experiment){
+    public Runnable BurningTask(Experiment experiment, Label label){
         return new Runnable() {
             private int counter = 0;
             private boolean flag = true;
@@ -155,6 +157,7 @@ public class ExperimentTask {
                     //final String rawVolume = String.valueOf(raw.getVolume());
                     //
                     System.out.println("Burning " + counter++ + " Thread: " + Thread.currentThread().getName());
+                    Platform.runLater(() -> label.setText("" + experiment.getBrickList().size()));
                     //Statistic statistic = new Statistic();
                     //statistic.calculateBrickStat(experiment.getBrickList());
                     //statistic.printResult();
@@ -166,7 +169,7 @@ public class ExperimentTask {
         };
     }
 
-    public Runnable LogisticTask(Experiment experiment, TextArea textArea){
+    public Runnable LogisticTask(Experiment experiment, TextArea textArea, Label label){
         return new Runnable() {
             private int counter = 0;
             private boolean flag = true;
@@ -197,6 +200,7 @@ public class ExperimentTask {
                     String info = statistic.printResult();
                     writeBrickInfoToFile(info);//oldCount+=1;
                     Platform.runLater(() -> textArea.setText(info));
+                    Platform.runLater(() -> label.setText("" + experiment.getLogisticBrickList().size()));
                     //}
                 }
             }

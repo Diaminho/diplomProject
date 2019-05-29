@@ -50,11 +50,11 @@ public class ControlChart {
     public List<Double> calculate(List<Boolean> list) {
         List<Double> piList=new ArrayList<>();
         double tmp = 0;
-        int n = list.size() / 20;
+        int n = list.size() / 50;
 
         //calcualting pi
         for (int i = 0; i < n; i++) {
-            tmp = getPi(list.subList(20 * i, 20 * (i + 1)));
+            tmp = getPi(list.subList(50 * i, 50 * (i + 1)));
             piList.add(tmp);
         }
         //calculating pAvg
