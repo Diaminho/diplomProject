@@ -544,13 +544,16 @@ public class Experiment {
     }
 
 
-    public List<Brick> getFilterBrick(List<Brick> bricks, int toolId, int sizeTools) {
+    public List<Brick> getFilterBrick(int toolId, int sizeTools) {
         List<Brick> filterBrickList = new ArrayList<>();
         int toolIndex;
-        for (int i = 100; i <= bricks.size(); i+=100) {
+        for (int i = 100; i < logisticBrickList.size(); i+=100) {
             toolIndex = ((i / 100) % sizeTools);
-            if (toolIndex == toolId) {
-                filterBrickList.addAll(bricks.subList((i - 100), i));
+            if (toolIndex == 0) {
+                toolIndex = sizeTools;
+            }
+            if (toolIndex == (toolId + 1)) {
+                filterBrickList.addAll(logisticBrickList.subList((i - 100), i));
             }
         }
         return filterBrickList;

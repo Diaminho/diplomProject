@@ -17,7 +17,27 @@ public class Statistic {
         return defectsCountMap;
     }
 
-    public void calculateBrickStat(Experiment experiment){
+
+    public void customCalculateBrickStat(List<Brick> brickList) {
+        defectsCountMap = new HashMap<>();
+        number = brickList.size() / 100;
+        for (String s: brickList.get(0).getProperties().keySet()){
+            defectsCountMap.put(s,0d);
+        }
+
+        for (Brick brick: brickList.subList(brickList.size()-100, brickList.size())){
+            for (String property:brick.getProperties().keySet()){
+                if (!brick.getProperties().get(property)) {
+                    defectsCountMap.replace(property, defectsCountMap.get(property) + 1);
+                }
+            }
+            defectBrickCount += (brick.getAvgQuality()) ? 0: 1;
+        }
+        defectBrickCount /= 100;
+        defectsCountMap.replaceAll((k, v) -> v=v/100);
+    }
+
+    public void calculateBrickStat(Experiment experiment) {
         defectsCountMap = new HashMap<>();
         this.experiment = experiment;
         number = experiment.getLogisticBrickList().size() / 100;

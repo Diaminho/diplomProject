@@ -61,7 +61,7 @@ public class HistogramManager {
         int objId = objectChoiceBoxId.getSelectionModel().getSelectedIndex();
         if (objId != -1) {
             int size = (objId == 0) ? experiment.getBrigades().size(): experiment.getStageQualityList().get(objId - 1).getStageToolQuality().size();
-            brickList = experiment.getFilterBrick(brickList, numberChoiceBoxId.getSelectionModel().getSelectedIndex(), size);
+            brickList = experiment.getFilterBrick(numberChoiceBoxId.getSelectionModel().getSelectedIndex(), size);
         }
     }
 
@@ -91,7 +91,7 @@ public class HistogramManager {
         //xAxis.setLabel("Дефекты");
         //yAxis.setLabel("Процентное содержание в выборке");
         Statistic statistic = new Statistic();
-        statistic.calculateBrickStat(experiment);
+        statistic.customCalculateBrickStat(brickList);
         Map<String, Double> defectMap = new HashMap<>(statistic.getDefectsCountMap());
         XYChart.Series<String, Number> seriesBar  = new XYChart.Series<>();
         defectMap.entrySet().stream()

@@ -69,6 +69,7 @@ public class FixWindowManager {
         indexChoiceBoxId = (ChoiceBox<String>) root.lookup("#indexChoiceBoxId");
 
         descriptionId = (TextArea) root.lookup("#descriptionId");
+        descriptionId.setWrapText(true);
     }
 
     public void onFixButton() {

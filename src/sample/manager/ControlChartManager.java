@@ -81,7 +81,7 @@ public class ControlChartManager {
             seriesLower.getData().add(new XYChart.Data<>("" + i, controlChart.getLcl()));
             seriesUpper.getData().add(new XYChart.Data<>("" + i, controlChart.getUcl()));
         }
-        seriesPi.setName("Значения дефектов в выборках");
+        seriesPi.setName("Значение доли дефектов в выборках");
         seriesLower.setName("Нижняя линия контроля");
         seriesUpper.setName("Верхняя линия контроля");
         seriesPAvg.setName("Линия среднего значения");
@@ -90,7 +90,7 @@ public class ControlChartManager {
         controlChartId.getData().add(seriesLower);
         controlChartId.getData().add(seriesUpper);
         controlChartId.getXAxis().setLabel("Номер выборки");
-        controlChartId.getYAxis().setLabel("Вероятность приема выборки");
+        controlChartId.getYAxis().setLabel("Доля дефектов");
         controlChartId.setCreateSymbols(false);
         controlChartId.setLegendVisible(true);
         controlChartId.setVisible(true);
