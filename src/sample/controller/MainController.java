@@ -28,10 +28,10 @@ public class MainController {
     public MainController() {}
 
     @FXML
-    public void inputButtonAction(){
-        primaryStage.close();
+    public void onHelpButton(){
+        //primaryStage.close();
         try {
-            new InputController(primaryStage);
+            new HelpController(primaryStage);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -40,7 +40,7 @@ public class MainController {
     }
 
     @FXML
-    public void start_buttonAction() {
+    public void onTechnologicalProcessButton() {
         primaryStage.close();
         try {
             new ExperimentController(primaryStage, experiment);
