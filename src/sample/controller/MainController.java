@@ -20,9 +20,15 @@ public class MainController {
         this.primaryStage.setTitle("Главное меню");
         this.primaryStage.setScene(new Scene(root));
         this.primaryStage.show();
+    }
 
-
-
+    public MainController(Stage primaryStage, Experiment experiment) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/menu.fxml"));
+        //MainController.primaryStage = primaryStage;
+        MainController.experiment = experiment;
+        this.primaryStage.setTitle("Главное меню");
+        this.primaryStage.setScene(new Scene(root));
+        this.primaryStage.show();
     }
 
     public MainController() {}
@@ -51,9 +57,9 @@ public class MainController {
 
     @FXML
     public void onSettingsButton() {
-        //primaryStage.close();
+        primaryStage.close();
         try {
-            new SettingsController(new Stage(), experiment);
+            new AuthController(new Stage(), experiment);
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -46,8 +46,7 @@ public class StatMethodsController {
     public void onOperateButton() {
         if (onOperateButtonCan()==0) {
             try {
-                Map materialsMap = experiment.getDefaultMaterialsQuality();
-                new InputSampleParamsController(new Stage(), materialsMap);
+                new InputSampleParamsController(new Stage(), experiment);
             } catch (IOException e) {
                 e.printStackTrace();
             }

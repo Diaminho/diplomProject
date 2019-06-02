@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Experiment;
 import sample.manager.InputSampleParamsManager;
 
 import java.io.IOException;
@@ -22,11 +23,11 @@ public class InputSampleParamsController {
         return inputSampleParamsManager;
     }
 
-    public InputSampleParamsController(Stage primaryStage, Map materials) throws IOException {
+    public InputSampleParamsController(Stage primaryStage, Experiment experiment) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/inputSampleParams.fxml"));
         InputSampleParamsController.primaryStage=primaryStage;
         primaryStage.setTitle("Генерация плана");
-        inputSampleParamsManager = new InputSampleParamsManager(root, materials);
+        inputSampleParamsManager = new InputSampleParamsManager(root, experiment);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -53,7 +54,7 @@ public class InputSampleParamsController {
             try {
                 new SamplingChartController(primaryStage,
                         inputSampleParamsManager.getSample(),
-                        inputSampleParamsManager.getMaterials(),
+                        inputSampleParamsManager.getExperiment().getDefaultMaterialsQuality(),
                         inputSampleParamsManager.getSamplingControl());
             } catch (IOException e) {
                 e.printStackTrace();

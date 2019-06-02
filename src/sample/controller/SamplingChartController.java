@@ -19,7 +19,7 @@ public class SamplingChartController {
 
     public SamplingChartController(Stage primaryStage,
                                    List<Double> listOfGeneratedSample,
-                                   Map<Material, List<Double>> materialsMap,
+                                   Map<Material, Double> materialsMap,
                                    SamplingControl samplingControl) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/samplingChart.fxml"));
         //MainController.primaryStage = primaryStage;

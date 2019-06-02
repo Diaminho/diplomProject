@@ -3,17 +3,17 @@
     <materialMap>
         <entry>
             <key>
-                <name>Цемент</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
-            </key>
-            <value>100</value>
-        </entry>
-        <entry>
-            <key>
                 <name>Песок</name>
                 <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
-            <value>100</value>
+            <value>1000</value>
+        </entry>
+        <entry>
+            <key>
+                <name>Цемент</name>
+                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
+            </key>
+            <value>1000</value>
         </entry>
     </materialMap>
     <brigades>
@@ -41,15 +41,15 @@
     <defaultMaterialsQuality>
         <entry>
             <key>
-                <name>Песок</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
+                <name>Цемент</name>
+                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>
         <entry>
             <key>
-                <name>Цемент</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
+                <name>Песок</name>
+                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>

@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import sample.Experiment;
 import sample.sampling.SamplingControl;
 import sample.resource.Material;
 import sample.sampling.SampleFunctions;
@@ -36,7 +37,7 @@ public class InputSampleParamsManager {
     @FXML
     private TextField sampleCountId;
 
-    private Map<Material, List<Double>> materials;
+    private Experiment experiment;
 
     private List<Double> sample;
 
@@ -47,13 +48,13 @@ public class InputSampleParamsManager {
         return sample;
     }
 
-    public Map<Material, List<Double>> getMaterials() {
-        return materials;
+    public Experiment getExperiment() {
+        return experiment;
     }
 
-    public InputSampleParamsManager(Parent root, Map materials) {
+    public InputSampleParamsManager(Parent root, Experiment experiment) {
         InputSampleParamsManager.root = root;
-        this.materials=new HashMap<>(materials);
+        this.experiment = experiment;
         init();
         fillChoiceBox();
     }
@@ -69,7 +70,7 @@ public class InputSampleParamsManager {
     }
 
     private void fillChoiceBox(){
-        for (Material m:materials.keySet()) {
+        for (Material m: experiment.getMaterialMap().keySet()) {
             choiceMaterialBoxId.getItems().add(m.getName());
         }
     }
@@ -85,9 +86,9 @@ public class InputSampleParamsManager {
 
     @FXML
     public int onGenerateButton(){
-        Integer size=tryToParseString(sampleSizeId.getText());
-        Integer count=tryToParseString(sampleCountId.getText());
-        Integer ac=tryToParseString(acId.getText());
+        Integer size = tryToParseString(sampleSizeId.getText());
+        Integer count = tryToParseString(sampleCountId.getText());
+        Integer ac = tryToParseString(acId.getText());
         //
         Integer maxSize=0;
         String chosenMaterial=choiceMaterialBoxId.getSelectionModel().getSelectedItem();
@@ -95,9 +96,9 @@ public class InputSampleParamsManager {
             showAlertDialog("Не выбран материал");
             return 1;
         }
-        for (Material m:materials.keySet()){
+        for (Material m: experiment.getMaterialMap().keySet()){
             if (m.getName().compareTo(chosenMaterial)==0){
-                maxSize=materials.get(m).size();
+                maxSize = experiment.getMaterialMap().get(m);
                 break;
             }
         }
@@ -113,7 +114,7 @@ public class InputSampleParamsManager {
             samplingControl.setN(size);
             samplingControl.setAlpha(Double.parseDouble(alphaId.getText()));
             samplingControl.setBeta(Double.parseDouble(betaId.getText()));
-            sample=SampleFunctions.getAvgPossibilities(maxSize,0.8,ac, count);
+            sample = SampleFunctions.getAvgPossibilities(maxSize, ac, count);
             return 0;
         }
         else {

@@ -21,7 +21,7 @@ public class SamplingChartManager {
 
     private Parent root;
     private List<Double> sampleList;
-    private Map<Material,List<Double>> materialQualityMap;
+    private Map<Material, Double> materialQualityMap;
     private SamplingControl samplingControl;
 
     @FXML
@@ -64,7 +64,7 @@ public class SamplingChartManager {
 
     public SamplingChartManager(Parent root,
                                 List<Double> sampleList,
-                                Map<Material, List<Double>> materialMap,
+                                Map<Material, Double> materialMap,
                                 SamplingControl samplingControl) {
         this.root = root;
         this.sampleList=new ArrayList<>(sampleList);
@@ -91,7 +91,6 @@ public class SamplingChartManager {
         XYChart.Series<String, Double> series  = new XYChart.Series<String, java.lang.Double>();
         XYChart.Series<String, Double> sampleSeries  = new XYChart.Series<>();
         ///////TEST OPERATE CHARACTERISTICS
-        int N=materialQualityMap.get(materialQualityMap.keySet().iterator().next()).size();
         Double f=0d;
         int aFlag=0, bFlag=0;
         for (int i=0;i<100;i++){
