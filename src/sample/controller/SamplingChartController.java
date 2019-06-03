@@ -24,7 +24,7 @@ public class SamplingChartController {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/samplingChart.fxml"));
         //MainController.primaryStage = primaryStage;
         SamplingChartController.primaryStage=primaryStage;
-        primaryStage.setTitle("Выборочный контроль");
+        primaryStage.setTitle("Оперативная характеристика");
         SamplingChartController.samplingChartManager = new SamplingChartManager(root,
                 listOfGeneratedSample,
                 materialsMap,
