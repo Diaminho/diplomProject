@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class SampleFunctions {
+
+    public static int count = 0;
+    public static int steps = 1;
 
     public static List<Boolean> generateSample(int size, int defectsPercentage) {
         Random rnd=new Random();
@@ -36,30 +37,52 @@ public class SampleFunctions {
         List<Boolean> sample=new ArrayList<>();
         int res;
         for (int i=0;i<101;i++){
-            sample = generateSample(sampleSize, i);
-            res = check1StepSamplingControl(sample, ac);
+            sample = generateSample(sampleSize * 10, i);
+            res = check1StepSamplingControl(sample, sampleSize, ac);
             samplePos.add((double) res);
         }
         return samplePos;
     }
 
-    public static int check1StepSamplingControl(List<Boolean> sample, double ac){
-        int countDef = 0, size = sample.size() / 10, index = 0;
+    public static int check1StepSamplingControl(List<Boolean> sample, int size, double ac){
+        int countDef = 0, index = 0;
         Random rnd = new Random();
         List<Integer> usedItems = new ArrayList<>();
-        for (int i = 0;i <= size; i++){
+        for (int i = 0; i <= size; i++){
             while (usedItems.indexOf(index) >= 0){
-                index = rnd.nextInt(size * 10);
+                index = rnd.nextInt(sample.size());
             }
             usedItems.add(index);
             countDef += !sample.get(index) ?  1: 0;
         }
+        count = countDef;
+        steps = 1;
         return countDef <= ac ? 1 : 0;
+    }
+
+
+
+    public static int check2StepSamplingControl(List<Boolean> sample, int size, List<Integer> acList) {
+        int result1 = check1StepSamplingControl(sample, size, acList.get(0));
+        int oldCount = count;
+        if (result1 == 1) {
+            return 1;
+        }
+        else if (result1 == 0 && count <= acList.get(1)) {
+            check1StepSamplingControl(sample, size, acList.get(1));
+            oldCount += count;
+            count = oldCount;
+            steps = 2;
+            if (oldCount <= acList.get(1)) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     public static List<Double> getAvgPossibilities(int size, double ac, double times){
         List<Double> allLevelsList = new ArrayList<>();
-        List<Double> possiblitiesList = Collections.nCopies(100,0d);
+        List<Double> possiblitiesList = Collections.nCopies(101,0d);
         for (int i = 0; i < times; i++) {
             allLevelsList = generateAllDeffectLevelsPossibilities(size, ac);
             possiblitiesList = summValuesOfTwoLists(possiblitiesList, allLevelsList);

@@ -3,21 +3,21 @@
     <materialMap>
         <entry>
             <key>
-                <name>Песок</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
+                <name>Цемент</name>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
             </key>
-            <value>1000</value>
+            <value>100</value>
         </entry>
         <entry>
             <key>
-                <name>Цемент</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
+                <name>Песок</name>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
-            <value>1000</value>
+            <value>100</value>
         </entry>
     </materialMap>
     <brigades>
-        <brigade>0.5</brigade>
+        <brigade>0.99</brigade>
         <brigade>0.99</brigade>
     </brigades>
     <stageQualityList>
@@ -42,14 +42,14 @@
         <entry>
             <key>
                 <name>Цемент</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>
         <entry>
             <key>
                 <name>Песок</name>
-                <materialPath>file:/home/diaminho/IdeaProjects/DiplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>
@@ -78,11 +78,7 @@
     </scenarioBrigadesList>
     <configureQualityValuesList>
         <configureQuality>
-            <description>Смена поставщика материалов</description>
-            <value>0.95</value>
-        </configureQuality>
-        <configureQuality>
-            <description>Сделать выговор бригаде</description>
+            <description>Воздействие</description>
             <value>0.95</value>
         </configureQuality>
         <configureQuality>
@@ -90,19 +86,23 @@
             <value>0.95</value>
         </configureQuality>
         <configureQuality>
-            <description>Смена форм</description>
+            <description>Воздействие</description>
             <value>0.95</value>
         </configureQuality>
         <configureQuality>
-            <description>Калибровка установки для сушки</description>
+            <description>Воздействие</description>
             <value>0.95</value>
         </configureQuality>
         <configureQuality>
-            <description>Настройка продолжительности и температуры обжига</description>
+            <description>Воздействие</description>
             <value>0.95</value>
         </configureQuality>
         <configureQuality>
-            <description>Замена средства для транспортировки</description>
+            <description>Воздействие</description>
+            <value>0.95</value>
+        </configureQuality>
+        <configureQuality>
+            <description>Воздействие</description>
             <value>0.95</value>
         </configureQuality>
     </configureQualityValuesList>

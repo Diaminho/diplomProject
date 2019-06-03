@@ -9,7 +9,6 @@ import sample.Experiment;
 import sample.manager.InputSampleParamsManager;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class InputSampleParamsController {
 
@@ -60,6 +59,16 @@ public class InputSampleParamsController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    public void onDoSamplingControlButton() {
+        inputSampleParamsManager.onDoSamplingControlButton();
+    }
+
+    @FXML
+    public void onSaveButton() {
+        inputSampleParamsManager.onSaveButton();
     }
 
 }
