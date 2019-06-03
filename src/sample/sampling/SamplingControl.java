@@ -2,10 +2,12 @@ package sample.sampling;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 public class SamplingControl {
     //private double f;
-    private double ac;
+    private List<Integer> ac;
+    private List<Integer> re;
     private double q;
     private static double e=2.7182818284;
     private double alpha;
@@ -30,11 +32,11 @@ public class SamplingControl {
         this.beta = beta;
     }
 
-    public double getAc() {
+    public List<Integer> getAc() {
         return ac;
     }
 
-    public void setAc(double ac) {
+    public void setAc(List<Integer> ac) {
         this.ac = ac;
     }
 
@@ -59,11 +61,18 @@ public class SamplingControl {
         return a * getFact(a-1);
     }
 
+    public List<Integer> getRe() {
+        return re;
+    }
+
+    public void setRe(List<Integer> re) {
+        this.re = re;
+    }
 
     //Puasson
-    public double getF(double q){
+    public double getF(double q, int index){
         double f=0;
-        for (int i = 0; i < ac+1; i++) {
+        for (int i = 0; i < ac.get(index) + 1; i++) {
             f += Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
         }
         return f;
@@ -78,11 +87,26 @@ public class SamplingControl {
         return ret;
     }
 
+
+    //2step
+    public double getF2Step(double q){
+        double f = getF(q, 0);
+        double f1=0;
+        for (int i = ac.get(0).intValue() + 1; i < re.get(1) ; i ++) {
+            f1 += Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
+        }
+        f1 *= getF(q, 1);
+
+        f += f1;
+        return f;
+    }
+
+    /*
     public double getL(double N){
         BigDecimal res=BigDecimal.ONE;
         res=res.multiply(getCombination(N,ac));
         res=res.multiply(getCombination(N-q*N,n-ac));
         res=res.divide(getCombination(N,n),5,RoundingMode.HALF_EVEN);
         return  (res.compareTo(BigDecimal.ONE)>0)? 1d: res.doubleValue();
-    }
+    }*/
 }

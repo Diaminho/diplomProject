@@ -20,7 +20,7 @@ public class SamplingChartController {
     public SamplingChartController(Stage primaryStage,
                                    List<Double> listOfGeneratedSample,
                                    Map<Material, Double> materialsMap,
-                                   SamplingControl samplingControl) throws IOException {
+                                   SamplingControl samplingControl, int steps) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/sample/resource/fxml/samplingChart.fxml"));
         //MainController.primaryStage = primaryStage;
         SamplingChartController.primaryStage=primaryStage;
@@ -28,7 +28,8 @@ public class SamplingChartController {
         SamplingChartController.samplingChartManager = new SamplingChartManager(root,
                 listOfGeneratedSample,
                 materialsMap,
-                samplingControl);
+                samplingControl,
+                steps);
         SamplingChartController.primaryStage.setScene(new Scene(root));
         SamplingChartController.primaryStage.show();
     }

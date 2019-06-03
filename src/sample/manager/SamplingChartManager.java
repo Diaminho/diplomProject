@@ -23,6 +23,7 @@ public class SamplingChartManager {
     private List<Double> sampleList;
     private Map<Material, Double> materialQualityMap;
     private SamplingControl samplingControl;
+    private int steps;
 
     @FXML
     private LineChart<String, Double> controlChartId;
@@ -65,11 +66,13 @@ public class SamplingChartManager {
     public SamplingChartManager(Parent root,
                                 List<Double> sampleList,
                                 Map<Material, Double> materialMap,
-                                SamplingControl samplingControl) {
+                                SamplingControl samplingControl,
+                                int steps) {
         this.root = root;
-        this.sampleList=new ArrayList<>(sampleList);
-        this.materialQualityMap=new HashMap<>(materialMap);
-        this.samplingControl=samplingControl;
+        this.sampleList = new ArrayList<>(sampleList);
+        this.materialQualityMap = new HashMap<>(materialMap);
+        this.samplingControl = samplingControl;
+        this.steps = steps;
         init();
     }
 
@@ -95,7 +98,7 @@ public class SamplingChartManager {
         int aFlag=0, bFlag=0;
         for (int i=0;i<100;i++){
             samplingControl.setQ((double)i/100);
-            f=samplingControl.getF((double)i/100);
+            f = (steps == 1) ? samplingControl.getF((double)i/100, 0): samplingControl.getF2Step((double)i/100);
             if (f<=1-samplingControl.getAlpha() && aFlag==0){
                 String alphaS=("при alpha="+(samplingControl.getAlpha())+" q="+String.format("%.2f",(samplingControl.getQ()-0.01)));
                 Label alpha=new Label(alphaS);

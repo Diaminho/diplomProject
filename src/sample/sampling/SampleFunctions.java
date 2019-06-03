@@ -32,6 +32,8 @@ public class SampleFunctions {
         return  sample;
     }
 
+
+    //Need analog for 2STEP
     public static List<Double> generateAllDeffectLevelsPossibilities(int sampleSize, double ac){
         List<Double> samplePos=new ArrayList<>();
         List<Boolean> sample=new ArrayList<>();
@@ -39,6 +41,19 @@ public class SampleFunctions {
         for (int i=0;i<101;i++){
             sample = generateSample(sampleSize * 10, i);
             res = check1StepSamplingControl(sample, sampleSize, ac);
+            samplePos.add((double) res);
+        }
+        return samplePos;
+    }
+
+    //Need analog for 2STEP
+    public static List<Double> generateAllDeffectLevelsPossibilities2(int sampleSize, List<Integer> ac, List<Integer> re){
+        List<Double> samplePos=new ArrayList<>();
+        List<Boolean> sample=new ArrayList<>();
+        int res;
+        for (int i=0;i<101;i++){
+            sample = generateSample(sampleSize * 10, i);
+            res = check2StepSamplingControl(sample, sampleSize, ac, re);
             samplePos.add((double) res);
         }
         return samplePos;
@@ -62,15 +77,15 @@ public class SampleFunctions {
 
 
 
-    public static int check2StepSamplingControl(List<Boolean> sample, int size, List<Integer> acList) {
+    public static int check2StepSamplingControl(List<Boolean> sample, int size, List<Integer> acList, List<Integer> reList) {
         int result1 = check1StepSamplingControl(sample, size, acList.get(0));
         int oldCount = count;
         if (result1 == 1) {
             return 1;
         }
-        else if (result1 == 0 && count <= acList.get(1)) {
-            check1StepSamplingControl(sample, size, acList.get(1));
+        else if (count <= reList.get(0)) {
             oldCount += count;
+            check1StepSamplingControl(sample, size, acList.get(1));
             count = oldCount;
             steps = 2;
             if (oldCount <= acList.get(1)) {
@@ -85,6 +100,18 @@ public class SampleFunctions {
         List<Double> possiblitiesList = Collections.nCopies(101,0d);
         for (int i = 0; i < times; i++) {
             allLevelsList = generateAllDeffectLevelsPossibilities(size, ac);
+            possiblitiesList = summValuesOfTwoLists(possiblitiesList, allLevelsList);
+        }
+        //find probability
+        possiblitiesList.replaceAll(x -> x / times);
+        return possiblitiesList;
+    }
+
+    public static List<Double> getAvgPossibilities2Step(int size, List<Integer> ac, List<Integer> re, double times){
+        List<Double> allLevelsList = new ArrayList<>();
+        List<Double> possiblitiesList = Collections.nCopies(101,0d);
+        for (int i = 0; i < times; i++) {
+            allLevelsList = generateAllDeffectLevelsPossibilities2(size, ac, re);
             possiblitiesList = summValuesOfTwoLists(possiblitiesList, allLevelsList);
         }
         //find probability

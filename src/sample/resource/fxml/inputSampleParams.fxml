@@ -22,6 +22,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
@@ -32,7 +33,7 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Количество генерируемых выборок" GridPane.rowIndex="6">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Количество генерируемых выборок" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
@@ -41,15 +42,15 @@
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin></TextField>
-      <TextField fx:id="sampleCountId" maxWidth="-Infinity" prefWidth="67.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+      <TextField fx:id="sampleCountId" maxWidth="-Infinity" prefWidth="67.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin></TextField>
-      <Button mnemonicParsing="false" onAction="#onGenerateButton" text="Построить оперативную характеристику" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+      <Button mnemonicParsing="false" onAction="#onGenerateButton" text="Построить оперативную характеристику" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin></Button>
-      <Button mnemonicParsing="false" onAction="#onBackButton" text="Назад" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+      <Button mnemonicParsing="false" onAction="#onBackButton" text="Назад" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Приемочное число" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="10.0" />
@@ -68,21 +69,21 @@
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin></ChoiceBox>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Риск поставщика" GridPane.rowIndex="4">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Риск поставщика" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Риск потребителя" GridPane.rowIndex="5">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Риск потребителя" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Text>
-      <TextField fx:id="alphaId" maxWidth="-Infinity" prefHeight="26.0" prefWidth="69.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+      <TextField fx:id="alphaId" maxWidth="-Infinity" prefHeight="26.0" prefWidth="6967.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin></TextField>
-      <TextField fx:id="betaId" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="67.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+      <TextField fx:id="betaId" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="67.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin></TextField>
@@ -96,20 +97,26 @@
             <Insets right="5.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <ChoiceBox fx:id="choiceAcId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <ChoiceBox fx:id="choiceAcId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <GridPane.margin>
             <Insets right="5.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <Button mnemonicParsing="false" onAction="#onSaveButton" text="Сохранить" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <Button mnemonicParsing="false" onAction="#onSaveButton" text="Сохранить" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.rowSpan="2">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Button>
-      <Button mnemonicParsing="false" onAction="#onDoSamplingControlButton" text="Провести выборочный контроль" GridPane.halignment="LEFT" GridPane.rowIndex="8">
+      <Button mnemonicParsing="false" onAction="#onDoSamplingControlButton" text="Провести выборочный контроль" GridPane.halignment="LEFT" GridPane.rowIndex="9">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Браковочное число" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Text>
+      <TextField fx:id="reId" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="61.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
    </children>
 </GridPane>

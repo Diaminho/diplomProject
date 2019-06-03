@@ -26,6 +26,9 @@ public class InputSampleParamsManager {
     private TextField acId;
 
     @FXML
+    private TextField reId;
+
+    @FXML
     private TextField alphaId;
 
     @FXML
@@ -45,6 +48,7 @@ public class InputSampleParamsManager {
 
 
     private List<Integer> acList = new ArrayList<>();
+    private List<Integer> reList = new ArrayList<>();
 
     private Experiment experiment;
 
@@ -71,6 +75,7 @@ public class InputSampleParamsManager {
     private void init() {
         sampleSizeId = (TextField) root.lookup("#sampleSizeId");
         acId =(TextField) root.lookup("#acId");
+        reId =(TextField) root.lookup("#reId");
         sampleCountId = (TextField) root.lookup("#sampleCountId");
         choiceMaterialBoxId = (ChoiceBox<String>) root.lookup("#choiceMaterialBoxId");
         alphaId = (TextField) root.lookup("#alphaId");
@@ -98,6 +103,7 @@ public class InputSampleParamsManager {
             for (int i = 0; i < newVal.intValue() + 1; i++) {
                 list.add(i + 1);
                 acList.add(0);
+                reList.add(1);
             }
             choiceAcId.getItems().addAll(list);
         }));
@@ -105,6 +111,7 @@ public class InputSampleParamsManager {
         choiceAcId.getSelectionModel().selectedIndexProperty().addListener((observable, old, newVal) -> {
             if (newVal.intValue() != -1) {
                 acId.setText("" + acList.get(newVal.intValue()));
+                reId.setText("" + reList.get(newVal.intValue()));
             }
             else {
                 acId.setText("-");
@@ -114,6 +121,11 @@ public class InputSampleParamsManager {
 
     public SamplingControl getSamplingControl() {
         return samplingControl;
+    }
+
+
+    public ChoiceBox<Integer> getChoiceStepId() {
+        return choiceStepId;
     }
 
     @FXML
@@ -147,11 +159,14 @@ public class InputSampleParamsManager {
             //System.out.println("!!!!");
             //List sample=SampleFunctions.generateSample(size,10,0.8);
             samplingControl = new SamplingControl();
-            samplingControl.setAc(ac);
+            samplingControl.setAc(acList);
+            samplingControl.setRe(acList);
             samplingControl.setN(size);
             samplingControl.setAlpha(Double.parseDouble(alphaId.getText()));
             samplingControl.setBeta(Double.parseDouble(betaId.getText()));
-            sample = SampleFunctions.getAvgPossibilities(Integer.parseInt(sampleSizeId.getText()), ac, count);
+            sample = (choiceStepId.getSelectionModel().getSelectedIndex() == 0) ?
+                    SampleFunctions.getAvgPossibilities(Integer.parseInt(sampleSizeId.getText()), ac, count)
+                    : SampleFunctions.getAvgPossibilities2Step(Integer.parseInt(sampleSizeId.getText()), acList, reList, count);
             return 0;
         }
         else {
@@ -177,14 +192,14 @@ public class InputSampleParamsManager {
         int chosenStep = choiceStepId.getSelectionModel().getSelectedIndex();
         int result = (chosenStep == 0) ?
                 SampleFunctions.check1StepSamplingControl(sample, Integer.parseInt(sampleSizeId.getText()), acList.get(0))
-                : SampleFunctions.check2StepSamplingControl(sample, Integer.parseInt(sampleSizeId.getText()), acList);
+                : SampleFunctions.check2StepSamplingControl(sample, Integer.parseInt(sampleSizeId.getText()), acList, reList);
         if (result == 1) {
            alert.setHeaderText("Партия прошла выборочный контроль.");
         }
         else {
            alert.setHeaderText("Партия не прошла выборочный контроль");
         }
-        alert.setContentText(alert.getContentText() + "Размер выборки: " + sampleSizeId.getText() + "\n" +
+        alert.setContentText(alert.getContentText() + "Размер выборки: " + sampleSizeId.getText() + "*"+ SampleFunctions.steps +"\n" +
                "Количество дефектных изделий: " + SampleFunctions.count +
                 "\nКоличество пройденных ступеней: " + SampleFunctions.steps);
         alert.show();
@@ -192,6 +207,7 @@ public class InputSampleParamsManager {
 
     public void onSaveButton() {
         acList.set(choiceAcId.getSelectionModel().getSelectedIndex(), Integer.parseInt(acId.getText()));
+        reList.set(choiceAcId.getSelectionModel().getSelectedIndex(), Integer.parseInt(reId.getText()));
     }
 
 
