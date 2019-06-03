@@ -5,7 +5,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
 import sample.Experiment;
 import sample.resource.Material;
 import sample.resource.helper.ConfigureQuality;
@@ -108,12 +107,30 @@ public class ScenarioManager {
         logStringsMap.put("Обжиг",
                 "Показатель надежности оборудования на стадии \"Обжиг\": "
                         + 100 * experiment.getStageQualityList().get(3).getStageToolQuality().get(0) + "%" +
-                        " приведет к вероятности возникновения дефектов: \"Структура\" " +
+                        " приведет к вероятности возникновения дефектов: \"Трещины\" " +
                         String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Обжиг").get(3)) + "%" +
                         ";  \"Цвет\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Обжиг").get(0)) + "%" +
                         ";  \"Размеры\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Обжиг").get(1)) + "%" +
                         ";  \"Структура\" " + String.format("%.5f"  , 100 * experiment.getStagesInfluenceMap().get("Обжиг").get(2)) + "%"
                 );
+    }
+
+    private void constructLogStringLogistic() {
+        logStringsMap.put("Логистика",
+                "Показатель надежности оборудования на стадии \"Логистика\": "
+                        + 100 * experiment.getStageQualityList().get(4).getStageToolQuality().get(0) + "%" +
+                        " приведет к вероятности возникновения дефектов: \"Трещины\" " +
+                        String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Логистика").get(0)) + "%" +
+                        ";  \"Размеры\" " + String.format("%.5f"  ,100 * experiment.getStagesInfluenceMap().get("Логистика").get(1)) + "%"
+        );
+    }
+
+    private void constructLogStringBrigades() {
+        String info = "Показатель профессионализма бригады повлияет на качество сырья, получаемого на этапе \"Формовка\": ";
+        for (int i = 0; i < experiment.getBrigades().size(); i++) {
+            info += "\n" + (i + 1) + " бригада. Показатель профессионализма: " + (100 * experiment.getBrigades().get(i)) + "% повлияет на вероятность появления дефектов сырья, полученного на этапе \"Формовка\"" + (1 - experiment.getBrigades().get(i)) * 50 + "%";
+        }
+        logStringsMap.put("Бригады", info);
     }
 
     private void initLog() {
@@ -123,6 +140,8 @@ public class ScenarioManager {
         constructLogStringCutting();
         constructLogStringDrying();
         constructLogStringBurning();
+        constructLogStringLogistic();
+        constructLogStringBrigades();
 
 
         logTextAreaId.setText("");
