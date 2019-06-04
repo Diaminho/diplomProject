@@ -6,9 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import sample.Experiment;
 
 import java.io.IOException;
@@ -47,6 +45,10 @@ public class AuthController {
         if (passwordId.getText().equals("test")) {
             primaryStage.close();
             try {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("Авторизация прошла успешно");
+                alert.setTitle("Успешная авторизация");
+                alert.show();
                 new SettingsController(new Stage(), experiment);
             } catch(Exception e) {
                 e.printStackTrace();

@@ -84,10 +84,10 @@ public class SettingsController {
     @FXML
     public void onLoadSettingsButton() {
         experiment = MarshallConverter.marshalingToExperiment();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Загрузка настроек");
         alert.setHeaderText("Загрузка настроек прошла успешно");
-        alert.show();
+        alert.show();*/
     }
 
 

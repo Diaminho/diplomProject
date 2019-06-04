@@ -91,6 +91,16 @@ public class ScenarioManager {
         initLog();
     }
 
+
+    private void constructLogStringMaterials() {
+        String info = "\n";
+        for (Material m: experiment.getDefaultMaterialsQuality().keySet()) {
+            info += "Материал " + m.getName() + " с показателем качества: " + experiment.getDefaultMaterialsQuality().get(m) * 100 + "% повлияет на возникновение вероятность возникновения дефектов на этапе Сушка с вероятностью: " + (1 - experiment.getDefaultMaterialsQuality().get(m)) * 25 + "%\n";
+        }
+        logStringsMap.put("Материалы", info);
+    }
+
+
     private void constructLogStringDrying() {
         logStringsMap.put("Сушка", "Показатель надежности оборудования на стадии \"Сушка\": " + 100 * experiment.getStageQualityList().get(2).getStageToolQuality().get(0) + " % приведет к вероятности возникновения брака на этом этапе " + String.format("%.5f", 100 * experiment.getStagesInfluenceMap().get("Сушка").get(0)) + "%");
     }
@@ -142,6 +152,7 @@ public class ScenarioManager {
         constructLogStringBurning();
         constructLogStringLogistic();
         constructLogStringBrigades();
+        constructLogStringMaterials();
 
 
         logTextAreaId.setText("");

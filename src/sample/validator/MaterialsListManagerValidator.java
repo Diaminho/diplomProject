@@ -10,7 +10,7 @@ public class MaterialsListManagerValidator {
             return "Количество материала не может быть равно 0";
         }
         else if (volume<0){
-            return "Количество материала не может быть отрицательным";
+            return "Отрицательное количество";
         }
         else {
             return "Ok";

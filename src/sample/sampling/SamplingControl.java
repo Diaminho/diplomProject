@@ -92,8 +92,15 @@ public class SamplingControl {
     public double getF2Step(double q){
         double f = getF(q, 0);
         double f1=0;
+        double tmp = 0;
+        double tmp2 = 0;
         for (int i = ac.get(0).intValue() + 1; i < re.get(1) ; i ++) {
-            f1 += Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
+            tmp = Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
+            for (int j = 0; j < i; j++) {
+                tmp2 += Math.pow(n * q, i) / getFact(i) * Math.pow(e, -(n * q));
+            }
+            f1 += tmp * tmp2;
+            tmp2 = 0;
         }
         f1 *= getF(q, 1);
 

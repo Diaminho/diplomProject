@@ -1,13 +1,11 @@
 package sample.task;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import sample.Experiment;
 import sample.resource.Material;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +44,28 @@ public class MarshallConverter {
             experiment.setScenarioBrigadesList(brigadesScenarioList);
             //System.out.println(experiment);
         }
+
+        catch (UnmarshalException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка загрузки настроек");
+            alert.setHeaderText("Ошибка");
+            if (e.getCause().toString().contains("java.io.FileNotFoundException:")) {
+                alert.setContentText("Файл настроек не был найден");
+            }
+            else if(e.getCause().toString().contains("org.xml.sax.SAXParseException;")) {
+                alert.setContentText("Некорректный файл настроек");
+            }
+            alert.show();
+        }
         catch (JAXBException e)
         {
             e.printStackTrace();
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Успешная загрузка");
+        alert.setHeaderText("Успех");
+        alert.setContentText("Загрузка файла настроек прошла успешно.");
+        alert.show();
         return experiment;
     }
 }
