@@ -156,6 +156,7 @@ public class ScenarioManager {
 
 
         logTextAreaId.setText("");
+        logTextAreaId.setWrapText(true);
         for (String s: logStringsMap.keySet()) {
             logTextAreaId.setText(logTextAreaId.getText() + logStringsMap.get(s) + "\n");
         }
@@ -441,9 +442,13 @@ public class ScenarioManager {
         Map<Material, Double> defaultMap = experiment.getDefaultMaterialsQuality();
         String materialName = materialsChoiceBoxId.getSelectionModel().getSelectedItem();
         Material m = findMaterialByName(materialName);
+
+        if (!checkInputData(materialsQualityId.getText())) return;
+
         if (m != null) {
             defaultMap.replace(m, Double.parseDouble(materialsQualityId.getText()));
         }
+        initLog();
     }
 
     private Material findMaterialByName(String name) {
@@ -456,6 +461,9 @@ public class ScenarioManager {
     }
 
     public void onSetBrigadeButton() {
+
+        if (!checkInputData(brigadesQualityId.getText())) return;
+
         experiment.getBrigades().set(brigadesChoiceBoxId.getSelectionModel().getSelectedIndex(), Double.parseDouble(brigadesQualityId.getText()));
         initLog();
     }
@@ -465,6 +473,9 @@ public class ScenarioManager {
         List<Double> brigades = new ArrayList<>();
         List<Integer> brigadesScenario = new ArrayList<>();
         brigadesChoiceBoxId.getItems().clear();
+
+        if (!checkInputDataCount(brigadesCountId.getText())) return;
+
         for (int i = 0; i < Integer.parseInt(brigadesCountId.getText()); i++) {
             brigades.add(0.8);
             brigadesScenario.add(-1);
@@ -472,6 +483,7 @@ public class ScenarioManager {
         }
         experiment.setBrigades(brigades);
         experiment.setScenarioBrigadesList(brigadesScenario);
+        initLog();
     }
 
     public void onCancelButton(){
@@ -482,6 +494,10 @@ public class ScenarioManager {
     public void onOkStageBlendingButton() {
         StageQualityList blendingList = new StageQualityList();
         ScenarioStage scenariosList = new ScenarioStage();
+
+        if (!checkInputDataCount(blendingQuantityId.getText())) return;
+
+
         for (int i = 0; i < Integer.parseInt(blendingQuantityId.getText()); i++) {
             blendingList.getStageToolQuality().add(0.8d);
             scenariosList.getScenarioStage().add(-1);
@@ -489,47 +505,123 @@ public class ScenarioManager {
         experiment.getStageQualityList().set(0, blendingList);
         experiment.getScenarioStagesList().set(0, scenariosList);
         fillBlending();
+        initLog();
     }
 
     public void onSaveBlendingButton() {
+        if (!checkInputData(blendingQualityId.getText())) return;
         experiment.getStageQualityList().get(0).getStageToolQuality().set(blendingChoiceBoxId.getValue() - 1, Double.parseDouble(blendingQualityId.getText()));
         initLog();
     }
 
     public void onSaveCuttingButton() {
+        if (!checkInputData(cuttingQualityId.getText())) return;
         experiment.getStageQualityList().get(1).getStageToolQuality().set(0, Double.parseDouble(cuttingQualityId.getText()));
         initLog();
     }
 
     public void onSaveDryingButton() {
+        if (!checkInputData(dryingQualityId.getText())) return;
+
         experiment.getStageQualityList().get(2).getStageToolQuality().set(0, Double.parseDouble(dryingQualityId.getText()));
         initLog();
     }
 
     public void onSaveBurningButton() {
+        if (!checkInputData(burningQualityId.getText())) return;
         experiment.getStageQualityList().get(3).getStageToolQuality().set(0, Double.parseDouble(burningQualityId.getText()));
         initLog();
     }
 
     public void onSaveLogisticButton() {
+        if (!checkInputData(logisticQualityId.getText())) return;
         experiment.getStageQualityList().get(4).getStageToolQuality().set(0, Double.parseDouble(logisticQualityId.getText()));
         initLog();
     }
 
     //Scenario
     public void onScenarioStageSaveButton() {
+        if (!checkInputDataCountScenario(scenarioStageTextFieldId.getText())) return;
         experiment.getScenarioStagesList().
                 get(scenarioStageChoiceBoxId.getSelectionModel().getSelectedIndex()).getScenarioStage().
                 set(scenarioStageToolId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioStageTextFieldId.getText()));
     }
 
     public void onScenarioBrigadeSaveButton() {
+        if (!checkInputDataCountScenario(scenarioBrigadeCountTurnsId.getText())) return;
         experiment.getScenarioBrigadesList().set(scenarioBrigadeChoiceBoxId.getSelectionModel().getSelectedIndex(), Integer.parseInt(scenarioBrigadeCountTurnsId.getText()));
     }
 
     //Configure
     public void onConfigureFixButton() {
+        if (!checkInputData(configureQualityId.getText())) return;
         experiment.getConfigureQualityValuesList().set(configureObjectListChoiceBoixId.getSelectionModel().getSelectedIndex(),
                 new ConfigureQuality(configureDescriptionNameId.getText(), Double.parseDouble(configureQualityId.getText())) );
     }
+
+
+    private boolean checkInputData(String data) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        double info = Double.NaN;
+        try {
+            info = Double.parseDouble(data);
+        }
+        catch (Exception e) {
+            alert.setHeaderText("Введено не число");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        if (info > 1 || info < 0) {
+            alert.setHeaderText("Число задано вне границ");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkInputDataCount(String data) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        double info = Double.NaN;
+        try {
+            info = Integer.parseInt(data);
+        }
+        catch (Exception e) {
+            alert.setHeaderText("Введено не число");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        if (info < 0) {
+            alert.setHeaderText("Размер меньше нуля");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        return true;
+    }
+
+
+    private boolean checkInputDataCountScenario(String data) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        double info = Double.NaN;
+        try {
+            info = Integer.parseInt(data);
+        }
+        catch (Exception e) {
+            alert.setHeaderText("Введено не число");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        if (info < -1 || info > maxCountProcessIterations) {
+            alert.setHeaderText("Номер партии больше максимального количества или меньше -1");
+            alert.setTitle("Ошибка ввода данных");
+            alert.show();
+            return false;
+        }
+        return true;
+    }
+
 }
