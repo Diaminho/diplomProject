@@ -127,7 +127,7 @@ public class SamplingChartManager {
         sampleSeries.setName("Сгенерированные данные");
         controlChartId.getData().add(series);
         controlChartId.getData().add(sampleSeries);
-        controlChartId.getXAxis().setLabel("Количество дефектной продукции в %");
+        controlChartId.getXAxis().setLabel("Доля дефектной продукции в %");
         controlChartId.getYAxis().setLabel("Вероятность приема выборки");
         controlChartId.setCreateSymbols(false);
         controlChartId.setLegendVisible(true);
