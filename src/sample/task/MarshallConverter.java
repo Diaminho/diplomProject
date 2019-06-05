@@ -55,7 +55,8 @@ public class MarshallConverter {
             else if(e.getCause().toString().contains("org.xml.sax.SAXParseException;")) {
                 alert.setContentText("Некорректный файл настроек");
             }
-            alert.show();
+            alert.showAndWait();
+            return null;
         }
         catch (JAXBException e)
         {

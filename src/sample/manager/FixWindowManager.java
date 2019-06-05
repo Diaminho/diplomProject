@@ -7,7 +7,6 @@ import sample.Experiment;
 import sample.resource.Material;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class FixWindowManager {
@@ -92,7 +91,7 @@ public class FixWindowManager {
         }
         else  {
             if (experiment.getStageQualityList().get(elementId - 2).getStageToolQuality().get(indexId) < experiment.getAcceptableQuality()) {
-                experiment.getStageQualityList().get(elementId - 2).getStageToolQuality().set(indexId, experiment.getConfigureQualityValuesList().get(elementId - 1).getValue());
+                experiment.getStageQualityList().get(elementId - 2).getStageToolQuality().set(indexId, experiment.getConfigureQualityValuesList().get(elementId).getValue());
                 return;
             }
         }

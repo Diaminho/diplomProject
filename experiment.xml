@@ -6,14 +6,14 @@
                 <name>Цемент</name>
                 <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
             </key>
-            <value>100</value>
+            <value>50</value>
         </entry>
         <entry>
             <key>
                 <name>Песок</name>
                 <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
-            <value>100</value>
+            <value>50</value>
         </entry>
     </materialMap>
     <brigades>
@@ -22,7 +22,6 @@
     </brigades>
     <stageQualityList>
         <stageQuality>
-            <stageToolQuality>0.99</stageToolQuality>
             <stageToolQuality>0.99</stageToolQuality>
         </stageQuality>
         <stageQuality>
@@ -41,22 +40,21 @@
     <defaultMaterialsQuality>
         <entry>
             <key>
-                <name>Цемент</name>
-                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
+                <name>Песок</name>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>
         <entry>
             <key>
-                <name>Песок</name>
-                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png</materialPath>
+                <name>Цемент</name>
+                <materialPath>file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png</materialPath>
             </key>
             <value>0.99</value>
         </entry>
     </defaultMaterialsQuality>
     <scenarioStagesList>
         <scenarioStage>
-            <scenarioStage>-1</scenarioStage>
             <scenarioStage>-1</scenarioStage>
         </scenarioStage>
         <scenarioStage>

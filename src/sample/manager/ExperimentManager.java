@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -34,6 +35,12 @@ public class ExperimentManager {
 
     private TextArea logAreaId;
 
+    private Button startExperimentButton;
+
+    private Button fixButton;
+
+    private Button pauseButton;
+
 
     Stage primaryStage;
     public static Experiment newExperiment;
@@ -54,16 +61,30 @@ public class ExperimentManager {
 
     public ExperimentManager(Parent root, Experiment experiment) {
         ExperimentManager.root = root;
-        ExperimentManager.newExperiment = experiment;
         init();
         timelineList=new ArrayList<>();
-        newExperiment = MarshallConverter.marshalingToExperiment();
+
+        if (experiment.getMaterialMap() == null) {
+            ExperimentManager.newExperiment = MarshallConverter.marshalingToExperiment();
+            if (ExperimentManager.newExperiment == null) {
+                startExperimentButton.setDisable(true);
+                fixButton.setDisable(true);
+                pauseButton.setDisable(true);
+            }
+        }
+        else {
+            ExperimentManager.newExperiment = experiment;
+        }
+
     }
 
     private void init() {
         experimentPane = (AnchorPane) root.lookup("#experimentPane");
         rawVolumeLabel = new Label();
         logAreaId = (TextArea) root.lookup("#logAreaId");
+        startExperimentButton = (Button) root.lookup("#startExperimentButton");
+        fixButton = (Button) root.lookup("#fixButton");
+        pauseButton = (Button) root.lookup("#pauseButton");
     }
 
     private ImageView setImageViewProperties(Image image, double width, double height, double x, double y){

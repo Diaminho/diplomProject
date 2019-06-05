@@ -18,9 +18,9 @@
   </rowConstraints>
    <children>
       <Button mnemonicParsing="false" onAction="#onIshikawaButton" text="Диаграмма Ишикавы" GridPane.halignment="CENTER" />
-      <Button mnemonicParsing="false" onAction="#onControlChartButton" text="Контрольная карта" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" onAction="#onOperateButton" text="Выборочный контроль качества" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button mnemonicParsing="false" onAction="#onParetoButton" text="Диаграмма Парето" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-      <Button mnemonicParsing="false" onAction="#onHistogramButton" text="Гистрограмма" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Button fx:id="controlCharButton" mnemonicParsing="false" onAction="#onControlChartButton" text="Контрольная карта" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+      <Button fx:id="samplingControlButton" mnemonicParsing="false" onAction="#onOperateButton" text="Выборочный контроль качества" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Button fx:id="paretoButton" mnemonicParsing="false" onAction="#onParetoButton" text="Диаграмма Парето" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Button fx:id="histogramButton" mnemonicParsing="false" onAction="#onHistogramButton" text="Гистрограмма" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

@@ -5,20 +5,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sample.Experiment;
 import sample.resource.Brick;
-import sample.resource.Material;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class StatMethodsController {
 
     public static Stage primaryStage;
     private static Experiment experiment;
+
+    @FXML
+    Button controlCharButton;
+    @FXML
+    Button histogramButton;
+    @FXML
+    Button paretoButton;
+    @FXML
+    Button samplingControlButton;
     //public static SamplingManager samplingManager;
 
     public StatMethodsController(Stage primaryStage, Experiment experiment) throws IOException {
@@ -26,12 +34,28 @@ public class StatMethodsController {
         //MainController.primaryStage = primaryStage;
         StatMethodsController.primaryStage = primaryStage;
         primaryStage.setTitle("Статистические методы контроля качества");
+        init(root);
+
+        if (experiment == null) {
+            controlCharButton.setDisable(true);
+            histogramButton.setDisable(true);
+            paretoButton.setDisable(true);
+            samplingControlButton.setDisable(true);
+        }
+
         StatMethodsController.experiment = experiment;
         StatMethodsController.primaryStage.setScene(new Scene(root));
         StatMethodsController.primaryStage.show();
     }
 
     public StatMethodsController() { }
+
+    private void init(Parent root) {
+        controlCharButton = (Button) root.lookup("#controlCharButton");
+        histogramButton = (Button) root.lookup("#histogramButton");
+        paretoButton = (Button) root.lookup("#paretoButton");
+        samplingControlButton = (Button) root.lookup("#samplingControlButton");
+    }
 
     @FXML
     public void onIshikawaButton() {

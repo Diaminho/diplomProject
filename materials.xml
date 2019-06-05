@@ -1,1 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><materials><material image="file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png" name="Песок"/><material image="file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png" name="Цемент"/></materials>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<materials>
+	<material image="file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/cement.png" name="Цемент"/>
+	<material image="file:/home/user/IdeaProjects/diplomProject/out/production/diplomProject/sample/image/material/sand.png" name="Песок"/>
+</materials>
